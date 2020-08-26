@@ -1,0 +1,47 @@
+.sidenav {
+  width: 200px;
+}
+
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav-list {
+  padding-top: 25px;
+}
+
+.mat-toolbar.mat-primary {
+  position: fixed;
+  z-index: 2;
+}
+
+.toolbar-title {
+  text-decoration: none;
+  color: white;
+  margin-left: 8px;
+}
+
+a.mat-list-item.active {
+  background: #666;
+}
+
+.sidenav-content-computer {
+  margin-top: 64px;
+}
+
+.sidenav-content-mobile {
+  margin-top: 56px;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.login-button {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+.login-button span {
+  margin-left: 8px;
+}
