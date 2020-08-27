@@ -3,8 +3,6 @@
 @import '~@angular/material/theming';
 $custom-typography: mat-typography-config($font-family: '"Noto Sans TC", "Roboto", sans-serif;');
 @include mat-core($custom-typography);
-html, body { height: 100%; }
-body { margin: 0; font-family: 'Noto Sans TC', 'Roboto', sans-serif; }
 
 /* Scrollbar  */
 
@@ -24,3 +22,6 @@ body { margin: 0; font-family: 'Noto Sans TC', 'Roboto', sans-serif; }
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: 'Noto Sans TC', 'Roboto', sans-serif; }
