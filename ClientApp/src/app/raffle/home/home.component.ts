@@ -1,11 +1,11 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, NgZone, HostListener } from '@angular/core';
 
 // 3D
 import * as THREE from 'three';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer';
 // 補足動畫
-import { Tween, Easing, removeAll, update } from 'es6-tween';
+import { Tween, Easing, removeAll, update, isPlaying } from 'es6-tween';
 
 @Component({
   selector: 'app-home',
@@ -22,9 +22,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
   public renderer: CSS3DRenderer; // 渲染方式
   public controls: TrackballControls;
 
-  constructor() { }
+  constructor(private ngZone: NgZone) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {  }
 
   ngAfterViewInit(): void {
     this.table = [
@@ -148,192 +148,215 @@ export class HomeComponent implements OnInit, AfterViewInit {
       'Og', 'Oganesson', '(294)', 18, 7
     ];
 
-    this.init();
-    this.animate();
+    this.ngZone.runOutsideAngular(() => {
+      this.init();
+      this.animate();
+    });
   }
 
   init(): void {
-    const windowsWidth = window.innerWidth;
-    const windowsHeight = window.innerHeight;
+    this.ngZone.runOutsideAngular(() => {
+      const windowsWidth = window.innerWidth;
+      const windowsHeight = window.innerHeight;
 
-    this.scene = new THREE.Scene(); // 建立場景
-    this.camera = new THREE.PerspectiveCamera(40, windowsWidth / windowsHeight, 1, 10000); // 建立相機(視角, 畫面寬高比, 近面距離, 遠面距離)
-    this.camera.position.z = 3000; // 設定相機位置
+      this.scene = new THREE.Scene(); // 建立場景
+      this.camera = new THREE.PerspectiveCamera(40, windowsWidth / windowsHeight, 1, 10000); // 建立相機(視角, 畫面寬高比, 近面距離, 遠面距離)
+      this.camera.position.z = 3000; // 設定相機位置
 
-    // table
-    this.initTable();
+      // table
+      this.initTable();
+      // sphere
+      this.initSphere();
+      // helix
+      this.initHelix();
+      // grid
+      this.initGrid();
 
-    // sphere
-    this.initSphere();
+      this.renderer = new CSS3DRenderer(); // 建立渲染器
+      this.renderer.setSize(windowsWidth, windowsHeight); // 設定場景大小
+      document.getElementById('container').appendChild(this.renderer.domElement); // 將渲染器的 DOM 綁到網頁上
 
-    // helix
-    this.initHelix();
+      // 讓滑鼠滾輪可以控制縮放
+      this.controls = new TrackballControls(this.camera, this.renderer.domElement);
+      this.controls.minDistance = 500;
+      this.controls.maxDistance = 6000;
+      this.controls.addEventListener('change', this.render.bind(this));
 
-    // grid
-    this.initGrid();
-
-    this.renderer = new CSS3DRenderer(); // 建立渲染器
-    this.renderer.setSize(windowsWidth, windowsHeight); // 設定場景大小
-    document.getElementById('container').appendChild(this.renderer.domElement); // 將渲染器的 DOM 綁到網頁上
-
-    // 讓滑鼠滾輪可以控制縮放
-    this.controls = new TrackballControls(this.camera, this.renderer.domElement);
-    this.controls.minDistance = 500;
-    this.controls.maxDistance = 6000;
-    this.controls.addEventListener('change', this.render.bind(this));
-
-    this.transformTable();
-    window.addEventListener('resize', this.onWindowResize.bind(this), false);
-
+      this.transformTable();
+    });
+    console.log('init');
   }
 
   transform(targets, duration): void {
+    this.ngZone.runOutsideAngular(() => {
+      removeAll();
 
-    removeAll();
+      for (let i = 0; i < this.objects.length; i++) {
+        const object = this.objects[i];
+        const target = targets[i];
 
-    for (let i = 0; i < this.objects.length; i++) {
-      const object = this.objects[i];
-      const target = targets[i];
-
-      new Tween(object.position)
-        .to({x: target.position.x, y: target.position.y, z: target.position.z}, Math.random() * duration + duration)
-        .easing(Easing.Exponential.InOut)
-        .start();
-      new Tween(object.rotation)
-      .to({x: target.rotation.x, y: target.rotation.y, z: target.rotation.z}, Math.random() * duration + duration)
-      .easing(Easing.Exponential.InOut)
-      .start();
-    }
-
-    new Tween(this)
-      .to({}, duration * 2)
-      .on('update', this.render)
-      .start();
+        new Tween(object.position)
+          .to({x: target.position.x, y: target.position.y, z: target.position.z}, Math.random() * duration + duration)
+          .easing(Easing.Exponential.InOut)
+          .on('update', () => { this.render(); })
+          .start();
+        new Tween(object.rotation)
+          .to({x: target.rotation.x, y: target.rotation.y, z: target.rotation.z}, Math.random() * duration + duration)
+          .easing(Easing.Exponential.InOut)
+          .on('update', () => { this.render(); })
+          .start();
+      }
+    });
   }
 
   // 視窗大小改變
+  @HostListener('window:resize')
   onWindowResize(): void {
-    this.camera.aspect = window.innerWidth / window.innerHeight;
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.render();
+    this.ngZone.runOutsideAngular(() => {
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.render();
+    });
   }
 
   // 動畫
   animate(): void {
-    requestAnimationFrame(this.animate.bind(this));
-    update();
-    this.controls.update();
+    this.ngZone.runOutsideAngular(() => {
+      requestAnimationFrame(this.animate.bind(this));
+      update();
+      this.controls.update();
+    });
+    // console.log('animate');
   }
 
   // 輸出至畫面上
   render(): void {
-    this.renderer.render(this.scene, this.camera);
+    this.ngZone.runOutsideAngular(() => {
+      this.renderer.render(this.scene, this.camera);
+    });
+    // console.log('render');
   }
 
   initTable(): void {
-    for (let i = 0; i < this.table.length; i += 5) {
-      const element = document.createElement('div');
-      element.className = 'element';
-      element.style.backgroundColor = 'rgba(0,127,127,' + (Math.random() * 0.5 + 0.25) + ')';
+    this.ngZone.runOutsideAngular(() => {
+      for (let i = 0; i < this.table.length; i += 5) {
+        const element = document.createElement('div');
+        element.className = 'element';
+        element.style.backgroundColor = 'rgba(0,127,127,' + (Math.random() * 0.5 + 0.25) + ')';
 
-      const num: any = document.createElement('div');
-      num.className = 'number';
-      num.textContent = (i / 5) + 1;
-      element.appendChild(num);
+        const num: any = document.createElement('div');
+        num.className = 'number';
+        num.textContent = (i / 5) + 1;
+        element.appendChild(num);
 
-      const symbol: any = document.createElement('div');
-      symbol.className = 'symbol';
-      symbol.textContent = this.table[i];
-      element.appendChild(symbol);
+        const symbol: any = document.createElement('div');
+        symbol.className = 'symbol';
+        symbol.textContent = this.table[i];
+        element.appendChild(symbol);
 
-      const details: any = document.createElement('div');
-      details.className = 'details';
-      details.innerHTML = this.table[i + 1] + '<br>' + this.table[i + 2];
-      element.appendChild(details);
+        const details: any = document.createElement('div');
+        details.className = 'details';
+        details.innerHTML = this.table[i + 1] + '<br>' + this.table[i + 2];
+        element.appendChild(details);
 
-      const object = new CSS3DObject(element);
-      object.position.x = Math.random() * 4000 - 2000;
-      object.position.y = Math.random() * 4000 - 2000;
-      object.position.z = Math.random() * 4000 - 2000;
-      this.scene.add(object);
+        const object = new CSS3DObject(element);
+        object.position.x = Math.random() * 4000 - 2000;
+        object.position.y = Math.random() * 4000 - 2000;
+        object.position.z = Math.random() * 4000 - 2000;
+        this.scene.add(object);
 
-      this.objects.push(object);
+        this.objects.push(object);
 
-      const object3D: any = new THREE.Object3D();
-      object3D.position.x = (this.table[i + 3] * 140) - 1330;
-      object3D.position.y = - (this.table[i + 4] * 180 ) + 990;
+        const object3D: any = new THREE.Object3D();
+        object3D.position.x = (this.table[i + 3] * 140) - 1330;
+        object3D.position.y = - (this.table[i + 4] * 180 ) + 990;
 
-      this.targets.table.push(object3D);
-    }
+        this.targets.table.push(object3D);
+      }
+    });
   }
 
   initSphere(): void {
-    const vector = new THREE.Vector3();
+    this.ngZone.runOutsideAngular(() => {
+      const vector = new THREE.Vector3();
 
-    for (let i = 0, l = this.objects.length; i < l; i++) {
-      const phi = Math.acos( - 1 + ( 2 * i ) / l );
-      const theta = Math.sqrt( l * Math.PI ) * phi;
+      for (let i = 0, l = this.objects.length; i < l; i++) {
+        const phi = Math.acos( - 1 + ( 2 * i ) / l );
+        const theta = Math.sqrt( l * Math.PI ) * phi;
 
-      const object = new THREE.Object3D();
+        const object = new THREE.Object3D();
 
-      object.position.setFromSphericalCoords( 800, phi, theta );
+        object.position.setFromSphericalCoords( 800, phi, theta );
 
-      vector.copy( object.position ).multiplyScalar( 2 );
+        vector.copy( object.position ).multiplyScalar( 2 );
 
-      object.lookAt( vector );
+        object.lookAt( vector );
 
-      this.targets.sphere.push( object );
-    }
+        this.targets.sphere.push( object );
+      }
+    });
   }
 
   initHelix(): void {
-    const vector = new THREE.Vector3();
+    this.ngZone.runOutsideAngular(() => {
+      const vector = new THREE.Vector3();
 
-    for (let i = 0, l = this.objects.length; i < l; i++) {
-      const theta = i * 0.175 + Math.PI;
-      const y = - ( i * 8 ) + 450;
+      for (let i = 0, l = this.objects.length; i < l; i++) {
+        const theta = i * 0.175 + Math.PI;
+        const y = - ( i * 8 ) + 450;
 
-      const object = new THREE.Object3D();
+        const object = new THREE.Object3D();
 
-      object.position.setFromCylindricalCoords(900, theta, y);
+        object.position.setFromCylindricalCoords(900, theta, y);
 
-      vector.x = object.position.x * 2;
-      vector.y = object.position.y;
-      vector.z = object.position.z * 2;
+        vector.x = object.position.x * 2;
+        vector.y = object.position.y;
+        vector.z = object.position.z * 2;
 
-      object.lookAt(vector);
+        object.lookAt(vector);
 
-      this.targets.helix.push(object);
-    }
+        this.targets.helix.push(object);
+      }
+    });
   }
 
   initGrid(): void {
-    for (let i = 0; i < this.objects.length; i ++) {
-      const object = new THREE.Object3D();
+    this.ngZone.runOutsideAngular(() => {
+      for (let i = 0; i < this.objects.length; i ++) {
+        const object = new THREE.Object3D();
 
-      object.position.x = ( ( i % 5 ) * 400 ) - 800;
-      object.position.y = ( - ( Math.floor( i / 5 ) % 5 ) * 400 ) + 800;
-      object.position.z = ( Math.floor( i / 25 ) ) * 1000 - 2000;
+        object.position.x = ( ( i % 5 ) * 400 ) - 800;
+        object.position.y = ( - ( Math.floor( i / 5 ) % 5 ) * 400 ) + 800;
+        object.position.z = ( Math.floor( i / 25 ) ) * 1000 - 2000;
 
-      this.targets.grid.push(object);
-    }
+        this.targets.grid.push(object);
+      }
+    });
   }
 
   transformTable(): void {
-    this.transform(this.targets.table, 2000);
+    this.ngZone.runOutsideAngular(() => {
+      this.transform(this.targets.table, 2000);
+    });
   }
 
   transformSphere(): void {
-    this.transform(this.targets.sphere, 2000);
+    this.ngZone.runOutsideAngular(() => {
+      this.transform(this.targets.sphere, 2000);
+    });
   }
 
   transformHelix(): void {
-    this.transform(this.targets.helix, 2000);
+    this.ngZone.runOutsideAngular(() => {
+      this.transform(this.targets.helix, 2000);
+    });
   }
 
   transformGrid(): void {
-    this.transform(this.targets.grid, 2000);
+    this.ngZone.runOutsideAngular(() => {
+      this.transform(this.targets.grid, 2000);
+    });
   }
 
 }
@@ -351,4 +374,4 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 
 /* https://github.com/tweenjs/tween.js/ */
-/* https://github.com/tweenjs/es6-tween */
+/* ES6 版本 https://github.com/tweenjs/es6-tween */
