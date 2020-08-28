@@ -27,8 +27,6 @@ namespace Lottery.Profiles
                     opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Prizes,
                     opt => opt.MapFrom(src => src.Prizes))
-                .ForMember(dest => dest.Winners,
-                    opt => opt.MapFrom(src =>src.Winners))
                 .ForMember(dest => dest.Attendees,
                     opt => opt.MapFrom(src => src.Attendees));
         }

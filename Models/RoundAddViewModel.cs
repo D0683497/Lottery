@@ -11,8 +11,6 @@ namespace Lottery.Models
 
         public ICollection<PrizeAddViewModel> Prizes { get; set; }
 
-        public ICollection<WinnerAddViewModel> Winners { get; set; }
-
         public ICollection<AttendeeAddViewModel> Attendees { get; set; }
     }
 }
