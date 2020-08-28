@@ -2,9 +2,7 @@
   width: 200px;
 }
 
-.sidenav-container {
-  height: 100%;
-}
+.sidenav-container { }
 
 .sidenav-list {
   padding-top: 25px;
@@ -26,11 +24,11 @@ a.mat-list-item.active {
 }
 
 .sidenav-content-computer {
-  margin-top: 64px;
+  padding-top: 64px;
 }
 
 .sidenav-content-mobile {
-  margin-top: 56px;
+  padding-top: 56px;
 }
 
 .toolbar-spacer {

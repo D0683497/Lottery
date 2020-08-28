@@ -235,7 +235,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.ngZone.runOutsideAngular(() => {
       this.renderer.render(this.scene, this.camera);
     });
-    // console.log('render');
   }
 
   initTable(): void {
@@ -244,20 +243,46 @@ export class HomeComponent implements OnInit, AfterViewInit {
         const element = document.createElement('div');
         element.className = 'element';
         element.style.backgroundColor = 'rgba(0,127,127,' + (Math.random() * 0.5 + 0.25) + ')';
+        element.style.height = '160px';
+        element.style.width = '120px';
+        element.style.boxShadow = '0px 0px 12px rgba(0,255,255,0.5)';
+        element.style.borderStyle = '1px solid rgba(127,255,255,0.25)';
+        element.style.textAlign = 'center';
+        element.style.lineHeight = 'normal';
+        element.style.cursor = 'default';
 
-        const num: any = document.createElement('div');
+        const num = document.createElement('div');
         num.className = 'number';
-        num.textContent = (i / 5) + 1;
+        num.textContent = ((i / 5) + 1).toString();
+        num.style.position = 'absolute';
+        num.style.top = '20px';
+        num.style.right = '20px';
+        num.style.fontSize = '12px';
+        num.style.color = 'rgba(127,255,255,0.75)';
         element.appendChild(num);
 
-        const symbol: any = document.createElement('div');
+        const symbol = document.createElement('div');
         symbol.className = 'symbol';
         symbol.textContent = this.table[i];
+        symbol.style.position = 'absolute';
+        symbol.style.top = '40px';
+        symbol.style.left = '0px';
+        symbol.style.right = '0px';
+        symbol.style.fontSize = '60px';
+        symbol.style.fontWeight = 'bold';
+        symbol.style.color = 'rgba(255,255,255,0.75)';
+        symbol.style.textShadow = '0 0 10px rgba(0,255,255,0.95)';
         element.appendChild(symbol);
 
-        const details: any = document.createElement('div');
+        const details = document.createElement('div');
         details.className = 'details';
         details.innerHTML = this.table[i + 1] + '<br>' + this.table[i + 2];
+        details.style.position = 'absolute';
+        details.style.bottom = '15px';
+        details.style.left = '0px';
+        details.style.right = '0px';
+        details.style.fontSize = '12px';
+        details.style.color = 'rgba(127,255,255,0.75)';
         element.appendChild(details);
 
         const object = new CSS3DObject(element);
