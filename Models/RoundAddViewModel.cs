@@ -10,5 +10,9 @@ namespace Lottery.Models
         public string Name { get; set; }
 
         public ICollection<PrizeAddViewModel> Prizes { get; set; }
+
+        public ICollection<WinnerAddViewModel> Winners { get; set; }
+
+        public ICollection<AttendeeAddViewModel> Attendees { get; set; }
     }
 }

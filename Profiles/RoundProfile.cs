@@ -16,13 +16,21 @@ namespace Lottery.Profiles
                 .ForMember(dest => dest.Complete,
                     opt => opt.MapFrom(src => src.RoundComplete))
                 .ForMember(dest => dest.Prizes,
-                    opt => opt.MapFrom(src => src.Prizes));
+                    opt => opt.MapFrom(src => src.Prizes))
+                .ForMember(dest => dest.Winners,
+                    opt => opt.MapFrom(src =>src.Winners))
+                .ForMember(dest => dest.Attendees,
+                    opt => opt.MapFrom(src => src.Attendees));
 
             CreateMap<RoundAddAddViewModel, Round>()
                 .ForMember(dest => dest.RoundName,
                     opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Prizes,
-                    opt => opt.MapFrom(src => src.Prizes));
+                    opt => opt.MapFrom(src => src.Prizes))
+                .ForMember(dest => dest.Winners,
+                    opt => opt.MapFrom(src =>src.Winners))
+                .ForMember(dest => dest.Attendees,
+                    opt => opt.MapFrom(src => src.Attendees));
         }
     }
 }

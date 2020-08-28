@@ -15,5 +15,9 @@ namespace Lottery.Models
         public bool Complete { get; set; }
 
         public ICollection<PrizeViewModel> Prizes { get; set; }
+
+        public ICollection<WinnerViewModel> Winners { get; set; }
+
+        public ICollection<AttendeeViewModel> Attendees { get; set; }
     }
 }

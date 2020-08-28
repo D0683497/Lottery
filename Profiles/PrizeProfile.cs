@@ -26,7 +26,7 @@ namespace Lottery.Profiles
                 .ForMember(dest => dest.PrizeName,
                     opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.PrizeImage,
-                    opt => opt.MapFrom(src => src.Image))
+                    opt => opt.MapFrom(src => (string.IsNullOrEmpty(src.Image) ? null : src.Image)))
                 .ForMember(dest => dest.PrizeNumber,
                     opt => opt.MapFrom(src => (src.Number == 0 || src.Number == null) ? 1 : src.Number))
                 .ForMember(dest => dest.PrizeOrder,
