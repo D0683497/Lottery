@@ -24,11 +24,7 @@ namespace Lottery.Profiles
 
             CreateMap<RoundAddAddViewModel, Round>()
                 .ForMember(dest => dest.RoundName,
-                    opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.Prizes,
-                    opt => opt.MapFrom(src => src.Prizes))
-                .ForMember(dest => dest.Attendees,
-                    opt => opt.MapFrom(src => src.Attendees));
+                    opt => opt.MapFrom(src => src.Name));
         }
     }
 }

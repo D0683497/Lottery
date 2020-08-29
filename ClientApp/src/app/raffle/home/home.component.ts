@@ -1,4 +1,6 @@
+import { RaffleService } from './../../services/raffle.service';
 import { Component, OnInit } from '@angular/core';
+import { Round } from 'src/app/models/round/round.model';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  dataSource: Round[];
+  displayedColumns: string[] = ['id', 'name', 'complete'];
 
-  ngOnInit(): void {  }
+  constructor(private raffleService: RaffleService) { }
+
+  ngOnInit(): void {
+    this.raffleService.getRounds()
+      .subscribe(
+        data => {
+          this.dataSource = data;
+        },
+        error => {}
+      );
+  }
 
 }
 

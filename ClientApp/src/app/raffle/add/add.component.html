@@ -1,0 +1,27 @@
+<form [formGroup]="addRaffleForm" novalidate #formDirective="ngForm" (ngSubmit)="onSubmit(addRaffleForm.value, formDirective)" method="POST">
+  <mat-card class="raffle-add-card">
+    <mat-card-header>
+      <mat-card-title>新增抽獎活動</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input type="text" matInput placeholder="抽獎活動名稱" formControlName="name">
+            <mat-error *ngIf="addRaffleForm.controls['name'].hasError('required')">
+              抽獎活動名稱是<strong>必填的</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!addRaffleForm.valid || loading">
+        <mat-icon *ngIf="loading">
+          <mat-spinner color="accent" diameter="20"></mat-spinner>
+        </mat-icon>
+        新增
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>
