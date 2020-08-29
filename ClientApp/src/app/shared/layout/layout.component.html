@@ -18,7 +18,7 @@
     <mat-sidenav #drawer class="sidenav"
         fixedInViewport="true" fixedTopGap="56"
         [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-        [mode]="(isHandset$ | async) ? 'over' : 'side'"
+        [mode]="(isHandset$ | async) ? 'push' : 'side'"
         [opened]="(isHandset$ | async) === false">
       <mat-nav-list class="sidenav-list">
         <h3 mat-subheader>Dashboard</h3>
@@ -39,6 +39,10 @@
         <a mat-list-item routerLink="/raffle" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <mat-icon mat-list-icon>home</mat-icon>
           <p mat-line>Home</p>
+        </a>
+        <a mat-list-item routerLink="/raffle/start" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <mat-icon mat-list-icon>home</mat-icon>
+          <p mat-line>Start</p>
         </a>
       </mat-nav-list>
     </mat-sidenav>

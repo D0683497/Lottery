@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { RaffleRoutingModule } from './raffle-routing.module';
+import { SharedModule } from './../shared/shared.module';
 import { HomeComponent } from './home/home.component';
+import { StartComponent } from './start/start.component';
 
 @NgModule({
-  declarations: [HomeComponent],
+  declarations: [HomeComponent, StartComponent],
   imports: [
-    CommonModule,
-    RaffleRoutingModule
+    RaffleRoutingModule,
+    SharedModule
   ]
 })
 export class RaffleModule { }
