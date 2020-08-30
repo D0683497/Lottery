@@ -26,6 +26,11 @@
       </mat-card-content>
       <mat-card-actions>
         <button mat-raised-button type="submit" color="primary">儲存</button>
+        <button mat-button type="button" mat-stroked-button [matMenuTriggerFor]="actionMenu">其他操作</button>
+        <mat-menu #actionMenu="matMenu">
+          <button mat-menu-item type="button" [routerLink]="['/prize/add']" [queryParams]="{ id: round.id }">新增獎品</button>
+          <button mat-menu-item type="button" [routerLink]="['/attendee/add']" [queryParams]="{ id: round.id }">新增參與者</button>
+        </mat-menu>
       </mat-card-actions>
     </form>
   </ng-container>

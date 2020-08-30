@@ -1,6 +1,6 @@
 import { RoundAdd } from './../../models/round/round-add.model';
 import { Component } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, FormGroupDirective } from '@angular/forms';
+import { FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
 
 import { RaffleService } from '../../services/raffle.service';
 import { MatSnackBar } from '@angular/material/snack-bar';

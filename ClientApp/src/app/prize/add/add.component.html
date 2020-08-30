@@ -1,0 +1,45 @@
+<form [formGroup]="addPrizeForm" novalidate #formDirective="ngForm" (ngSubmit)="onSubmit(formDirective, addPrizeForm.value)" method="POST">
+  <mat-card class="prize-add-card">
+    <mat-card-header>
+      <mat-card-title>新增活動獎品</mat-card-title>
+      <mat-card-subtitle>識別碼：{{roundId}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input type="text" matInput placeholder="獎品名稱" formControlName="name">
+            <mat-error *ngIf="addPrizeForm.controls['name'].hasError('required')">
+              獎品名稱是<strong>必填的</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input type="number" matInput placeholder="獎品數量" formControlName="number">
+            <mat-error *ngIf="addPrizeForm.controls['number'].hasError('required')">
+              獎品數量是<strong>必填的</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input type="number" matInput placeholder="獎品排序" formControlName="order">
+            <mat-error *ngIf="addPrizeForm.controls['order'].hasError('required')">
+              獎品排序是<strong>必填的</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!addPrizeForm.valid">
+        新增
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>
