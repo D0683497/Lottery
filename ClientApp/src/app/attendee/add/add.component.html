@@ -1,0 +1,45 @@
+<form [formGroup]="addAttendeeForm" novalidate #formDirective="ngForm" (ngSubmit)="onSubmit(formDirective, addAttendeeForm.value)" method="POST">
+  <mat-card class="attendee-add-card">
+    <mat-card-header>
+      <mat-card-title>新增活動參與者</mat-card-title>
+      <mat-card-subtitle>識別碼：{{roundId}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input type="text" matInput placeholder="學號" formControlName="nid">
+            <mat-error *ngIf="addAttendeeForm.controls['nid'].hasError('required')">
+              學號是<strong>必填的</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input type="text" matInput placeholder="姓名" formControlName="name">
+            <mat-error *ngIf="addAttendeeForm.controls['name'].hasError('required')">
+              姓名是<strong>必填的</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input type="text" matInput placeholder="系所" formControlName="department">
+            <mat-error *ngIf="addAttendeeForm.controls['department'].hasError('required')">
+              系所是<strong>必填的</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!addAttendeeForm.valid">
+        新增
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>
