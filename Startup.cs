@@ -92,6 +92,7 @@ namespace Lottery
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<IRoundRepository, RoundRepository>();
             services.AddScoped<IPrizeRepository, PrizeRepository>();
+            services.AddScoped<IAttendeeRepository, AttendeeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

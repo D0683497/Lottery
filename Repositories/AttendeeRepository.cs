@@ -5,27 +5,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lottery.Repositories
 {
-    public class PrizeRepository : IPrizeRepository
+    public class AttendeeRepository : IAttendeeRepository
     {
         private readonly ApplicationDbContext _applicationDbContext;
 
-        public PrizeRepository(ApplicationDbContext applicationDbContext)
+        public AttendeeRepository(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
         }
 
-        public async Task<Prize> GetPrizeByIdAsync(string prizeId)
+        public async Task<Attendee> GetPrizeByIdAsync(string attendeeId)
         {
-            return await _applicationDbContext.Prizes.FirstOrDefaultAsync(x => x.PrizeId == prizeId);
+            return await _applicationDbContext.Attendees.FirstOrDefaultAsync(x => x.AttendeeId == attendeeId);
         }
 
-        public void AddPrize(string roundId, Prize prize)
+        public void AddPrize(string roundId, Attendee attendee)
         {
-            prize.RoundId = roundId;
-            _applicationDbContext.Prizes.Add(prize);
+            attendee.RoundId = roundId;
+            _applicationDbContext.Attendees.Add(attendee);
         }
 
-        public void DeletePrize(string roundId, Prize prize)
+        public void DeletePrize(string roundId, Attendee attendee)
         {
             throw new System.NotImplementedException();
         }

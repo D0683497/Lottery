@@ -25,7 +25,7 @@ namespace Lottery.Controllers
         [HttpGet("{prizeId}", Name = nameof(GetPrizeForRound))]
         public async Task<IActionResult> GetPrizeForRound(string roundId, string prizeId)
         {
-            if (await _roundRepository.RoundExistsAsync(roundId))
+            if (!await _roundRepository.RoundExistsAsync(roundId))
             {
                 return NotFound();
             }
@@ -51,7 +51,7 @@ namespace Lottery.Controllers
             var entity = _mapper.Map<Prize>(model);
 
             _prizeRepository.AddPrize(roundId, entity);
-            var result = await _roundRepository.SaveAsync();
+            var result = await _prizeRepository.SaveAsync();
 
             if (result)
             {
