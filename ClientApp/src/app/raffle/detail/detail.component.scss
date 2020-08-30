@@ -17,3 +17,14 @@
   margin: 0 auto;
   width: 55vw;
 }
+
+.raffle-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+
+.start-button {
+  margin-right: 15px;
+}
