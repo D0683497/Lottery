@@ -6,9 +6,11 @@ import { SharedModule } from './../shared/shared.module';
 import { HomeComponent } from './home/home.component';
 import { StartComponent } from './start/start.component';
 import { AddComponent } from './add/add.component';
+import { DetailComponent } from './detail/detail.component';
+import { EditComponent } from './edit/edit.component';
 
 @NgModule({
-  declarations: [HomeComponent, StartComponent, AddComponent],
+  declarations: [HomeComponent, StartComponent, AddComponent, DetailComponent, EditComponent],
   imports: [
     RaffleRoutingModule,
     SharedModule,

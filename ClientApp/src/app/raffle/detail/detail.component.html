@@ -1,0 +1,21 @@
+<mat-card class="raffle-detail-card">
+  <ng-container *ngIf="!loading; else showErrorImage">
+    <mat-card-header>
+      <mat-card-title>抽獎活動詳情</mat-card-title>
+      <mat-card-subtitle>識別碼：{{round.id}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-divider [inset]="true" class="divider"></mat-divider>
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item>抽獎活動名稱：{{round.name}}</mat-list-item>
+        <mat-list-item>抽獎活動是否完成：{{round.complete}}</mat-list-item>
+      </mat-list>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button [routerLink]="['/raffle/edit', round.id]" color="primary">編輯</button>
+    </mat-card-actions>
+  </ng-container>
+  <ng-template #showErrorImage>
+    <img src="assets/icons/No-data-rafiki.svg" [class]="(isHandset$ | async) ? 'error-image-mobile' : 'error-image-computer'" alt="Error Image">
+  </ng-template>
+</mat-card>

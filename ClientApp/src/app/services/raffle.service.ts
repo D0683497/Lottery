@@ -31,11 +31,11 @@ export class RaffleService {
   }
 
   getRoundById(id: string): Observable<Round> {
-    const url = `${this.urlRoot}/${id}`;
+    const url = `${this.urlRoot}/rounds/${id}`;
     return this.http.get<Round>(url, this.httpOptions)
       .pipe(
         tap(_ => this.log(`fetched round id=${id}`)),
-        catchError(this.handleError<Round>(`getRoundById id=${id}`))
+        // catchError(this.handleError<Round>(`getRoundById id=${id}`))
       );
   }
 

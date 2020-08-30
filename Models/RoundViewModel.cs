@@ -13,11 +13,5 @@ namespace Lottery.Models
 
         [Display(Name = "抽獎活動是否完成")]
         public bool Complete { get; set; }
-
-        public ICollection<PrizeViewModel> Prizes { get; set; }
-
-        public ICollection<WinnerViewModel> Winners { get; set; }
-
-        public ICollection<AttendeeViewModel> Attendees { get; set; }
     }
 }
