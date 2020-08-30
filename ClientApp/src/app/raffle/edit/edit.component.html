@@ -1,0 +1,35 @@
+<mat-card class="raffle-edit-card">
+  <ng-container *ngIf="!loading; else showErrorImage">
+    <form [formGroup]="editForm" novalidate (ngSubmit)="onSubmit()">
+      <mat-card-header class="raffle-edit-header">
+        <mat-card-title>編輯活動</mat-card-title>
+        <mat-card-subtitle>識別碼：{{round.id}}</mat-card-subtitle>
+        <button mat-mini-fab (click)="deleteRound(round.id)" type="button" class="delete-button" color="warn" aria-label="icon button with a delete icon">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-card-header>
+      <mat-card-content>
+        <!-- <mat-list>
+          <mat-list-item>抽獎活動名稱：{{round.name}}</mat-list-item>
+          <mat-list-item>抽獎活動是否完成：{{round.complete}}</mat-list-item>
+        </mat-list> -->
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input type="text" matInput placeholder="抽獎活動名稱" formControlName="name">
+              <mat-error *ngIf="editForm.controls['name'].hasError('name')">
+                抽獎活動名稱是<strong>必填的</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button type="submit" color="primary">儲存</button>
+      </mat-card-actions>
+    </form>
+  </ng-container>
+  <ng-template #showErrorImage>
+    <img src="assets/icons/No-data-rafiki.svg" [class]="(isHandset$ | async) ? 'error-image-mobile' : 'error-image-computer'" alt="Error Image">
+  </ng-template>
+</mat-card>

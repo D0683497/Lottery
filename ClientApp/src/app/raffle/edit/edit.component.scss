@@ -1,0 +1,43 @@
+.raffle-edit-card {
+  min-width: 120px;
+  margin-top: 20px;
+  margin-bottom: 10vh;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.error-image-mobile {
+  display: block;
+  margin: 0 auto;
+  width: 80vw;
+}
+
+.error-image-computer {
+  display: block;
+  margin: 0 auto;
+  width: 55vw;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.col {
+  flex: 1;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.raffle-edit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+
+.delete-button {
+  margin-right: 15px;
+}

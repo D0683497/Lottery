@@ -47,6 +47,13 @@ export class RaffleService {
     );
   }
 
+  deleteRound(id: string): Observable<any> {
+    const url = `${this.urlRoot}/rounds/${id}`;
+    return this.http.delete(url, this.httpOptions).pipe(
+      tap(_ => this.log(`deleted round id=${id}`))
+    );
+  }
+
   // 呼叫 messageService
   private log(message: string): void {
     this.messageService.add(`RaffleService: ${message}`);
