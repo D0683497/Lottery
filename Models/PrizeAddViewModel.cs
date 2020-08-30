@@ -11,7 +11,6 @@ namespace Lottery.Models
         [Display(Name = "獎品圖片")]
         public string Image { get; set; }
 
-
         [Display(Name = "獎品數量")]
         public int? Number { get; set; }
 
