@@ -280,6 +280,18 @@ export class StartComponent implements OnInit, AfterViewInit {
     });
   }
 
+  rotateBall(): any {
+    return new Promise((resolve, reject) => {
+      this.scene.rotation.y = 0;
+      new Tween(this.scene.rotation)
+        .to({ y: Math.PI * 8 }, 3000)
+        .easing(Easing.Exponential.InOut)
+        .on('update', () => { this.render(); })
+        .on('complete', () => { resolve(); })
+        .start();
+    });
+  }
+
   // 視窗大小改變
   @HostListener('window:resize')
   onWindowResize(): void {
