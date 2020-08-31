@@ -1,8 +1,11 @@
 <form [formGroup]="addAttendeeForm" novalidate #formDirective="ngForm" (ngSubmit)="onSubmit(formDirective, addAttendeeForm.value)" method="POST">
   <mat-card class="attendee-add-card">
-    <mat-card-header>
+    <mat-card-header class="attendee-add-header">
       <mat-card-title>新增活動參與者</mat-card-title>
       <mat-card-subtitle>識別碼：{{roundId}}</mat-card-subtitle>
+      <button mat-fab type="button" matTooltip="上傳檔案" matTooltipPosition="left" class="upload-button" color="accent">
+        <mat-icon>cloud_upload</mat-icon>
+      </button>
     </mat-card-header>
     <mat-card-content>
       <div class="row">
