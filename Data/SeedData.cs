@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using Lottery.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -25,6 +26,69 @@ namespace Lottery.Data
 
                 #endregion
 
+                #region Data
+
+                logger.LogInformation("開始創建資料");
+                InsertData(services, logger);
+                logger.LogInformation("創建資料完成");
+
+                #endregion
+
+            }
+        }
+
+        private static void InsertData(IServiceProvider services, ILogger<SeedData> logger)
+        {
+            try
+            {
+                var dbContext = services.GetRequiredService<ApplicationDbContext>();
+
+                var attendees = new List<Attendee>();
+
+                for (int i = 0; i < 4000; i++)
+                {
+                    attendees.Add(new Attendee
+                    {
+                        AttendeeNID = Guid.NewGuid().ToString().Remove(8),
+                        AttendeeName = Guid.NewGuid().ToString().Remove(4),
+                        AttendeeDepartment = Guid.NewGuid().ToString().Remove(8)
+                    });
+                }
+
+                var round = new Round
+                {
+                    RoundName = "新鮮人成長營",
+                    Prizes = new List<Prize>
+                    {
+                        new Prize
+                        {
+                            PrizeName = "AirPods Pro",
+                            PrizeNumber = 2,
+                            PrizeOrder = 1
+                        },
+                        new Prize
+                        {
+                            PrizeName = "AirPods Pro",
+                            PrizeNumber = 2,
+                            PrizeOrder = 2
+                        },
+                        new Prize
+                        {
+                            PrizeName = "AirPods Pro",
+                            PrizeNumber = 1,
+                            PrizeOrder = 3
+                        }
+                    },
+                    Attendees = attendees
+                };
+
+                dbContext.Rounds.Add(round);
+                dbContext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                logger.LogError($"發生未知錯誤\n{e.ToString()}");
+                throw;
             }
         }
 
