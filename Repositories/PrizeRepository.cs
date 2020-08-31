@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Lottery.Data;
 using Lottery.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +14,14 @@ namespace Lottery.Repositories
         public PrizeRepository(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
+        }
+
+        public async Task<IEnumerable<Prize>> GetPrizesByIdAsync(string roundId)
+        {
+            return await _applicationDbContext.Prizes
+                .Where(x => x.RoundId == roundId)
+                .OrderBy(x => x.PrizeOrder)
+                .ToListAsync();
         }
 
         public async Task<Prize> GetPrizeByIdAsync(string prizeId)

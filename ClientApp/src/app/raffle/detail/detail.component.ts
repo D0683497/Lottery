@@ -1,3 +1,5 @@
+import { Prize } from './../../models/prize/prize.model';
+import { PrizeService } from './../../services/prize.service';
 import { Component, OnInit } from '@angular/core';
 import { RaffleService } from 'src/app/services/raffle.service';
 import { ActivatedRoute } from '@angular/router';
@@ -17,6 +19,7 @@ export class DetailComponent implements OnInit {
   fetchDataError = true;
   roundId: string;
   round: Round;
+  prizes: Prize[];
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
@@ -26,7 +29,8 @@ export class DetailComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private breakpointObserver: BreakpointObserver,
-    private raffleService: RaffleService) { }
+    private raffleService: RaffleService,
+    private prizeService: PrizeService) { }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(params => {
@@ -43,6 +47,13 @@ export class DetailComponent implements OnInit {
           this.fetchDataError = true;
           this.loading = false;
         }
+      );
+    this.prizeService.getPrizesForRound(this.roundId)
+      .subscribe(
+        data => {
+          this.prizes = data;
+        },
+        error => {}
       );
   }
 

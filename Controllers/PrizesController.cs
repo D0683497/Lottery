@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Lottery.Entities;
 using Lottery.Models;
@@ -20,6 +21,21 @@ namespace Lottery.Controllers
             _mapper = mapper;
             _prizeRepository = prizeRepository;
             _roundRepository = roundRepository;
+        }
+
+        [HttpGet(Name = nameof(GetPrizesForRound))]
+        public async Task<IActionResult> GetPrizesForRound(string roundId)
+        {
+            if (!await _roundRepository.RoundExistsAsync(roundId))
+            {
+                return NotFound();
+            }
+
+            var entities = await _prizeRepository.GetPrizesByIdAsync(roundId);
+
+            var models = _mapper.Map<IEnumerable<PrizeViewModel>>(entities);
+
+            return Ok(models);
         }
 
         [HttpGet("{prizeId}", Name = nameof(GetPrizeForRound))]

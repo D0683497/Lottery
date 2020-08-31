@@ -3,13 +3,19 @@
     <mat-card-header class="raffle-detail-header">
       <mat-card-title>抽獎活動詳情</mat-card-title>
       <mat-card-subtitle>識別碼：{{round.id}}</mat-card-subtitle>
-      <button mat-raised-button class="start-button" [routerLink]="['/raffle/start']" color="accent">開始抽獎</button>
+      <button mat-raised-button type="button" class="start-button" [routerLink]="['/raffle/start']" color="accent">開始抽獎</button>
     </mat-card-header>
     <mat-divider [inset]="true" class="divider"></mat-divider>
     <mat-card-content>
       <mat-list>
         <mat-list-item>抽獎活動名稱：{{round.name}}</mat-list-item>
         <mat-list-item>抽獎活動是否完成：{{round.complete}}</mat-list-item>
+      </mat-list>
+      <mat-list *ngFor="let prize of prizes">
+        <div mat-subheader>獎品識別碼：{{prize.id}}</div>
+        <mat-list-item>名稱：{{prize.name}}</mat-list-item>
+        <mat-list-item>數量：{{prize.number}}</mat-list-item>
+        <mat-list-item>排序：{{prize.order}}</mat-list-item>
       </mat-list>
     </mat-card-content>
     <mat-card-actions>

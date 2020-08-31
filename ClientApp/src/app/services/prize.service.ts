@@ -19,6 +19,13 @@ export class PrizeService {
 
   constructor(private http: HttpClient, private messageService: MessageService) { }
 
+  getPrizesForRound(roundId: string): Observable<Prize[]> {
+    const url = `${this.urlRoot}/rounds/${roundId}/prizes`;
+    return this.http.get<Prize[]>(url, this.httpOptions).pipe(
+      tap(_ => this.log('fetched rounds')),
+    );
+  }
+
   createPrize(roundId: string, prize: PrizeAdd): Observable<Prize> {
     const url = `${this.urlRoot}/rounds/${roundId}/prizes`;
     return this.http.post(url, prize, this.httpOptions).pipe(
