@@ -28,38 +28,19 @@ export class StartComponent implements OnInit {
       width: '80%',
       backdropClass: 'backdropBackground'
     });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+    dialogRef.afterClosed().subscribe(() => {
+      this.starting = false;
     });
-  }
-
-  start(): void {
-    this.starting = true;
   }
 
   startStudent(): void {
     this.starting = true;
     this.openDialog();
-    this.starting = false;
   }
 
   startStaff(): void {
-    console.log('staff');
+    this.starting = true;
+    this.openDialog();
   }
 
 }
-
-/* https://animate.style */
-
-/* https://github.com/JonLim/three-trackballcontrols */
-
-
-/* 官網 https://threejs.org/ */
-/* 範例 demo https://threejs.org/examples/#css3d_periodictable */
-/* 範例 code https://github.com/mrdoob/three.js/blob/master/examples/css3d_periodictable.html */
-/* https://github.com/JohnnyDevNull/ng-three-template */
-/* https://github.com/omidsakhi/ng-three-periodictable */
-
-
-/* https://github.com/tweenjs/tween.js/ */
-/* ES6 版本 https://github.com/tweenjs/es6-tween */

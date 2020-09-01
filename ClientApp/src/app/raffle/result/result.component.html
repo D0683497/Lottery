@@ -1,4 +1,12 @@
-<div class="container">
+<div class="result"
+  *ngIf="!showResult"
+  [ngStyle]="!showResult ?
+  { background:'url(./assets/images/Youtube-Countdown.gif) no-repeat center center fixed',
+    backgroundSize: '800px 450px',
+    backgroundColor: 'white'} : ''">
+</div>
+
+<div class="container" *ngIf="showResult">
   <div mat-dialog-title class=title>
     <p>恭喜以下同學</p>
   </div>

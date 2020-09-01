@@ -1,5 +1,4 @@
-<div class="container"
-  [ngStyle]="starting ? {background:'url(./assets/images/Youtube-Countdown.gif) no-repeat center center fixed', backgroundSize: '800px 450px', backgroundColor: 'white'} : {}">
+<div class="container" [ngStyle]="{ backgroundImage: 'url(./assets/images/background.jpg)' }">
   <div class="title">
     <p>新鮮人成長營</p>
   </div>
@@ -7,7 +6,7 @@
     <button *ngIf="!starting" (click)="startStudent()" class="start-button" mat-raised-button color="accent">開始抽獎</button>
   </div>
   <div class="power">
-    <p>Powered by <a (click)="start()">HackerSir</a></p>
+    <p>Powered by <a (click)="startStaff()">HackerSir</a></p>
   </div>
 </div>
 
