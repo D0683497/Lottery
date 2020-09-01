@@ -13,14 +13,6 @@ const routes: Routes = [
   {
     path: 'raffle',
     loadChildren: () => import('./raffle/raffle.module').then(m => m.RaffleModule)
-  },
-  {
-    path: 'prize',
-    loadChildren: () => import('./prize/prize.module').then(m => m.PrizeModule)
-  },
-  {
-    path: 'attendee',
-    loadChildren: () => import('./attendee/attendee.module').then(m => m.AttendeeModule)
   }
 ];
 

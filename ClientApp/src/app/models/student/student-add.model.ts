@@ -1,5 +1,4 @@
-export class Attendee {
-  id: string;
+export class StudentAdd {
   nid: string;
   name: string;
   department: string;
