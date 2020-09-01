@@ -1,12 +1,34 @@
+.container {
+  position: relative;
+  height: 100vh;
+  // width: 100vw;
+}
+
 .title {
+  height: 14vh;
+  font-size: 3rem;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .content {
   display: flex;
   justify-content: space-around;
-  margin: 20px;
+  align-items: center;
+  height: 80vh;
+}
+
+.power {
+  height: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.start-button {
+  height: 10vh;
+  width: 30vw;
 }
 
 .card {
@@ -43,10 +65,5 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
-.power {
-  position: absolute;
-  bottom: 0px;
-  left: 45%;
-  text-align: center;
-}
+
 

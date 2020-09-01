@@ -1,16 +1,15 @@
-<mat-toolbar color="primary" class="title">
-  <span>新鮮人成長營</span>
-</mat-toolbar>
-<div class="content">
-  <div class="card">
-    <div class="card-title">學生</div>
-    <div class="card-subtitle">Student</div>
-    <button mat-raised-button type="button" (click)="startStudent()" color="accent" class="card-actions">開始抽獎</button>
+<div class="container" [ngStyle]="{backgroundImage:'url(./assets/images/background.jpg)'}">
+  <div class="title">
+    <p>新鮮人成長營</p>
   </div>
-  <div class="card">
-    <div class="card-title">工作人員</div>
-    <div class="card-subtitle">Staff</div>
-    <button mat-raised-button type="button" (click)="startStaff()" color="accent" class="card-actions">開始抽獎</button>
+  <div class="content">
+    <button *ngIf="!starting" (click)="startStudent()" class="start-button" mat-raised-button color="accent">開始抽獎</button>
+    <mat-spinner *ngIf="starting"></mat-spinner>
+  </div>
+  <div class="power">
+    <p>Powered by <a (click)="start()">HackerSir</a></p>
   </div>
 </div>
-<p class="power">Powered by HackerSir</p>
+
+
+

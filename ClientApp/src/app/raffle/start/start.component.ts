@@ -33,9 +33,14 @@ export class StartComponent implements OnInit {
     });
   }
 
+  start(): void {
+    this.starting = true;
+  }
+
   startStudent(): void {
     this.starting = true;
     this.openDialog();
+    this.starting = false;
   }
 
   startStaff(): void {
