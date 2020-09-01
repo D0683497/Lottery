@@ -21,8 +21,8 @@ namespace Lottery.Controllers
             _roundRepository = roundRepository;
         }
 
-        [HttpGet(Name = nameof(GetAllBound))]
-        public async Task<IActionResult> GetAllBound()
+        [HttpGet(Name = nameof(GetAllRound))]
+        public async Task<IActionResult> GetAllRound()
         {
             var entities = await _roundRepository.GetAllRoundAsync();
 

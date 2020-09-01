@@ -2,18 +2,18 @@
 
 namespace Lottery.Models
 {
-    public class StaffViewModel
+    public class StudentViewModel
     {
-        [Display(Name = "工作人員識別碼")]
+        [Display(Name = "學生識別碼")]
         public string Id { get; set; }
 
-        [Display(Name = "工作人員學號")]
+        [Display(Name = "學生學號")]
         public string NID { get; set; }
-        
-        [Display(Name = "工作人員姓名")]
+
+        [Display(Name = "學生姓名")]
         public string Name { get; set; }
 
-        [Display(Name = "工作人員系所")]
+        [Display(Name = "學生系所")]
         public string Department { get; set; }
     }
 }

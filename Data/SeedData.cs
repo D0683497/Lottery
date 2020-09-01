@@ -48,9 +48,9 @@ namespace Lottery.Data
                 {
                     students.Add(new Student
                     {
-                        StudentNID = Guid.NewGuid().ToString().Remove(8),
-                        StudentName = Guid.NewGuid().ToString().Remove(4),
-                        StudentDepartment = Guid.NewGuid().ToString().Remove(8)
+                        StudentNID = Guid.NewGuid().ToString().Remove(8).ToUpper(),
+                        StudentName = Guid.NewGuid().ToString().Remove(4).ToUpper(),
+                        StudentDepartment = Guid.NewGuid().ToString().Remove(10)
                     });
                 }
                 logger.LogInformation("建立 Students 資料");
@@ -60,9 +60,9 @@ namespace Lottery.Data
                 {
                     staffs.Add(new Staff
                     {
-                        StaffNID = Guid.NewGuid().ToString().Remove(8),
-                        StaffName = Guid.NewGuid().ToString().Remove(4),
-                        StaffDepartment = Guid.NewGuid().ToString().Remove(8)
+                        StaffNID = Guid.NewGuid().ToString().Remove(8).ToUpper(),
+                        StaffName = Guid.NewGuid().ToString().Remove(4).ToUpper(),
+                        StaffDepartment = Guid.NewGuid().ToString().Remove(10)
                     });
                 }
                 logger.LogInformation("建立 Staffs 資料");

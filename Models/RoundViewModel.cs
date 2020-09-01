@@ -10,8 +10,5 @@ namespace Lottery.Models
 
         [Display(Name = "抽獎活動名稱")]
         public string Name { get; set; }
-
-        [Display(Name = "抽獎活動是否完成")]
-        public bool Complete { get; set; }
     }
 }

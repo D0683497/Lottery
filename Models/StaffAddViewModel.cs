@@ -2,17 +2,17 @@
 
 namespace Lottery.Models
 {
-    public class StaffViewModel
+    public class StaffAddViewModel
     {
-        [Display(Name = "工作人員識別碼")]
-        public string Id { get; set; }
-
+        [Required(ErrorMessage = "{0}是必填的")]
         [Display(Name = "工作人員學號")]
         public string NID { get; set; }
-        
+
+        [Required(ErrorMessage = "{0}是必填的")]
         [Display(Name = "工作人員姓名")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "{0}是必填的")]
         [Display(Name = "工作人員系所")]
         public string Department { get; set; }
     }

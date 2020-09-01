@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Lottery.Data.Migrations
 {
-    public partial class CreateIdentityScheme : Migration
+    public partial class CreateScheme : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,18 @@ namespace Lottery.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Rounds",
+                columns: table => new
+                {
+                    RoundId = table.Column<string>(nullable: false),
+                    RoundName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rounds", x => x.RoundId);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,6 +164,80 @@ namespace Lottery.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Winners",
+                columns: table => new
+                {
+                    WinnerId = table.Column<string>(nullable: false),
+                    RoundId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Winners", x => x.WinnerId);
+                    table.ForeignKey(
+                        name: "FK_Winners_Rounds_RoundId",
+                        column: x => x.RoundId,
+                        principalTable: "Rounds",
+                        principalColumn: "RoundId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Staffs",
+                columns: table => new
+                {
+                    StaffId = table.Column<string>(nullable: false),
+                    StaffNID = table.Column<string>(nullable: true),
+                    StaffName = table.Column<string>(nullable: true),
+                    StaffDepartment = table.Column<string>(nullable: true),
+                    WinnerId = table.Column<string>(nullable: true),
+                    RoundId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Staffs", x => x.StaffId);
+                    table.ForeignKey(
+                        name: "FK_Staffs_Rounds_RoundId",
+                        column: x => x.RoundId,
+                        principalTable: "Rounds",
+                        principalColumn: "RoundId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Staffs_Winners_WinnerId",
+                        column: x => x.WinnerId,
+                        principalTable: "Winners",
+                        principalColumn: "WinnerId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Students",
+                columns: table => new
+                {
+                    StudentId = table.Column<string>(nullable: false),
+                    StudentNID = table.Column<string>(nullable: true),
+                    StudentName = table.Column<string>(nullable: true),
+                    StudentDepartment = table.Column<string>(nullable: true),
+                    WinnerId = table.Column<string>(nullable: true),
+                    RoundId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Students", x => x.StudentId);
+                    table.ForeignKey(
+                        name: "FK_Students_Rounds_RoundId",
+                        column: x => x.RoundId,
+                        principalTable: "Rounds",
+                        principalColumn: "RoundId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Students_Winners_WinnerId",
+                        column: x => x.WinnerId,
+                        principalTable: "Winners",
+                        principalColumn: "WinnerId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -188,6 +274,31 @@ namespace Lottery.Data.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Staffs_RoundId",
+                table: "Staffs",
+                column: "RoundId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Staffs_WinnerId",
+                table: "Staffs",
+                column: "WinnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Students_RoundId",
+                table: "Students",
+                column: "RoundId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Students_WinnerId",
+                table: "Students",
+                column: "WinnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Winners_RoundId",
+                table: "Winners",
+                column: "RoundId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -208,10 +319,22 @@ namespace Lottery.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Staffs");
+
+            migrationBuilder.DropTable(
+                name: "Students");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Winners");
+
+            migrationBuilder.DropTable(
+                name: "Rounds");
         }
     }
 }
