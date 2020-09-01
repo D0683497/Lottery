@@ -12,7 +12,6 @@ namespace Lottery.Entities
         public Round()
         {
             RoundId = Guid.NewGuid().ToString();
-            RoundComplete = false;
         }
         
         [Key]
@@ -24,23 +23,18 @@ namespace Lottery.Entities
         public string RoundName { get; set; }
 
         /// <summary>
-        /// 此輪抽獎是否完成
-        /// </summary>
-        public bool RoundComplete { get; set; }
-
-        /// <summary>
-        /// 此輪獎品
-        /// </summary>
-        public ICollection<Prize> Prizes { get; set; }
-
-        /// <summary>
         /// 此輪中獎者
         /// </summary>
         public ICollection<Winner> Winners { get; set; }
 
         /// <summary>
-        /// 此輪參與者
+        /// 此輪學生
         /// </summary>
-        public ICollection<Attendee> Attendees { get; set; }
+        public ICollection<Student> Students { get; set; }
+        
+        /// <summary>
+        /// 此輪工作人員
+        /// </summary>
+        public ICollection<Staff> Staffs { get; set; }
     }
 }

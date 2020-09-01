@@ -15,15 +15,15 @@ namespace Lottery.Entities
         public string WinnerId { get; set; }
         
         /// <summary>
-        /// 中獎名單
+        /// 中獎學生名單
         /// </summary>
-        public ICollection<Attendee> Attendees { get; set; }
+        public ICollection<Student> Students { get; set; }
         
         /// <summary>
-        /// 獲得的獎品
+        /// 中獎工作人員名單
         /// </summary>
-        public Prize Prize { get; set; }
-        
+        public ICollection<Staff> Staffs { get; set; }
+
         public string RoundId { get; set; }
         public Round Round { get; set; }
     }

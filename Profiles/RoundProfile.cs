@@ -12,9 +12,7 @@ namespace Lottery.Profiles
                 .ForMember(dest => dest.Id,
                     opt => opt.MapFrom(src => src.RoundId))
                 .ForMember(dest => dest.Name,
-                    opt => opt.MapFrom(src => src.RoundName))
-                .ForMember(dest => dest.Complete,
-                    opt => opt.MapFrom(src => src.RoundComplete));
+                    opt => opt.MapFrom(src => src.RoundName));
 
             CreateMap<RoundAddAddViewModel, Round>()
                 .ForMember(dest => dest.RoundName,

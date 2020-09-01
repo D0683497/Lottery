@@ -12,9 +12,7 @@ namespace Lottery.Profiles
                 .ForMember(dest => dest.Id,
                     opt => opt.MapFrom(src => src.WinnerId))
                 .ForMember(dest => dest.Attendees,
-                    opt => opt.MapFrom(src => src.Attendees))
-                .ForMember(dest => dest.Prize,
-                    opt => opt.MapFrom(src => src.Prize));
+                    opt => opt.MapFrom(src => src.Attendees));
 
             CreateMap<WinnerAddViewModel, Winner>()
                 .ForMember(dest => dest.Attendees,

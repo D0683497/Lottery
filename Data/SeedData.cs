@@ -43,43 +43,35 @@ namespace Lottery.Data
             {
                 var dbContext = services.GetRequiredService<ApplicationDbContext>();
 
-                var attendees = new List<Attendee>();
-
+                var students = new List<Student>();
                 for (int i = 0; i < 4000; i++)
                 {
-                    attendees.Add(new Attendee
+                    students.Add(new Student
                     {
-                        AttendeeNID = Guid.NewGuid().ToString().Remove(8),
-                        AttendeeName = Guid.NewGuid().ToString().Remove(4),
-                        AttendeeDepartment = Guid.NewGuid().ToString().Remove(8)
+                        StudentNID = Guid.NewGuid().ToString().Remove(8),
+                        StudentName = Guid.NewGuid().ToString().Remove(4),
+                        StudentDepartment = Guid.NewGuid().ToString().Remove(8)
                     });
                 }
+                logger.LogInformation("建立 Students 資料");
+                
+                var staffs = new List<Staff>();
+                for (int i = 0; i < 3000; i++)
+                {
+                    staffs.Add(new Staff
+                    {
+                        StaffNID = Guid.NewGuid().ToString().Remove(8),
+                        StaffName = Guid.NewGuid().ToString().Remove(4),
+                        StaffDepartment = Guid.NewGuid().ToString().Remove(8)
+                    });
+                }
+                logger.LogInformation("建立 Staffs 資料");
 
                 var round = new Round
                 {
                     RoundName = "新鮮人成長營",
-                    Prizes = new List<Prize>
-                    {
-                        new Prize
-                        {
-                            PrizeName = "AirPods Pro",
-                            PrizeNumber = 2,
-                            PrizeOrder = 1
-                        },
-                        new Prize
-                        {
-                            PrizeName = "AirPods Pro",
-                            PrizeNumber = 2,
-                            PrizeOrder = 2
-                        },
-                        new Prize
-                        {
-                            PrizeName = "AirPods Pro",
-                            PrizeNumber = 1,
-                            PrizeOrder = 3
-                        }
-                    },
-                    Attendees = attendees
+                    Students = students,
+                    Staffs = staffs
                 };
 
                 dbContext.Rounds.Add(round);

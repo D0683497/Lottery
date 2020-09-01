@@ -3,31 +3,31 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Lottery.Entities
 {
-    public class Attendee
+    public class Student
     {
-        public Attendee()
+        public Student()
         {
-            AttendeeId = Guid.NewGuid().ToString();
+            StudentId = Guid.NewGuid().ToString();
         }
         
         [Key]
-        public string AttendeeId { get; set; }
+        public string StudentId { get; set; }
 
         /// <summary>
-        /// 參與者學號
+        /// 學生學號
         /// </summary>
-        public string AttendeeNID { get; set; }
+        public string StudentNID { get; set; }
         
         /// <summary>
-        /// 參與者姓名
+        /// 學生姓名
         /// </summary>
-        public string AttendeeName { get; set; }
+        public string StudentName { get; set; }
 
         /// <summary>
-        /// 參與者系所
+        /// 學生系所
         /// </summary>
-        public string AttendeeDepartment { get; set; }
-
+        public string StudentDepartment { get; set; }
+        
         public string WinnerId { get; set; }
         public Winner Winner { get; set; }
         
