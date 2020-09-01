@@ -24,7 +24,7 @@ export class StartComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(ResultComponent, {
-      height: '80%',
+      height: '90%',
       width: '80%',
       backdropClass: 'backdropBackground'
     });
