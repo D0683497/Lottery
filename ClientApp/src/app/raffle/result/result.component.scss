@@ -1,0 +1,46 @@
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container .title {
+  height: 10vh;
+  font-size: 5em;
+}
+
+.container .content {
+  display: flex;
+  justify-content: space-around;
+}
+
+.card {
+  flex-grow: 1;
+  height: 50vh;
+  width: 30vw;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(88, 88, 88);
+  border-radius: 4px;
+  margin: 5px;
+}
+
+.card-title {
+  height: 20vh;
+  font-size: 3em;
+}
+
+.card-subtitle {
+  height: 10vh;
+  font-size: 2em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.container .action {
+
+}

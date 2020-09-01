@@ -25,3 +25,7 @@ $custom-typography: mat-typography-config($font-family: '"Noto Sans TC", "Roboto
 
 html, body { height: 100%; }
 body { margin: 0; font-family: 'Noto Sans TC', 'Roboto', sans-serif; }
+
+.backdropBackground {
+  background: rgba(255, 255, 255, 0.8)
+}

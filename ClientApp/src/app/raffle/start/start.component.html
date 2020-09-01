@@ -1,12 +1,16 @@
-<div class="raffle-body">
-  <div id="info">
-    <a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> css3d - periodic table.{{roundId}}
+<mat-toolbar color="primary" class="title">
+  <span>新鮮人成長營</span>
+</mat-toolbar>
+<div class="content">
+  <div class="card">
+    <div class="card-title">學生</div>
+    <div class="card-subtitle">Student</div>
+    <button mat-raised-button type="button" (click)="startStudent()" color="accent" class="card-actions">開始抽獎</button>
   </div>
-  <div id="container"></div>
-  <div id="menu">
-    <button id="table" (click)="transformTable()">TABLE</button>
-    <button id="sphere" (click)="transformSphere()">SPHERE</button>
-    <button id="helix" (click)="transformHelix()">HELIX</button>
-    <button id="grid" (click)="transformGrid()">GRID</button>
+  <div class="card">
+    <div class="card-title">工作人員</div>
+    <div class="card-subtitle">Staff</div>
+    <button mat-raised-button type="button" (click)="startStaff()" color="accent" class="card-actions">開始抽獎</button>
   </div>
 </div>
+<p class="power">Powered by HackerSir</p>

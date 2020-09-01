@@ -19,7 +19,7 @@ const routes: Routes = [
       { path: 'edit/:roundId', component: EditComponent }
     ]
   },
-  { path: 'start/:roundId', component: StartComponent }
+  { path: 'start', component: StartComponent }
 ];
 
 @NgModule({

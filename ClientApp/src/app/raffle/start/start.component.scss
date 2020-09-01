@@ -1,64 +1,52 @@
-.raffle-body {
-  height: 100%;
-  margin: 0;
-	background-color: #000;
-	color: #fff;
-	font-size: 13px;
-	line-height: 24px;
-  overscroll-behavior: none;
+.title {
+  display: flex;
+  justify-content: center;
 }
 
-#info {
-	position: absolute;
-	top: 0px;
-	width: 100%;
-	padding: 10px;
-	box-sizing: border-box;
-	text-align: center;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	pointer-events: none;
-	z-index: 1; /* TODO Solve this in HTML */
+.content {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px;
 }
 
-a, button, input, select {
-	pointer-events: auto;
+.card {
+  flex-grow: 1;
+  margin: 10px;
+  height: 85vh;
+  width: 40vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(66, 66, 66);
+  border-radius: 4px;
 }
 
-a {
-  color: #8ff;
-  text-decoration: none;
+.card:hover {
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.75);
+  border: 1px solid rgba(127, 255, 255, 0.75);
 }
 
-a:hover {
-	text-decoration: underline;
+.card-actions {
+  width: 40vw;
+  height: 5vh;
 }
 
-#menu {
+.card-title {
+  height: 35vh;
+  font-size: 10em;
+}
+
+.card-subtitle {
+  height: 20vh;
+  font-size: 7em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.power {
   position: absolute;
-  bottom: 20px;
-  width: 100%;
+  bottom: 0px;
+  left: 45%;
   text-align: center;
 }
 
-button {
-  color: rgba(127,255,255,0.75);
-  background: transparent;
-  outline: 1px solid rgba(127,255,255,0.75);
-  border: 0px;
-  padding: 5px;
-  margin: 10px;
-  cursor: pointer;
-  text-transform: uppercase;
-}
-
-button:hover {
-  background-color: rgba(0,255,255,0.5);
-}
-
-button:active {
-  color: #000000;
-  background-color: rgba(0,255,255,0.75);
-}

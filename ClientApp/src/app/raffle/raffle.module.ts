@@ -8,9 +8,10 @@ import { StartComponent } from './start/start.component';
 import { AddComponent } from './add/add.component';
 import { DetailComponent } from './detail/detail.component';
 import { EditComponent } from './edit/edit.component';
+import { ResultComponent } from './result/result.component';
 
 @NgModule({
-  declarations: [HomeComponent, StartComponent, AddComponent, DetailComponent, EditComponent],
+  declarations: [HomeComponent, StartComponent, AddComponent, DetailComponent, EditComponent, ResultComponent],
   imports: [
     RaffleRoutingModule,
     SharedModule,
