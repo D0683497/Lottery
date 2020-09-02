@@ -2,7 +2,7 @@
   <mat-card-header class="staff-card-header">
     <mat-card-title>工作人員名單</mat-card-title>
     <mat-card-subtitle>抽獎活動識別碼：{{roundId}}</mat-card-subtitle>
-    <button mat-mini-fab [routerLink]="['/staff/add']" type="button" class="add-button" color="accent" aria-label="icon button with a add icon">
+    <button mat-mini-fab [routerLink]="['/staff/add']" [queryParams]="{ id: roundId }" type="button" class="add-button" color="accent" aria-label="icon button with a add icon">
       <mat-icon>add</mat-icon>
     </button>
   </mat-card-header>

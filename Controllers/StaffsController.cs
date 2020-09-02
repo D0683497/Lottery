@@ -60,7 +60,7 @@ namespace Lottery.Controllers
             return Ok(model);
         }
 
-        [HttpPost("{roundId}", Name = nameof(CreateStaff))]
+        [HttpPost(Name = nameof(CreateStaff))]
         public async Task<IActionResult> CreateStaff(string roundId, StaffAddViewModel model)
         {
             if (!await _roundRepository.RoundExistsAsync(roundId))

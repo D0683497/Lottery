@@ -41,8 +41,8 @@ namespace Lottery.Controllers
             return Ok(models);
         }
 
-        [HttpGet("{studentId}", Name = nameof(GetStaffForRound))]
-        public async Task<IActionResult> GetStaffForRound(string roundId, string studentId)
+        [HttpGet("{studentId}", Name = nameof(GetStudentForRound))]
+        public async Task<IActionResult> GetStudentForRound(string roundId, string studentId)
         {
             if (!await _roundRepository.RoundExistsAsync(roundId))
             {
@@ -60,8 +60,8 @@ namespace Lottery.Controllers
             return Ok(model);
         }
 
-        [HttpPost("{roundId}", Name = nameof(CreateStaff))]
-        public async Task<IActionResult> CreateStaff(string roundId, StaffAddViewModel model)
+        [HttpPost(Name = nameof(CreateStudent))]
+        public async Task<IActionResult> CreateStudent(string roundId, StudentAddViewModel model)
         {
             if (!await _roundRepository.RoundExistsAsync(roundId))
             {
@@ -75,8 +75,8 @@ namespace Lottery.Controllers
 
             if (result)
             {
-                var returnModel = _mapper.Map<StaffViewModel>(entity);
-                return CreatedAtRoute(nameof(GetStaffForRound), new { roundId, studentId = returnModel.Id }, returnModel);
+                var returnModel = _mapper.Map<StudentViewModel>(entity);
+                return CreatedAtRoute(nameof(GetStudentForRound), new { roundId, studentId = returnModel.Id }, returnModel);
             }
 
             return BadRequest();

@@ -89,7 +89,8 @@ namespace Lottery
                 });
             });
 
-            services.AddAutoMapper(typeof(Startup));
+            // services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IRoundRepository, RoundRepository>();
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IStaffRepository, StaffRepository>();
