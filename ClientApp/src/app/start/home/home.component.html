@@ -4,11 +4,8 @@
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat'
   }">
-  <div class="title"></div>
-  <div class="content">
-    <button *ngIf="!starting" (click)="startStudent()" class="start-button" mat-raised-button color="accent">開始抽獎</button>
+  <div class="action">
+    <button type="button" *ngIf="!starting" (click)="startStudent()" mat-raised-button color="accent">開始抽獎</button>
   </div>
-  <div class="power">
-    <p>Powered by <a (click)="startStaff()">HackerSir</a></p>
-  </div>
+  <p class="power">Powered by <a (click)="startStaff()">HackerSir</a></p>
 </div>

@@ -1,24 +1,17 @@
-.raffle-card {
+mat-card {
   min-width: 120px;
-  margin-top: 20px;
-  margin-bottom: 10vh;
-  margin-right: 20px;
-  margin-left: 20px;
+  margin: 20px;
 }
 
-.raffle-card-header {
+mat-card-header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
-.raffle-card-content {
-  margin-top: 10px;
-}
-
-.add-button {
-  margin-right: 15px;
+mat-card-header > button {
+  margin-right: 1.5vw;
 }
 
 table {

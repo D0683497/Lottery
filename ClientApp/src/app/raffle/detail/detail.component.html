@@ -1,9 +1,9 @@
 <mat-card class="raffle-detail-card">
   <ng-container *ngIf="!loading && !fetchDataError">
-    <mat-card-header class="raffle-detail-header">
+    <mat-card-header>
       <mat-card-title>抽獎活動詳情</mat-card-title>
       <mat-card-subtitle>識別碼：{{round.id}}</mat-card-subtitle>
-      <button mat-raised-button type="button" class="start-button" [routerLink]="['/start', round.id]" color="accent">開始抽獎</button>
+      <button mat-raised-button type="button" [routerLink]="['/start', round.id]" color="accent">開始抽獎</button>
     </mat-card-header>
     <mat-divider [inset]="true" class="divider"></mat-divider>
     <mat-card-content>

@@ -1,12 +1,12 @@
-<mat-card class="raffle-card">
-  <mat-card-header class="raffle-card-header">
+<mat-card>
+  <mat-card-header>
     <mat-card-title>抽獎活動</mat-card-title>
-    <button type="button" mat-mini-fab [routerLink]="['/raffle/add']" class="add-button" color="accent" aria-label="icon button with a add icon">
+    <button type="button" mat-mini-fab [routerLink]="['/raffle/add']" color="accent" aria-label="icon button with a add icon">
       <mat-icon>add</mat-icon>
     </button>
   </mat-card-header>
   <mat-divider [inset]="true"></mat-divider>
-  <mat-card-content class="raffle-card-content">
+  <mat-card-content>
     <table mat-table [dataSource]="dataSource" *ngIf="!fetchDataError">
       <!-- Id Column -->
       <ng-container matColumnDef="id">

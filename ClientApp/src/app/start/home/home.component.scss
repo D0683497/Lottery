@@ -1,70 +1,29 @@
 .container {
-  // position: relative;
-  height: 100vh;
+  min-height: 100vh;
+  min-width: 100vw;
+  padding: 0;
   margin: 0;
-  // width: 100vw;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-end;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-.title {
-  height: 70vh;
+/* 這裡的高度決定 button 高度 */
+.action {
+  height: 10vh;
   width: 100vw;
-}
-
-.content {
   display: flex;
   justify-content: space-around;
-  align-items: center;
-  height: 20vh;
-  width: 100vw;
+}
+
+/* 多個 button 時，修改 margin */
+button {
+  width: 100%;
+  margin-left: 20vw;
+  margin-right: 20vw;
 }
 
 .power {
-  height: 5vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.start-button {
-  height: 10vh;
-  width: 30vw;
-}
-
-.card {
-  flex-grow: 1;
-  margin: 10px;
-  height: 85vh;
-  width: 40vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(66, 66, 66);
-  border-radius: 4px;
-}
-
-.card:hover {
-  box-shadow: 0 0 12px rgba(0, 255, 255, 0.75);
-  border: 1px solid rgba(127, 255, 255, 0.75);
-}
-
-.card-actions {
-  width: 40vw;
-  height: 5vh;
-}
-
-.card-title {
-  height: 35vh;
-  font-size: 10em;
-}
-
-.card-subtitle {
-  height: 20vh;
-  font-size: 7em;
-  color: rgba(255, 255, 255, 0.7);
+  margin-top: 5vh;
 }

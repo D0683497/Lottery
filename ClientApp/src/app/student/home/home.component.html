@@ -1,13 +1,13 @@
-<mat-card class="student-card">
-  <mat-card-header class="student-card-header">
+<mat-card>
+  <mat-card-header>
     <mat-card-title>學生名單</mat-card-title>
     <mat-card-subtitle>抽獎活動識別碼：{{roundId}}</mat-card-subtitle>
-    <button mat-mini-fab [routerLink]="['/student/add']" [queryParams]="{ id: roundId }" type="button" class="add-button" color="accent" aria-label="icon button with a add icon">
+    <button mat-mini-fab [routerLink]="['/student/add']" [queryParams]="{ id: roundId }" type="button" color="accent" aria-label="icon button with a add icon">
       <mat-icon>add</mat-icon>
     </button>
   </mat-card-header>
   <mat-divider [inset]="true"></mat-divider>
-  <mat-card-content class="student-card-content">
+  <mat-card-content>
     <table mat-table [dataSource]="dataSource" *ngIf="!fetchDataError">
       <!-- Id Column -->
       <!-- <ng-container matColumnDef="id">

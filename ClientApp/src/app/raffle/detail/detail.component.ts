@@ -2,9 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { RaffleService } from '../../services/raffle/raffle.service';
 import { ActivatedRoute } from '@angular/router';
 import { Round } from 'src/app/models/round/round.model';
-import { Observable } from 'rxjs';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-import { map, shareReplay } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -15,11 +12,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class DetailComponent implements OnInit {
 
   loading = true;
-
   fetchDataError = true;
-
   roundId: string;
-
   round: Round;
 
   constructor(
