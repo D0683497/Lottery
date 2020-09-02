@@ -1,0 +1,47 @@
+<form [formGroup]="addStaffForm" novalidate #formDirective="ngForm" (ngSubmit)="onSubmit(addStaffForm.value, formDirective)" method="POST">
+  <mat-card class="staff-add-card">
+    <mat-card-header>
+      <mat-card-title>新增工作人員</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input type="text" matInput placeholder="工作人員學號" formControlName="nid">
+            <mat-error *ngIf="addStaffForm.controls['nid'].hasError('required')">
+              工作人員學號是<strong>必填的</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input type="text" matInput placeholder="工作人員姓名" formControlName="name">
+            <mat-error *ngIf="addStaffForm.controls['name'].hasError('required')">
+              工作人員姓名是<strong>必填的</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input type="text" matInput placeholder="工作人員系所" formControlName="department">
+            <mat-error *ngIf="addStaffForm.controls['department'].hasError('required')">
+              工作人員系所是<strong>必填的</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!addStaffForm.valid || loading">
+        <mat-icon *ngIf="loading">
+          <mat-spinner color="accent" diameter="20"></mat-spinner>
+        </mat-icon>
+        新增
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>
