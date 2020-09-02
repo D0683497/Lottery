@@ -35,4 +35,9 @@ export class StudentService {
     );
   }
 
+  getRandomStudentForRound(roundId: string): Observable<Student> {
+    const url = `${this.urlRoot}/rounds/${roundId}/students/random`;
+    return this.http.get<Student>(url, this.httpOptions);
+  }
+
 }

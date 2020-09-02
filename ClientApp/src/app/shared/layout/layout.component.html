@@ -40,14 +40,6 @@
           <mat-icon mat-list-icon>home</mat-icon>
           <p mat-line>Home</p>
         </a>
-        <a mat-list-item routerLink="/raffle/add" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <mat-icon mat-list-icon>add</mat-icon>
-          <p mat-line>Add</p>
-        </a>
-        <a mat-list-item routerLink="/raffle/start" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <mat-icon mat-list-icon>dvr</mat-icon>
-          <p mat-line>Start</p>
-        </a>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content [class]="(isHandset$ | async) ? 'sidenav-content-mobile' : 'sidenav-content-computer'">

@@ -35,4 +35,9 @@ export class StaffService {
     );
   }
 
+  getRandomStaffForRound(roundId: string): Observable<Staff> {
+    const url = `${this.urlRoot}/rounds/${roundId}/staffs/random`;
+    return this.http.get<Staff>(url, this.httpOptions);
+  }
+
 }
