@@ -1,19 +1,19 @@
-<mat-card class="raffle-detail-card">
+<mat-card>
   <ng-container *ngIf="!loading && !fetchDataError">
     <mat-card-header>
       <mat-card-title>抽獎活動詳情</mat-card-title>
       <mat-card-subtitle>識別碼：{{round.id}}</mat-card-subtitle>
       <button mat-raised-button type="button" [routerLink]="['/start', round.id]" color="accent">開始抽獎</button>
     </mat-card-header>
-    <mat-divider [inset]="true" class="divider"></mat-divider>
+    <mat-divider [inset]="true"></mat-divider>
     <mat-card-content>
       <mat-list>
         <mat-list-item>抽獎活動名稱：{{round.name}}</mat-list-item>
         <mat-list-item>
-          <button mat-button [routerLink]="['/student']" [queryParams]="{ id: round.id }">查看學生名單</button>
+          <button mat-stroked-button type="button" [routerLink]="['/student']" [queryParams]="{ id: round.id }">查看學生名單</button>
         </mat-list-item>
         <mat-list-item>
-          <button mat-button [routerLink]="['/staff']" [queryParams]="{ id: round.id }">查看工作人員名單</button>
+          <button mat-stroked-button type="button" [routerLink]="['/staff']" [queryParams]="{ id: round.id }">查看工作人員名單</button>
         </mat-list-item>
       </mat-list>
     </mat-card-content>
@@ -21,10 +21,13 @@
       <button mat-raised-button [routerLink]="['/raffle/edit', round.id]" color="primary">編輯</button>
     </mat-card-actions>
   </ng-container>
-  <ng-template *ngIf="loading">
-    <mat-spinner></mat-spinner>
-  </ng-template>
-  <ng-template *ngIf="fetchDataError">
-    發生錯誤
-  </ng-template>
+  <ng-container *ngIf="loading">
+    <mat-card-header>
+      <mat-card-title>載入中...</mat-card-title>
+    </mat-card-header>
+    <mat-divider [inset]="true"></mat-divider>
+    <mat-card-content class="loading-card-content">
+      <mat-spinner></mat-spinner>
+    </mat-card-content>
+  </ng-container>
 </mat-card>

@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class DetailComponent implements OnInit {
 
   loading = true;
-  fetchDataError = true;
+  fetchDataError = false;
   roundId: string;
   round: Round;
 

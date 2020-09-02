@@ -7,7 +7,7 @@ mat-card-header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 15px;
+  margin-bottom: 2vh;
 }
 
 mat-card-header > button {
@@ -16,4 +16,10 @@ mat-card-header > button {
 
 table {
   width: 100%;
+}
+
+.loading-card-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

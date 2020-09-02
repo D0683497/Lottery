@@ -1,7 +1,7 @@
-<mat-card class="raffle-edit-card">
-  <ng-container *ngIf="!loading; else showErrorImage">
+<mat-card>
+  <ng-container *ngIf="!loading && !fetchDataError">
     <form [formGroup]="editForm" novalidate (ngSubmit)="onSubmit()">
-      <mat-card-header class="raffle-edit-header">
+      <mat-card-header>
         <mat-card-title>編輯活動</mat-card-title>
         <mat-card-subtitle>識別碼：{{round.id}}</mat-card-subtitle>
         <button mat-mini-fab type="button" class="delete-button" color="warn" aria-label="icon button with a delete icon">
@@ -30,7 +30,13 @@
       </mat-card-actions>
     </form>
   </ng-container>
-  <ng-template #showErrorImage>
-    <img src="assets/icons/No-data-rafiki.svg" [class]="(isHandset$ | async) ? 'error-image-mobile' : 'error-image-computer'" alt="Error Image">
-  </ng-template>
+  <ng-container *ngIf="loading">
+    <mat-card-header>
+      <mat-card-title>載入中...</mat-card-title>
+    </mat-card-header>
+    <mat-divider [inset]="true"></mat-divider>
+    <mat-card-content class="loading-card-content">
+      <mat-spinner></mat-spinner>
+    </mat-card-content>
+  </ng-container>
 </mat-card>

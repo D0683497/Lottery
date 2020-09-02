@@ -16,13 +16,9 @@ export class HomeComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   dataSource = new MatTableDataSource<Student>();
-
   displayedColumns: string[] = ['nid', 'name', 'department'];
-
-  fetchDataError = true;
-
+  fetchDataError = false;
   loading = true;
-
   roundId: string;
 
   constructor(
@@ -51,7 +47,7 @@ export class HomeComponent implements OnInit {
           this.loading = false;
         },
         error => {
-          this.snackBar.open('獲取資料失敗', '關閉', { duration: 10000 });
+          this.snackBar.open('獲取資料失敗', '關閉', { duration: 5000 });
           this.fetchDataError = true;
           this.loading = false;
         }

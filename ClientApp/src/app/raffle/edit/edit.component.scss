@@ -1,21 +1,21 @@
-.raffle-edit-card {
+mat-card {
   min-width: 120px;
-  margin-top: 20px;
-  margin-bottom: 10vh;
-  margin-right: 20px;
-  margin-left: 20px;
+  margin: 20px;
 }
 
-.error-image-mobile {
-  display: block;
-  margin: 0 auto;
-  width: 80vw;
+mat-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2vh;
 }
 
-.error-image-computer {
-  display: block;
-  margin: 0 auto;
-  width: 55vw;
+mat-card-header > button {
+  margin-right: 1.5vw;
+}
+
+mat-card-content {
+  margin-top: 2vh;
 }
 
 .row {
@@ -31,13 +31,8 @@
   width: 100%;
 }
 
-.raffle-edit-header {
+.loading-card-content {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 10px;
-}
-
-.delete-button {
-  margin-right: 15px;
+  justify-content: center;
+  align-items: center;
 }

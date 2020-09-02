@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RaffleService } from '../../services/raffle/raffle.service';
 import { Round } from 'src/app/models/round/round.model';
-import { Observable } from 'rxjs';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { shareReplay, map } from 'rxjs/operators';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-edit',
@@ -15,27 +14,27 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class EditComponent implements OnInit {
 
   loading = true;
-  fetchDataError = true;
+  fetchDataError = false;
   roundId: string;
   round: Round;
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
   editForm: FormGroup;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private breakpointObserver: BreakpointObserver,
     private raffleService: RaffleService,
     private fb: FormBuilder,
-    private router: Router) { }
+    private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe(params => {
-      this.roundId = params.get('roundId');
-    });
+    this.getUrlId();
+    this.initData();
+  }
+
+  onSubmit(): void {
+    alert('Thanks!');
+  }
+
+  initData(): void {
     this.raffleService.getRoundById(this.roundId)
       .subscribe(
         data => {
@@ -47,14 +46,17 @@ export class EditComponent implements OnInit {
           this.loading = false;
         },
         error => {
+          this.snackBar.open('發生錯誤', '關閉', { duration: 5000 });
           this.fetchDataError = true;
           this.loading = false;
         }
       );
   }
 
-  onSubmit(): void {
-    alert('Thanks!');
+  getUrlId(): void {
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.roundId = params.get('roundId');
+    });
   }
 
 }

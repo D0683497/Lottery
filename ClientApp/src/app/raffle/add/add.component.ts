@@ -13,7 +13,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class AddComponent implements OnInit {
 
   loading = false;
-
   addRaffleForm: FormGroup;
 
   constructor(

@@ -6,8 +6,8 @@
     </button>
   </mat-card-header>
   <mat-divider [inset]="true"></mat-divider>
-  <mat-card-content>
-    <table mat-table [dataSource]="dataSource" *ngIf="!fetchDataError">
+  <mat-card-content *ngIf="!fetchDataError">
+    <table mat-table [dataSource]="dataSource">
       <!-- Id Column -->
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>抽獎活動識別碼</th>
@@ -28,7 +28,9 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <mat-spinner *ngIf="loading"></mat-spinner>
+  </mat-card-content>
+  <mat-card-content *ngIf="loading">
+    <mat-spinner></mat-spinner>
   </mat-card-content>
   <mat-card-actions *ngIf="!fetchDataError">
     <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>

@@ -7,10 +7,21 @@ mat-card-header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 10px;
+  margin-bottom: 2vh;
 }
 
 mat-card-header > button {
   margin-right: 1.5vw;
-  padding: 0;
+  padding-left: 1vw;
+  padding-right: 1vw;
+}
+
+mat-card-content {
+  margin-top: 2vh;
+}
+
+.loading-card-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -7,11 +7,18 @@ mat-card-header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 15px;
+  margin-bottom: 2vh;
 }
 
 mat-card-header > button {
   margin-right: 1.5vw;
+}
+
+mat-card-content {
+  margin-top: 2vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 table {
