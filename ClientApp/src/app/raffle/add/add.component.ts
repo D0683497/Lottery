@@ -1,8 +1,8 @@
-import { RoundAdd } from './../../models/round/round-add.model';
-import { Component } from '@angular/core';
-import { FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
+import { RoundAdd } from '../../models/round/round-add.model';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators, FormGroupDirective, FormGroup } from '@angular/forms';
 
-import { RaffleService } from '../../services/raffle.service';
+import { RaffleService } from '../../services/raffle/raffle.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -10,15 +10,22 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './add.component.html',
   styleUrls: ['./add.component.scss']
 })
-export class AddComponent {
+export class AddComponent implements OnInit {
 
   loading = false;
 
-  addRaffleForm = this.fb.group({
-    name: [null, Validators.required]
-  });
+  addRaffleForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private raffleService: RaffleService, private snackBar: MatSnackBar) {}
+  constructor(
+    private fb: FormBuilder,
+    private raffleService: RaffleService,
+    private snackBar: MatSnackBar) {}
+
+  ngOnInit(): void {
+    this.addRaffleForm = this.fb.group({
+      name: [null, Validators.required]
+    });
+  }
 
   onSubmit(round: RoundAdd, formDirective: FormGroupDirective): void {
     this.loading = true;

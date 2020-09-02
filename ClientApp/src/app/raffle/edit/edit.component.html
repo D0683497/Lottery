@@ -4,15 +4,11 @@
       <mat-card-header class="raffle-edit-header">
         <mat-card-title>編輯活動</mat-card-title>
         <mat-card-subtitle>識別碼：{{round.id}}</mat-card-subtitle>
-        <button mat-mini-fab (click)="deleteRound(round.id)" type="button" class="delete-button" color="warn" aria-label="icon button with a delete icon">
+        <button mat-mini-fab type="button" class="delete-button" color="warn" aria-label="icon button with a delete icon">
           <mat-icon>delete</mat-icon>
         </button>
       </mat-card-header>
       <mat-card-content>
-        <!-- <mat-list>
-          <mat-list-item>抽獎活動名稱：{{round.name}}</mat-list-item>
-          <mat-list-item>抽獎活動是否完成：{{round.complete}}</mat-list-item>
-        </mat-list> -->
         <div class="row">
           <div class="col">
             <mat-form-field class="full-width">
@@ -28,8 +24,8 @@
         <button mat-raised-button type="submit" color="primary">儲存</button>
         <button mat-button type="button" mat-stroked-button [matMenuTriggerFor]="actionMenu">其他操作</button>
         <mat-menu #actionMenu="matMenu">
-          <button mat-menu-item type="button" [routerLink]="['/prize/add']" [queryParams]="{ id: round.id }">新增獎品</button>
-          <button mat-menu-item type="button" [routerLink]="['/attendee/add']" [queryParams]="{ id: round.id }">新增參與者</button>
+          <button mat-menu-item type="button" [routerLink]="['/student/add']" [queryParams]="{ id: round.id }">新增學生</button>
+          <button mat-menu-item type="button" [routerLink]="['/staff/add']" [queryParams]="{ id: round.id }">新增工作人員</button>
         </mat-menu>
       </mat-card-actions>
     </form>

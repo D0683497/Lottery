@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RaffleService } from 'src/app/services/raffle.service';
+import { RaffleService } from '../../services/raffle/raffle.service';
 import { Round } from 'src/app/models/round/round.model';
 import { Observable } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -41,8 +41,7 @@ export class EditComponent implements OnInit {
         data => {
           this.round = data;
           this.editForm = this.fb.group({
-            name: [this.round.name, Validators.required],
-            complete: [this.round.complete]
+            name: [this.round.name, Validators.required]
           });
           this.fetchDataError = false;
           this.loading = false;
@@ -56,16 +55,6 @@ export class EditComponent implements OnInit {
 
   onSubmit(): void {
     alert('Thanks!');
-  }
-
-  deleteRound(roundId: string): void {
-    this.raffleService.deleteRound(roundId)
-      .subscribe(
-        data => {
-          this.router.navigate(['/raffle']);
-        },
-        error => { }
-      );
   }
 
 }
