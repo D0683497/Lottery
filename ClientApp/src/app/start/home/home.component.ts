@@ -23,13 +23,14 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  openDialog(): void {
+  openDialog(method: string): void {
     const dialogRef = this.dialog.open(ResultComponent, {
       height: '90%',
       width: '80%',
       backdropClass: 'backdropBackground',
       data: {
-        roundId: this.roundId
+        roundId: this.roundId,
+        method
       }
     });
     dialogRef.afterClosed().subscribe(() => {
@@ -39,12 +40,12 @@ export class HomeComponent implements OnInit {
 
   startStudent(): void {
     this.starting = true;
-    this.openDialog();
+    this.openDialog('student');
   }
 
   startStaff(): void {
     this.starting = true;
-    this.openDialog();
+    this.openDialog('staff');
   }
 
 }

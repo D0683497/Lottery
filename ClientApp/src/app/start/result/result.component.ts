@@ -38,11 +38,32 @@ export class ResultComponent implements OnInit {
         this.showResult = true;
       }
     });
-    this.getStaffData();
+    switch (this.data.method) {
+      case 'student':
+        this.getStudentData();
+        break;
+      case 'staff':
+        this.getStaffData();
+        break;
+      default:
+        break;
+    }
   }
 
   getStaffData(): void {
     this.staffService.getRandomStaffForRound(this.roundId)
+      .subscribe(
+        data => {
+          this.nid = data.nid;
+          this.name = data.name;
+          this.department = data.department;
+        },
+        error => {}
+      );
+  }
+
+  getStudentData(): void {
+    this.studentService.getRandomStudentForRound(this.roundId)
       .subscribe(
         data => {
           this.nid = data.nid;
