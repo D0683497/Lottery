@@ -1,30 +1,39 @@
-<mat-card class="raffle-card">
-  <mat-card-header class="raffle-card-header">
-    <mat-card-title>抽獎活動</mat-card-title>
-    <button type="button" mat-mini-fab [routerLink]="['/raffle/add']" class="add-button" color="accent" aria-label="icon button with a add icon">
+<mat-card class="staff-card">
+  <mat-card-header class="staff-card-header">
+    <mat-card-title>工作人員名單</mat-card-title>
+    <mat-card-subtitle>抽獎活動識別碼：{{roundId}}</mat-card-subtitle>
+    <button mat-mini-fab [routerLink]="['/staff/add']" type="button" class="add-button" color="accent" aria-label="icon button with a add icon">
       <mat-icon>add</mat-icon>
     </button>
   </mat-card-header>
   <mat-divider [inset]="true"></mat-divider>
-  <mat-card-content class="raffle-card-content">
+  <mat-card-content class="staff-card-content">
     <table mat-table [dataSource]="dataSource" *ngIf="!fetchDataError">
       <!-- Id Column -->
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef>抽獎活動識別碼</th>
+      <!-- <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>識別碼</th>
         <td mat-cell *matCellDef="let element">{{element.id}}</td>
-      </ng-container>
+      </ng-container> -->
       <!-- Name Column -->
+      <ng-container matColumnDef="nid">
+        <th mat-header-cell *matHeaderCellDef>學號</th>
+        <td mat-cell *matCellDef="let element">{{element.nid}}</td>
+      </ng-container>
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>名稱</th>
+        <th mat-header-cell *matHeaderCellDef>姓名</th>
         <td mat-cell *matCellDef="let element">{{element.name}}</td>
       </ng-container>
+      <ng-container matColumnDef="department">
+        <th mat-header-cell *matHeaderCellDef>系所</th>
+        <td mat-cell *matCellDef="let element">{{element.department}}</td>
+      </ng-container>
       <!-- Action Button Column -->
-      <ng-container matColumnDef="action">
+      <!-- <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element">
           <button mat-stroked-button [routerLink]="['/raffle/detail', element.id]">詳情</button>
         </td>
-      </ng-container>
+      </ng-container> -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>

@@ -9,6 +9,12 @@
     <mat-card-content>
       <mat-list>
         <mat-list-item>抽獎活動名稱：{{round.name}}</mat-list-item>
+        <mat-list-item>
+          <button mat-button [routerLink]="['/student']" [queryParams]="{ id: round.id }">查看學生名單</button>
+        </mat-list-item>
+        <mat-list-item>
+          <button mat-button [routerLink]="['/staff']" [queryParams]="{ id: round.id }">查看工作人員名單</button>
+        </mat-list-item>
       </mat-list>
     </mat-card-content>
     <mat-card-actions>
