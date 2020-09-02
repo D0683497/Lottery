@@ -18,6 +18,8 @@ namespace Lottery.Repositories
 
         Task<bool> StaffExistsAsync(string staffId);
 
+        Task<Staff> GetRandomStaffForRound(string roundId);
+
         Task<bool> SaveAsync();
     }
 }

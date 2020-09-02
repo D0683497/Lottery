@@ -81,5 +81,20 @@ namespace Lottery.Controllers
 
             return BadRequest();
         }
+        
+        [HttpGet("random", Name = nameof(GetRandomStudent))]
+        public async Task<IActionResult> GetRandomStudent(string roundId)
+        {
+            if (!await _roundRepository.RoundExistsAsync(roundId))
+            {
+                return NotFound();
+            }
+
+            var entity = await _studentRepository.GetRandomStudentForRound(roundId);
+
+            var model = _mapper.Map<StudentViewModel>(entity);
+
+            return Ok(model);
+        }
     }
 }

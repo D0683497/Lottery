@@ -17,6 +17,8 @@ namespace Lottery.Repositories
         void DeleteStudent(Student student);
 
         Task<bool> StudentExistsAsync(string studentId);
+        
+        Task<Student> GetRandomStudentForRound(string roundId);
 
         Task<bool> SaveAsync();
     }
