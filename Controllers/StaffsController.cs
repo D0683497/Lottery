@@ -90,7 +90,7 @@ namespace Lottery.Controllers
                 return NotFound();
             }
 
-            var entity = await _staffRepository.GetRandomStaffForRound(roundId);
+            var entity = _staffRepository.GetRandomStaffForRound(roundId);
 
             var model = _mapper.Map<StaffViewModel>(entity);
 

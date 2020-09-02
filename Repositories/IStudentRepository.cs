@@ -18,7 +18,7 @@ namespace Lottery.Repositories
 
         Task<bool> StudentExistsAsync(string studentId);
         
-        Task<Student> GetRandomStudentForRound(string roundId);
+        Student GetRandomStudentForRound(string roundId);
 
         Task<bool> SaveAsync();
     }

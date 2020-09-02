@@ -73,17 +73,18 @@ namespace Lottery.Repositories
                 .AnyAsync(x => x.StudentId == studentId);
         }
 
-        public async Task<Student> GetRandomStudentForRound(string roundId)
+        public Student GetRandomStudentForRound(string roundId)
         {
             if (roundId == null)
             {
                 throw new ArgumentException(nameof(roundId));
             }
-            
-            return await _applicationDbContext.Students
+
+            return _applicationDbContext.Students
                 .Where(x => x.RoundId == roundId)
+                .AsEnumerable()
                 .OrderBy(r => Guid.NewGuid())
-                .FirstOrDefaultAsync();
+                .FirstOrDefault();
         }
 
         public async Task<bool> SaveAsync()

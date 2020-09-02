@@ -90,7 +90,7 @@ namespace Lottery.Controllers
                 return NotFound();
             }
 
-            var entity = await _studentRepository.GetRandomStudentForRound(roundId);
+            var entity = _studentRepository.GetRandomStudentForRound(roundId);
 
             var model = _mapper.Map<StudentViewModel>(entity);
 

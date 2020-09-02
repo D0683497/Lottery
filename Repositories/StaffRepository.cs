@@ -73,17 +73,18 @@ namespace Lottery.Repositories
                 .AnyAsync(x => x.StaffId == staffId);
         }
 
-        public async Task<Staff> GetRandomStaffForRound(string roundId)
+        public Staff GetRandomStaffForRound(string roundId)
         {
             if (roundId == null)
             {
                 throw new ArgumentException(nameof(roundId));
             }
-            
-            return await _applicationDbContext.Staffs
+
+            return _applicationDbContext.Staffs
                 .Where(x => x.RoundId == roundId)
+                .AsEnumerable()
                 .OrderBy(r => Guid.NewGuid())
-                .FirstOrDefaultAsync();
+                .FirstOrDefault();
         }
 
         public async Task<bool> SaveAsync()
