@@ -39,6 +39,19 @@ namespace Lottery.Controllers
             return Ok(models);
         }
 
+        [HttpGet("length", Name = nameof(GetAllAttendeesLengthForItemId))]
+        public async Task<ActionResult<int>> GetAllAttendeesLengthForItemId(string itemId)
+        {
+            if (!await _itemRepository.ExistItemByIdAsync(itemId))
+            {
+                return NotFound();
+            }
+            
+            var model = await _attendeeRepository.GetAllAttendeesLengthForItemIdAsync(itemId);
+
+            return Ok(model);
+        }
+
         [HttpGet(Name = nameof(GetAttendeesForItemId))]
         public async Task<ActionResult<IEnumerable<AttendeeViewModel>>> GetAttendeesForItemId(string itemId, [FromQuery] AttendeeResourceParameters parameters)
         {

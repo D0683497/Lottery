@@ -48,6 +48,12 @@ namespace Lottery.Repositories
             _applicationDbContext.Add(item);
         }
 
+        public async Task<int> GetAllItemsLengthAsync()
+        {
+            return await _applicationDbContext.Items
+                .CountAsync();
+        }
+
         public async Task<bool> ExistItemByIdAsync(string itemId)
         {
             if (itemId == null)

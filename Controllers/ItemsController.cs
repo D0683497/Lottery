@@ -31,6 +31,14 @@ namespace Lottery.Controllers
             
             return Ok(models);
         }
+
+        [HttpGet("length", Name = nameof(GetAllItemsLength))]
+        public async Task<ActionResult<int>> GetAllItemsLength()
+        {
+            var model = await _itemRepository.GetAllItemsLengthAsync();
+
+            return Ok(model);
+        }
     
         [HttpGet(Name = nameof(GetItems))]
         public async Task<ActionResult<IEnumerable<ItemViewModel>>> GetItems([FromQuery] ItemResourceParameters parameters)

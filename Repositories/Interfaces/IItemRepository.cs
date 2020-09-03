@@ -34,6 +34,12 @@ namespace Lottery.Repositories.Interfaces
         void CreateItem(Item item);
 
         /// <summary>
+        /// 獲取所有清單數量
+        /// </summary>
+        /// <returns></returns>
+        Task<int> GetAllItemsLengthAsync();
+
+        /// <summary>
         /// 查看清單是否存在
         /// </summary>
         /// <param name="itemId"></param>

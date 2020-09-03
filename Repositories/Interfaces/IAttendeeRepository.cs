@@ -38,6 +38,13 @@ namespace Lottery.Repositories.Interfaces
         void CreateAttendeeForItemId(string itemId, Attendee attendee);
 
         /// <summary>
+        /// 獲取清單中的參與者數量
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
+        Task<int> GetAllAttendeesLengthForItemIdAsync(string itemId);
+
+        /// <summary>
         /// 查看清單中的參與者是否存在
         /// </summary>
         /// <param name="itemId"></param>

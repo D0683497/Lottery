@@ -70,6 +70,18 @@ namespace Lottery.Repositories
             _applicationDbContext.Attendees.Add(attendee);
         }
 
+        public async Task<int> GetAllAttendeesLengthForItemIdAsync(string itemId)
+        {
+            if (itemId == null)
+            {
+                throw new ArgumentNullException(nameof(itemId));
+            }
+
+            return await _applicationDbContext.Attendees
+                .Where(x => x.ItemId == itemId)
+                .CountAsync();
+        }
+
         public async Task<bool> ExistAttendeeByIdForItemIdAsync(string itemId, string attendeeId)
         {
             if (itemId == null)
