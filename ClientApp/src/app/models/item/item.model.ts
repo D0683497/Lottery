@@ -1,4 +1,4 @@
-export class Round {
+export class Item {
   id: string;
   name: string;
 }
