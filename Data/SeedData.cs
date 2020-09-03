@@ -43,39 +43,75 @@ namespace Lottery.Data
             {
                 var dbContext = services.GetRequiredService<ApplicationDbContext>();
 
-                // var students = new List<Student>();
-                // for (int i = 0; i < 4000; i++)
-                // {
-                //     students.Add(new Student
-                //     {
-                //         StudentNID = Guid.NewGuid().ToString().Remove(8).ToUpper(),
-                //         StudentName = Guid.NewGuid().ToString().Remove(4).ToUpper(),
-                //         StudentDepartment = Guid.NewGuid().ToString().Remove(10)
-                //     });
-                // }
+                #region Student
+
+                var students = new List<Attendee>();
+                for (int i = 0; i < 4000; i++)
+                {
+                    students.Add(new Attendee
+                    {
+                        AttendeeNID = "學NID" + Guid.NewGuid().ToString().Remove(4).ToUpper(),
+                        AttendeeName = "學" + Guid.NewGuid().ToString().Remove(3).ToUpper(),
+                        AttendeeDepartment = "學D" + Guid.NewGuid().ToString().Remove(8)
+                    });
+                }
+                var studentItem = new Item
+                {
+                    ItemName = "學生",
+                    Attendees = students
+                };
+                dbContext.Items.Add(studentItem);
+                dbContext.SaveChanges();
                 logger.LogInformation("建立 Students 資料");
-                
-                // var staffs = new List<Staff>();
-                // for (int i = 0; i < 3000; i++)
-                // {
-                //     staffs.Add(new Staff
-                //     {
-                //         StaffNID = Guid.NewGuid().ToString().Remove(8).ToUpper(),
-                //         StaffName = Guid.NewGuid().ToString().Remove(4).ToUpper(),
-                //         StaffDepartment = Guid.NewGuid().ToString().Remove(10)
-                //     });
-                // }
+
+                #endregion
+
+                #region Staff
+
+                var staffs = new List<Attendee>();
+                for (int i = 0; i < 3000; i++)
+                {
+                    staffs.Add(new Attendee
+                    {
+                        AttendeeNID = "工NID" + Guid.NewGuid().ToString().Remove(4).ToUpper(),
+                        AttendeeName = Guid.NewGuid().ToString().Remove(4).ToUpper(),
+                        AttendeeDepartment = "工D" + Guid.NewGuid().ToString().Remove(8)
+                    });
+                }
+                var staffItem = new Item
+                {
+                    ItemName = "工作人員",
+                    Attendees = staffs
+                };
+                dbContext.Items.Add(staffItem);
+                dbContext.SaveChanges();
                 logger.LogInformation("建立 Staffs 資料");
 
-                // var round = new Round
-                // {
-                //     RoundName = "新鮮人成長營",
-                //     Students = students,
-                //     Staffs = staffs
-                // };
+                #endregion
 
-                // dbContext.Rounds.Add(round);
+                #region Other
+
+                var others = new List<Attendee>();
+                for (int i = 0; i < 2000; i++)
+                {
+                    others.Add(new Attendee
+                    {
+                        AttendeeNID = "其NID" + Guid.NewGuid().ToString().Remove(4).ToUpper(),
+                        AttendeeName = Guid.NewGuid().ToString().Remove(4).ToUpper(),
+                        AttendeeDepartment = "其D" + Guid.NewGuid().ToString().Remove(8)
+                    });
+                }
+                var otherItem = new Item
+                {
+                    ItemName = "其他",
+                    Attendees = others
+                };
+                dbContext.Items.Add(otherItem);
                 dbContext.SaveChanges();
+                logger.LogInformation("建立 Others 資料");
+
+                #endregion
+                
             }
             catch (Exception e)
             {
