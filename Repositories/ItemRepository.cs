@@ -20,7 +20,8 @@ namespace Lottery.Repositories
 
         public async Task<IEnumerable<Item>> GetAllItemsAsync()
         {
-            return await _applicationDbContext.Items.ToListAsync();
+            return await _applicationDbContext.Items
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Item>> GetItemsAsync(int skipNumber, int takeNumber)
@@ -45,6 +46,17 @@ namespace Lottery.Repositories
         public void CreateItem(Item item)
         {
             _applicationDbContext.Add(item);
+        }
+
+        public async Task<bool> ExistItemByIdAsync(string itemId)
+        {
+            if (itemId == null)
+            {
+                throw new ArgumentNullException(nameof(itemId));
+            }
+
+            return await _applicationDbContext.Items
+                .AnyAsync(x => x.ItemId == itemId);
         }
         
         public async Task<bool> SaveAsync()

@@ -63,13 +63,11 @@ namespace Lottery.Controllers
             _itemRepository.CreateItem(entity);
             
             var result = await _itemRepository.SaveAsync();
-            if (result)
-            {
-                var returnModel = _mapper.Map<ItemViewModel>(entity);
-                return CreatedAtRoute(nameof(GetItemById), new { itemId = returnModel.Id }, returnModel);
-            }
-
-            return BadRequest();
+            if (!result) return BadRequest();
+            
+            var returnModel = _mapper.Map<ItemViewModel>(entity);
+            
+            return CreatedAtRoute(nameof(GetItemById), new { itemId = returnModel.Id }, returnModel);
         }
     }
 }
