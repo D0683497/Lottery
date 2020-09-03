@@ -43,38 +43,38 @@ namespace Lottery.Data
             {
                 var dbContext = services.GetRequiredService<ApplicationDbContext>();
 
-                var students = new List<Student>();
-                for (int i = 0; i < 4000; i++)
-                {
-                    students.Add(new Student
-                    {
-                        StudentNID = Guid.NewGuid().ToString().Remove(8).ToUpper(),
-                        StudentName = Guid.NewGuid().ToString().Remove(4).ToUpper(),
-                        StudentDepartment = Guid.NewGuid().ToString().Remove(10)
-                    });
-                }
+                // var students = new List<Student>();
+                // for (int i = 0; i < 4000; i++)
+                // {
+                //     students.Add(new Student
+                //     {
+                //         StudentNID = Guid.NewGuid().ToString().Remove(8).ToUpper(),
+                //         StudentName = Guid.NewGuid().ToString().Remove(4).ToUpper(),
+                //         StudentDepartment = Guid.NewGuid().ToString().Remove(10)
+                //     });
+                // }
                 logger.LogInformation("建立 Students 資料");
                 
-                var staffs = new List<Staff>();
-                for (int i = 0; i < 3000; i++)
-                {
-                    staffs.Add(new Staff
-                    {
-                        StaffNID = Guid.NewGuid().ToString().Remove(8).ToUpper(),
-                        StaffName = Guid.NewGuid().ToString().Remove(4).ToUpper(),
-                        StaffDepartment = Guid.NewGuid().ToString().Remove(10)
-                    });
-                }
+                // var staffs = new List<Staff>();
+                // for (int i = 0; i < 3000; i++)
+                // {
+                //     staffs.Add(new Staff
+                //     {
+                //         StaffNID = Guid.NewGuid().ToString().Remove(8).ToUpper(),
+                //         StaffName = Guid.NewGuid().ToString().Remove(4).ToUpper(),
+                //         StaffDepartment = Guid.NewGuid().ToString().Remove(10)
+                //     });
+                // }
                 logger.LogInformation("建立 Staffs 資料");
 
-                var round = new Round
-                {
-                    RoundName = "新鮮人成長營",
-                    Students = students,
-                    Staffs = staffs
-                };
+                // var round = new Round
+                // {
+                //     RoundName = "新鮮人成長營",
+                //     Students = students,
+                //     Staffs = staffs
+                // };
 
-                dbContext.Rounds.Add(round);
+                // dbContext.Rounds.Add(round);
                 dbContext.SaveChanges();
             }
             catch (Exception e)

@@ -106,75 +106,41 @@ namespace Lottery.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Lottery.Entities.Round", b =>
+            modelBuilder.Entity("Lottery.Entities.Attendee", b =>
                 {
-                    b.Property<string>("RoundId")
+                    b.Property<string>("AttendeeId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("RoundName")
+                    b.Property<string>("AttendeeDepartment")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("RoundId");
+                    b.Property<string>("AttendeeNID")
+                        .HasColumnType("TEXT");
 
-                    b.ToTable("Rounds");
+                    b.Property<string>("AttendeeName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ItemId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AttendeeId");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("Attendees");
                 });
 
-            modelBuilder.Entity("Lottery.Entities.Staff", b =>
+            modelBuilder.Entity("Lottery.Entities.Item", b =>
                 {
-                    b.Property<string>("StaffId")
+                    b.Property<string>("ItemId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("RoundId")
+                    b.Property<string>("ItemName")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("StaffDepartment")
-                        .HasColumnType("TEXT");
+                    b.HasKey("ItemId");
 
-                    b.Property<string>("StaffNID")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("StaffName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("WinnerId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("StaffId");
-
-                    b.HasIndex("RoundId");
-
-                    b.HasIndex("WinnerId");
-
-                    b.ToTable("Staffs");
-                });
-
-            modelBuilder.Entity("Lottery.Entities.Student", b =>
-                {
-                    b.Property<string>("StudentId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("RoundId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("StudentDepartment")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("StudentNID")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("StudentName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("WinnerId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("StudentId");
-
-                    b.HasIndex("RoundId");
-
-                    b.HasIndex("WinnerId");
-
-                    b.ToTable("Students");
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("Lottery.Entities.Winner", b =>
@@ -182,12 +148,18 @@ namespace Lottery.Data.Migrations
                     b.Property<string>("WinnerId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("RoundId")
+                    b.Property<string>("AttendeeId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ItemId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("WinnerId");
 
-                    b.HasIndex("RoundId");
+                    b.HasIndex("AttendeeId")
+                        .IsUnique();
+
+                    b.HasIndex("ItemId");
 
                     b.ToTable("Winners");
                 });
@@ -294,33 +266,22 @@ namespace Lottery.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Lottery.Entities.Staff", b =>
+            modelBuilder.Entity("Lottery.Entities.Attendee", b =>
                 {
-                    b.HasOne("Lottery.Entities.Round", "Round")
-                        .WithMany("Staffs")
-                        .HasForeignKey("RoundId");
-
-                    b.HasOne("Lottery.Entities.Winner", "Winner")
-                        .WithMany("Staffs")
-                        .HasForeignKey("WinnerId");
-                });
-
-            modelBuilder.Entity("Lottery.Entities.Student", b =>
-                {
-                    b.HasOne("Lottery.Entities.Round", "Round")
-                        .WithMany("Students")
-                        .HasForeignKey("RoundId");
-
-                    b.HasOne("Lottery.Entities.Winner", "Winner")
-                        .WithMany("Students")
-                        .HasForeignKey("WinnerId");
+                    b.HasOne("Lottery.Entities.Item", "Item")
+                        .WithMany("Attendees")
+                        .HasForeignKey("ItemId");
                 });
 
             modelBuilder.Entity("Lottery.Entities.Winner", b =>
                 {
-                    b.HasOne("Lottery.Entities.Round", "Round")
+                    b.HasOne("Lottery.Entities.Attendee", "Attendee")
+                        .WithOne("Winner")
+                        .HasForeignKey("Lottery.Entities.Winner", "AttendeeId");
+
+                    b.HasOne("Lottery.Entities.Item", "Item")
                         .WithMany("Winners")
-                        .HasForeignKey("RoundId");
+                        .HasForeignKey("ItemId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

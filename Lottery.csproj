@@ -22,5 +22,11 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Helpers" />
+    <Folder Include="Profiles" />
+    <Folder Include="Repositories" />
+  </ItemGroup>
+
 
 </Project>

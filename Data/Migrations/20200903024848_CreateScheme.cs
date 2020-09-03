@@ -47,15 +47,15 @@ namespace Lottery.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rounds",
+                name: "Items",
                 columns: table => new
                 {
-                    RoundId = table.Column<string>(nullable: false),
-                    RoundName = table.Column<string>(nullable: true)
+                    ItemId = table.Column<string>(nullable: false),
+                    ItemName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rounds", x => x.RoundId);
+                    table.PrimaryKey("PK_Items", x => x.ItemId);
                 });
 
             migrationBuilder.CreateTable(
@@ -165,76 +165,48 @@ namespace Lottery.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Attendees",
+                columns: table => new
+                {
+                    AttendeeId = table.Column<string>(nullable: false),
+                    AttendeeNID = table.Column<string>(nullable: true),
+                    AttendeeName = table.Column<string>(nullable: true),
+                    AttendeeDepartment = table.Column<string>(nullable: true),
+                    ItemId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Attendees", x => x.AttendeeId);
+                    table.ForeignKey(
+                        name: "FK_Attendees_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "ItemId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Winners",
                 columns: table => new
                 {
                     WinnerId = table.Column<string>(nullable: false),
-                    RoundId = table.Column<string>(nullable: true)
+                    AttendeeId = table.Column<string>(nullable: true),
+                    ItemId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Winners", x => x.WinnerId);
                     table.ForeignKey(
-                        name: "FK_Winners_Rounds_RoundId",
-                        column: x => x.RoundId,
-                        principalTable: "Rounds",
-                        principalColumn: "RoundId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Staffs",
-                columns: table => new
-                {
-                    StaffId = table.Column<string>(nullable: false),
-                    StaffNID = table.Column<string>(nullable: true),
-                    StaffName = table.Column<string>(nullable: true),
-                    StaffDepartment = table.Column<string>(nullable: true),
-                    WinnerId = table.Column<string>(nullable: true),
-                    RoundId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Staffs", x => x.StaffId);
-                    table.ForeignKey(
-                        name: "FK_Staffs_Rounds_RoundId",
-                        column: x => x.RoundId,
-                        principalTable: "Rounds",
-                        principalColumn: "RoundId",
+                        name: "FK_Winners_Attendees_AttendeeId",
+                        column: x => x.AttendeeId,
+                        principalTable: "Attendees",
+                        principalColumn: "AttendeeId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Staffs_Winners_WinnerId",
-                        column: x => x.WinnerId,
-                        principalTable: "Winners",
-                        principalColumn: "WinnerId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Students",
-                columns: table => new
-                {
-                    StudentId = table.Column<string>(nullable: false),
-                    StudentNID = table.Column<string>(nullable: true),
-                    StudentName = table.Column<string>(nullable: true),
-                    StudentDepartment = table.Column<string>(nullable: true),
-                    WinnerId = table.Column<string>(nullable: true),
-                    RoundId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Students", x => x.StudentId);
-                    table.ForeignKey(
-                        name: "FK_Students_Rounds_RoundId",
-                        column: x => x.RoundId,
-                        principalTable: "Rounds",
-                        principalColumn: "RoundId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Students_Winners_WinnerId",
-                        column: x => x.WinnerId,
-                        principalTable: "Winners",
-                        principalColumn: "WinnerId",
+                        name: "FK_Winners_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "ItemId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -276,29 +248,20 @@ namespace Lottery.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Staffs_RoundId",
-                table: "Staffs",
-                column: "RoundId");
+                name: "IX_Attendees_ItemId",
+                table: "Attendees",
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Staffs_WinnerId",
-                table: "Staffs",
-                column: "WinnerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Students_RoundId",
-                table: "Students",
-                column: "RoundId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Students_WinnerId",
-                table: "Students",
-                column: "WinnerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Winners_RoundId",
+                name: "IX_Winners_AttendeeId",
                 table: "Winners",
-                column: "RoundId");
+                column: "AttendeeId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Winners_ItemId",
+                table: "Winners",
+                column: "ItemId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -319,10 +282,7 @@ namespace Lottery.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Staffs");
-
-            migrationBuilder.DropTable(
-                name: "Students");
+                name: "Winners");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -331,10 +291,10 @@ namespace Lottery.Data.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Winners");
+                name: "Attendees");
 
             migrationBuilder.DropTable(
-                name: "Rounds");
+                name: "Items");
         }
     }
 }
