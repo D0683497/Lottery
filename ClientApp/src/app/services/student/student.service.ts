@@ -18,8 +18,13 @@ export class StudentService {
 
   constructor(private http: HttpClient) { }
 
-  getStudentsForRound(roundId: string): Observable<Student[]> {
-    const url = `${this.urlRoot}/rounds/${roundId}/students`;
+  getStudentsLengthForRound(roundId: string): Observable<number> {
+    const url = `${this.urlRoot}/rounds/${roundId}/students/length`;
+    return this.http.get<number>(url, this.httpOptions);
+  }
+
+  getStudentsForRound(roundId: string, pageIndex: number, pageSize: number): Observable<Student[]> {
+    const url = `${this.urlRoot}/rounds/${roundId}/students?pageNumber=${pageIndex}&pageSize=${pageSize}`;
     return this.http.get<Student[]>(url, this.httpOptions);
   }
 
@@ -28,7 +33,7 @@ export class StudentService {
     return this.http.get<Student>(url, this.httpOptions);
   }
 
-  createStudent(roundId: string, student: StudentAdd): Observable<Student> {
+  createStudentForRound(roundId: string, student: StudentAdd): Observable<Student> {
     const url = `${this.urlRoot}/rounds/${roundId}/students`;
     return this.http.post(url, student, this.httpOptions).pipe(
       map((newStudent: Student) => newStudent)

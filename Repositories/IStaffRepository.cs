@@ -6,9 +6,13 @@ namespace Lottery.Repositories
 {
     public interface IStaffRepository
     {
+        Task<int> GetLengthStaffsForRoundAsync(string roundId);
+
+        Task<IEnumerable<Staff>> GetStaffsForRoundAsync(string roundId, int skipNumber, int takeNumber);
+
         Task<Staff> GetStaffByIdAsync(string staffId);
 
-        Task<Staff> GetStaffForRound(string roundId, string staffId);
+        Task<Staff> GetStaffForRoundAsync(string roundId, string staffId);
 
         Task<IEnumerable<Staff>> GetAllStaffsForRoundAsync(string roundId);
 

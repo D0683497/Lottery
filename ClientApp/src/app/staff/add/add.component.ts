@@ -39,7 +39,7 @@ export class AddComponent implements OnInit {
 
   onSubmit(staff: StaffAdd, formDirective: FormGroupDirective): void {
     this.loading = true;
-    this.staffService.createStaff(this.roundId, staff)
+    this.staffService.createStaffForRound(this.roundId, staff)
       .subscribe(
         data => {
           this.snackBar.open('新增成功', '關閉', { duration: 5000 });

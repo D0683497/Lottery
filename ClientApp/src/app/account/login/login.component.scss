@@ -2,15 +2,15 @@
   width: 100%;
 }
 
-.login-card {
+mat-card {
   min-width: 120px;
   margin: 20px;
+  margin-bottom: 10vh;
 }
 
 .row {
   display: flex;
   flex-direction: row;
-  margin-bottom: 1vh;
 }
 
 .col {

@@ -18,8 +18,13 @@ export class RaffleService {
 
   constructor(private http: HttpClient) { }
 
-  getRounds(): Observable<Round[]> {
-    const url = `${this.urlRoot}/rounds`;
+  getRoundsLength(): Observable<number> {
+    const url = `${this.urlRoot}/rounds/length`;
+    return this.http.get<number>(url, this.httpOptions);
+  }
+
+  getRounds(pageIndex: number, pageSize: number): Observable<Round[]> {
+    const url = `${this.urlRoot}/rounds?pageNumber=${pageIndex}&pageSize=${pageSize}`;
     return this.http.get<Round[]>(url, this.httpOptions);
   }
 

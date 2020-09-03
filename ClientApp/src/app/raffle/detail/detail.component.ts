@@ -48,4 +48,10 @@ export class DetailComponent implements OnInit {
     });
   }
 
+  reload(): void {
+    this.loading = true;
+    this.fetchDataError = false;
+    this.initData();
+  }
+
 }

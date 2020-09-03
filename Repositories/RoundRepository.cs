@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Lottery.Data;
 using Lottery.Entities;
@@ -14,6 +15,19 @@ namespace Lottery.Repositories
         public RoundRepository(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
+        }
+
+        public async Task<int> GetLengthRoundsAsync()
+        {
+            return await _applicationDbContext.Rounds.CountAsync();
+        }
+
+        public async Task<IEnumerable<Round>> GetRoundsAsync(int skipNumber, int takeNumber)
+        {
+            return await _applicationDbContext.Rounds
+                .Skip(skipNumber)
+                .Take(takeNumber)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Round>> GetAllRoundAsync()

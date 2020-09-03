@@ -1,5 +1,5 @@
 <form [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit()">
-  <mat-card class="login-card">
+  <mat-card>
     <mat-card-header>
       <mat-card-title>登入</mat-card-title>
     </mat-card-header>
@@ -7,7 +7,8 @@
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
-            <input type="text" matInput placeholder="使用者名稱" formControlName="userName">
+            <mat-label>使用者名稱</mat-label>
+            <input matInput type="text" matInput placeholder="使用者名稱" formControlName="userName" required>
             <mat-error *ngIf="loginForm.controls['userName'].hasError('required')">
               使用者名稱是<strong>必填的</strong>
             </mat-error>
@@ -17,7 +18,11 @@
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
-            <input type="password" matInput placeholder="密碼" formControlName="password">
+            <mat-label>密碼</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" matInput placeholder="密碼" formControlName="password" required>
+            <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
             <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
               密碼是<strong>必填的</strong>
             </mat-error>

@@ -18,8 +18,13 @@ export class StaffService {
 
   constructor(private http: HttpClient) { }
 
-  getStaffsForRound(roundId: string): Observable<Staff[]> {
-    const url = `${this.urlRoot}/rounds/${roundId}/staffs`;
+  getStaffsLengthForRound(roundId: string): Observable<number> {
+    const url = `${this.urlRoot}/rounds/${roundId}/staffs/length`;
+    return this.http.get<number>(url, this.httpOptions);
+  }
+
+  getStaffsForRound(roundId: string, pageIndex: number, pageSize: number): Observable<Staff[]> {
+    const url = `${this.urlRoot}/rounds/${roundId}/staffs?pageNumber=${pageIndex}&pageSize=${pageSize}`;
     return this.http.get<Staff[]>(url, this.httpOptions);
   }
 
@@ -28,7 +33,7 @@ export class StaffService {
     return this.http.get<Staff>(url, this.httpOptions);
   }
 
-  createStaff(roundId: string, staff: StaffAdd): Observable<Staff> {
+  createStaffForRound(roundId: string, staff: StaffAdd): Observable<Staff> {
     const url = `${this.urlRoot}/rounds/${roundId}/staffs`;
     return this.http.post(url, staff, this.httpOptions).pipe(
       map((newStaff: Staff) => newStaff)

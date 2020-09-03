@@ -23,7 +23,7 @@ $custom-typography: mat-typography-config($font-family: '"Noto Sans TC", "Roboto
   background: #555;
 }
 
-html, body { min-height: 100vh; }
+html, body { height: 100%; }
 body { margin: 0; font-family: 'Noto Sans TC', 'Roboto', sans-serif; }
 
 .backdropBackground {

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Lottery.Entities;
+using Lottery.Helpers;
 using Lottery.Models;
 using Lottery.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,33 @@ namespace Lottery.Controllers
             _staffRepository = staffRepository;
         }
 
-        [HttpGet(Name = nameof(GetAllStaffsForRound))]
+        [HttpGet(Name = nameof(GetStaffsFroRound))]
+        public async Task<IActionResult> GetStaffsFroRound(string roundId, [FromQuery] StaffResourceParameters parameters)
+        {
+            if (!await _roundRepository.RoundExistsAsync(roundId))
+            {
+                return NotFound();
+            }
+
+            int skipNumber = parameters.PageSize * (parameters.PageNumber - 1);
+            int takeNumber = parameters.PageSize;
+
+            var entities = await _staffRepository.GetStaffsForRoundAsync(roundId, skipNumber, takeNumber);
+
+            var models = _mapper.Map<IEnumerable<StaffViewModel>>(entities);
+
+            return Ok(models);
+        }
+
+        [HttpGet("length", Name = nameof(GetLengthStaffsForRound))]
+        public async Task<IActionResult> GetLengthStaffsForRound(string roundId)
+        {
+            var model = await _staffRepository.GetLengthStaffsForRoundAsync(roundId);
+
+            return Ok(model);
+        }
+
+        [HttpGet("all", Name = nameof(GetAllStaffsForRound))]
         public async Task<IActionResult> GetAllStaffsForRound(string roundId)
         {
             if (!await _roundRepository.RoundExistsAsync(roundId))
@@ -49,7 +76,7 @@ namespace Lottery.Controllers
                 return NotFound();
             }
 
-            var entity = await _staffRepository.GetStaffForRound(roundId, staffId);
+            var entity = await _staffRepository.GetStaffForRoundAsync(roundId, staffId);
             if (entity == null)
             {
                 return NotFound();

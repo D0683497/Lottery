@@ -1,6 +1,7 @@
 mat-card {
   min-width: 120px;
   margin: 20px;
+  margin-bottom: 10vh;
 }
 
 mat-card-header {
@@ -21,6 +22,12 @@ mat-card-content {
 }
 
 .loading-card-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-card-content {
   display: flex;
   justify-content: center;
   align-items: center;

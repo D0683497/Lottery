@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register',
@@ -12,6 +10,8 @@ import { catchError, retry } from 'rxjs/operators';
 export class RegisterComponent implements OnInit{
 
   registerForm: FormGroup;
+  hidePassword = true;
+  hideConfirmPassword = true;
 
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 

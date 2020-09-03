@@ -7,7 +7,8 @@
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
-            <input type="text" matInput placeholder="抽獎活動名稱" formControlName="name">
+            <mat-label>抽獎活動名稱</mat-label>
+            <input matInput type="text" matInput placeholder="抽獎活動名稱" formControlName="name" required>
             <mat-error *ngIf="addRaffleForm.controls['name'].hasError('required')">
               抽獎活動名稱是<strong>必填的</strong>
             </mat-error>

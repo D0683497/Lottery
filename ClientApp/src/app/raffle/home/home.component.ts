@@ -1,12 +1,9 @@
 import { RaffleService } from '../../services/raffle/raffle.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Round } from 'src/app/models/round/round.model';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -15,42 +12,70 @@ import { map, shareReplay } from 'rxjs/operators';
 })
 export class HomeComponent implements OnInit {
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   dataSource = new MatTableDataSource<Round>();
+  pageIndex = 0;
+  pageSize = 10;
+  pageLength: number;
+  pageSizeOptions: number[] = [10, 20, 30, 40, 50];
   displayedColumns: string[] = ['id', 'name', 'action'];
-  fetchDataError = true;
+  fetchDataError = false;
   loading = true;
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
 
   constructor(
     private raffleService: RaffleService,
     private snackBar: MatSnackBar,
-    private breakpointObserver: BreakpointObserver) { }
+    private matPaginatorIntl: MatPaginatorIntl) { }
 
   ngOnInit(): void {
-    this.initData();
+    this.getData();
   }
 
-  initData(): void {
-    this.raffleService.getRounds()
-    .subscribe(
-      data => {
-        this.dataSource.data = data;
-        this.dataSource.paginator = this.paginator;
-        this.fetchDataError = false;
-        this.loading = false;
-      },
-      error => {
-        this.snackBar.open('獲取資料失敗', '關閉', { duration: 10000 });
-        this.fetchDataError = true;
-        this.loading = false;
-      }
-    );
+  onPageChange(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.getData();
+  }
+
+  getData(): void {
+    this.raffleService.getRoundsLength()
+      .subscribe(
+        data => {
+          this.pageLength = data;
+        },
+        error => {}
+      );
+    this.raffleService.getRounds(this.pageIndex + 1, this.pageSize)
+      .subscribe(
+        data => {
+          this.dataSource.data = data;
+          this.fetchDataError = false;
+          this.loading = false;
+        },
+        error => {
+          this.snackBar.open('獲取資料失敗', '關閉', { duration: 5000 });
+          this.fetchDataError = true;
+          this.loading = false;
+        }
+      );
+  }
+
+  reload(): void {
+    this.fetchDataError = false;
+    this.loading = true;
+    this.getData();
+  }
+
+  initPaginator(): void {
+    this.matPaginatorIntl.getRangeLabel = (page: number, pageSize: number, length: number): string => {
+      return `第 ${page + 1} / ${Math.ceil(length / pageSize)} 頁`;
+    };
+    this.matPaginatorIntl.itemsPerPageLabel = '每頁筆數：';
+    this.matPaginatorIntl.nextPageLabel = '下一頁';
+    this.matPaginatorIntl.previousPageLabel = '上一頁';
+    this.matPaginatorIntl.firstPageLabel = '第一頁';
+    this.matPaginatorIntl.lastPageLabel = '最後一頁';
   }
 
 }

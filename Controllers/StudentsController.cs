@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Lottery.Entities;
+using Lottery.Helpers;
 using Lottery.Models;
 using Lottery.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,7 @@ namespace Lottery.Controllers
             _studentRepository = studentRepository;
         }
 
-        [HttpGet(Name = nameof(GetAllStudentForRound))]
+        [HttpGet("all", Name = nameof(GetAllStudentForRound))]
         public async Task<IActionResult> GetAllStudentForRound(string roundId)
         {
             if (!await _roundRepository.RoundExistsAsync(roundId))
@@ -41,6 +42,32 @@ namespace Lottery.Controllers
             return Ok(models);
         }
 
+        [HttpGet("length", Name = nameof(GetLengthStudentsForRound))]
+        public async Task<IActionResult> GetLengthStudentsForRound(string roundId)
+        {
+            var model = await _studentRepository.GetLengthStudentsForRoundAsync(roundId);
+
+            return Ok(model);
+        }
+
+        [HttpGet(Name = nameof(GetStudentsForRound))]
+        public async Task<IActionResult> GetStudentsForRound(string roundId, [FromQuery] StudentResourceParameters parameters)
+        {
+            if (!await _roundRepository.RoundExistsAsync(roundId))
+            {
+                return NotFound();
+            }
+
+            int skipNumber = parameters.PageSize * (parameters.PageNumber - 1);
+            int takeNumber = parameters.PageSize;
+
+            var entities = await _studentRepository.GetStudentsForRoundAsync(roundId, skipNumber, takeNumber);
+
+            var models = _mapper.Map<IEnumerable<StudentViewModel>>(entities);
+
+            return Ok(models);
+        }
+
         [HttpGet("{studentId}", Name = nameof(GetStudentForRound))]
         public async Task<IActionResult> GetStudentForRound(string roundId, string studentId)
         {
@@ -49,7 +76,7 @@ namespace Lottery.Controllers
                 return NotFound();
             }
 
-            var entity = await _studentRepository.GetStudentForRound(roundId, studentId);
+            var entity = await _studentRepository.GetStudentForRoundAsync(roundId, studentId);
             if (entity == null)
             {
                 return NotFound();

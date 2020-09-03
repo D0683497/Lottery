@@ -17,14 +17,49 @@ namespace Lottery.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
+        public async Task<int> GetLengthStudentsForRoundAsync(string roundId)
+        {
+            if (roundId == null)
+            {
+                throw new ArgumentException(nameof(roundId));
+            }
+
+            return await _applicationDbContext.Students
+                .Where(x => x.RoundId == roundId)
+                .CountAsync();
+        }
+
+        public async Task<IEnumerable<Student>> GetStudentsForRoundAsync(string roundId, int skipNumber, int takeNumber)
+        {
+            if (roundId == null)
+            {
+                throw new ArgumentException(nameof(roundId));
+            }
+
+            return await _applicationDbContext.Students
+                .Where(x => x.RoundId == roundId)
+                .Skip(skipNumber)
+                .Take(takeNumber)
+                .ToListAsync();
+        }
+
         public async Task<Student> GetStudentByIdAsync(string studentId)
         {
             return await _applicationDbContext.Students
                 .FirstOrDefaultAsync(x => x.StudentId == studentId);
         }
 
-        public async Task<Student> GetStudentForRound(string roundId, string studentId)
+        public async Task<Student> GetStudentForRoundAsync(string roundId, string studentId)
         {
+            if (roundId == null)
+            {
+                throw new ArgumentException(nameof(roundId));
+            }
+            if (studentId == null)
+            {
+                throw new ArgumentException(nameof(studentId));
+            }
+
             return await _applicationDbContext.Students
                 .Where(x => x.RoundId == roundId && x.StudentId == studentId)
                 .FirstOrDefaultAsync();
@@ -32,6 +67,11 @@ namespace Lottery.Repositories
 
         public async Task<IEnumerable<Student>> GetAllStudentsForRoundAsync(string roundId)
         {
+            if (roundId == null)
+            {
+                throw new ArgumentException(nameof(roundId));
+            }
+
             return await _applicationDbContext.Students
                 .Where(x => x.RoundId == roundId)
                 .ToListAsync();

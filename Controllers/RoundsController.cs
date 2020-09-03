@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Lottery.Entities;
+using Lottery.Helpers;
 using Lottery.Models;
 using Lottery.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,28 @@ namespace Lottery.Controllers
             _roundRepository = roundRepository;
         }
 
-        [HttpGet(Name = nameof(GetAllRound))]
+        [HttpGet(Name = nameof(GetRounds))]
+        public async Task<IActionResult> GetRounds([FromQuery] RoundResourceParameters parameters)
+        {
+            int skipNumber = parameters.PageSize * (parameters.PageNumber - 1);
+            int takeNumber = parameters.PageSize;
+
+            var entities = await _roundRepository.GetRoundsAsync(skipNumber, takeNumber);
+
+            var models = _mapper.Map<IEnumerable<RoundViewModel>>(entities);
+
+            return Ok(models);
+        }
+
+        [HttpGet("length", Name = nameof(GetLengthRounds))]
+        public async Task<IActionResult> GetLengthRounds()
+        {
+            var model = await _roundRepository.GetLengthRoundsAsync();
+
+            return Ok(model);
+        }
+
+        [HttpGet("all", Name = nameof(GetAllRound))]
         public async Task<IActionResult> GetAllRound()
         {
             var entities = await _roundRepository.GetAllRoundAsync();

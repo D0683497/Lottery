@@ -6,6 +6,10 @@ namespace Lottery.Repositories
 {
     public interface IRoundRepository
     {
+        Task<int> GetLengthRoundsAsync();
+
+        Task<IEnumerable<Round>> GetRoundsAsync(int skipNumber, int takeNumber);
+
         Task<IEnumerable<Round>> GetAllRoundAsync();
 
         Task<Round> GetRoundByIdAsync(string roundId);

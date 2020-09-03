@@ -17,14 +17,54 @@ namespace Lottery.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
+        public async Task<int> GetLengthStaffsForRoundAsync(string roundId)
+        {
+            if (roundId == null)
+            {
+                throw new ArgumentException(nameof(roundId));
+            }
+
+            return await _applicationDbContext.Staffs
+                .Where(x => x.RoundId == roundId)
+                .CountAsync();
+        }
+
+        public async Task<IEnumerable<Staff>> GetStaffsForRoundAsync(string roundId, int skipNumber, int takeNumber)
+        {
+            if (roundId == null)
+            {
+                throw new ArgumentException(nameof(roundId));
+            }
+
+            return await _applicationDbContext.Staffs
+                .Where(x => x.RoundId == roundId)
+                .Skip(skipNumber)
+                .Take(takeNumber)
+                .ToListAsync();
+        }
+
         public async Task<Staff> GetStaffByIdAsync(string staffId)
         {
+            if (staffId == null)
+            {
+                throw new ArgumentException(nameof(staffId));
+            }
+
             return await _applicationDbContext.Staffs
                 .FirstOrDefaultAsync(x => x.StaffId == staffId);
         }
 
-        public async Task<Staff> GetStaffForRound(string roundId, string staffId)
+        public async Task<Staff> GetStaffForRoundAsync(string roundId, string staffId)
         {
+            if (roundId == null)
+            {
+                throw new ArgumentException(nameof(roundId));
+            }
+            if (staffId == null)
+            {
+                throw new ArgumentException(nameof(staffId));
+            }
+
             return await _applicationDbContext.Staffs
                 .Where(x => x.RoundId == roundId && x.StaffId == staffId)
                 .FirstOrDefaultAsync();
@@ -32,6 +72,11 @@ namespace Lottery.Repositories
 
         public async Task<IEnumerable<Staff>> GetAllStaffsForRoundAsync(string roundId)
         {
+            if (roundId == null)
+            {
+                throw new ArgumentException(nameof(roundId));
+            }
+
             return await _applicationDbContext.Staffs
                 .Where(x => x.RoundId == roundId)
                 .ToListAsync();

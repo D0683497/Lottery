@@ -1,7 +1,7 @@
 import { StaffService } from '../../services/staff/staff.service';
 import { Staff } from '../../models/staff/staff.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
@@ -13,9 +13,13 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   dataSource = new MatTableDataSource<Staff>();
+  pageIndex = 0;
+  pageSize = 10;
+  pageLength: number;
+  pageSizeOptions: number[] = [10, 20, 30, 40, 50];
   displayedColumns: string[] = ['nid', 'name', 'department'];
   fetchDataError = false;
   loading = true;
@@ -24,25 +28,33 @@ export class HomeComponent implements OnInit {
   constructor(
     private staffService: StaffService,
     private snackBar: MatSnackBar,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute,
+    private matPaginatorIntl: MatPaginatorIntl) { }
 
   ngOnInit(): void {
     this.getUrlId();
-    this.initData();
+    this.getData();
+    this.initPaginator();
   }
 
-  getUrlId(): void {
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.roundId = params.id;
-    });
+  onPageChange(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.getData();
   }
 
-  initData(): void {
-    this.staffService.getStaffsForRound(this.roundId)
+  getData(): void {
+    this.staffService.getStaffsLengthForRound(this.roundId)
+      .subscribe(
+        data => {
+          this.pageLength = data;
+        },
+        error => {}
+      );
+    this.staffService.getStaffsForRound(this.roundId, this.pageIndex + 1, this.pageSize)
       .subscribe(
         data => {
           this.dataSource.data = data;
-          this.dataSource.paginator = this.paginator;
           this.fetchDataError = false;
           this.loading = false;
         },
@@ -52,6 +64,29 @@ export class HomeComponent implements OnInit {
           this.loading = false;
         }
       );
+  }
+
+  reload(): void {
+    this.fetchDataError = false;
+    this.loading = true;
+    this.getData();
+  }
+
+  getUrlId(): void {
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.roundId = params.id;
+    });
+  }
+
+  initPaginator(): void {
+    this.matPaginatorIntl.getRangeLabel = (page: number, pageSize: number, length: number): string => {
+      return `第 ${page + 1} / ${Math.ceil(length / pageSize)} 頁`;
+    };
+    this.matPaginatorIntl.itemsPerPageLabel = '每頁筆數：';
+    this.matPaginatorIntl.nextPageLabel = '下一頁';
+    this.matPaginatorIntl.previousPageLabel = '上一頁';
+    this.matPaginatorIntl.firstPageLabel = '第一頁';
+    this.matPaginatorIntl.lastPageLabel = '最後一頁';
   }
 
 }
