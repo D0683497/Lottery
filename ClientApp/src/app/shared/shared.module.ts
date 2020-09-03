@@ -4,17 +4,22 @@ import { RouterModule } from '@angular/router';
 
 import { MaterialSharedModule } from './material-shared.module';
 import { LayoutComponent } from './layout/layout.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [LayoutComponent],
   imports: [
     CommonModule,
     RouterModule,
-    MaterialSharedModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MaterialSharedModule
   ],
   exports: [
     CommonModule,
     RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
     MaterialSharedModule
   ]
 })

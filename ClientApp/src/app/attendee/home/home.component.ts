@@ -1,7 +1,7 @@
-import { StaffService } from '../../services/staff/staff.service';
-import { Staff } from '../../models/staff/staff.model';
+import { AttendeeService } from '../../services/attendee/attendee.service';
+import { Attendee } from '../../models/attendee/attendee.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, PageEvent, MatPaginatorIntl } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
@@ -15,18 +15,18 @@ export class HomeComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  dataSource = new MatTableDataSource<Staff>();
+  dataSource = new MatTableDataSource<Attendee>();
   pageIndex = 0;
   pageSize = 10;
   pageLength: number;
   pageSizeOptions: number[] = [10, 20, 30, 40, 50];
-  displayedColumns: string[] = ['nid', 'name', 'department'];
+  displayedColumns: string[] = ['id', 'nid', 'name', 'department'];
   fetchDataError = false;
   loading = true;
-  roundId: string;
+  itemId: string;
 
   constructor(
-    private staffService: StaffService,
+    private attendeeService: AttendeeService,
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
     private matPaginatorIntl: MatPaginatorIntl) { }
@@ -44,14 +44,14 @@ export class HomeComponent implements OnInit {
   }
 
   getData(): void {
-    this.staffService.getStaffsLengthForRound(this.roundId)
+    this.attendeeService.getAllAttendeesLengthForItemId(this.itemId)
       .subscribe(
         data => {
           this.pageLength = data;
         },
         error => {}
       );
-    this.staffService.getStaffsForRound(this.roundId, this.pageIndex + 1, this.pageSize)
+    this.attendeeService.getAttendeesForItemId(this.itemId, this.pageIndex + 1, this.pageSize)
       .subscribe(
         data => {
           this.dataSource.data = data;
@@ -74,7 +74,7 @@ export class HomeComponent implements OnInit {
 
   getUrlId(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.roundId = params.id;
+      this.itemId = params.id;
     });
   }
 

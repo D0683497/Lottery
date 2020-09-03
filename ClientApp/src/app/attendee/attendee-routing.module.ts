@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AddComponent } from './add/add.component';
-import { HomeComponent } from './home/home.component';
 import { LayoutComponent } from '../shared/layout/layout.component';
+import { HomeComponent } from './home/home.component';
+import { AddComponent } from './add/add.component';
 
 const routes: Routes = [
   {
@@ -19,4 +19,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class StaffRoutingModule { }
+export class AttendeeRoutingModule { }

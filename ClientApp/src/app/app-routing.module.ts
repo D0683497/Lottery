@@ -15,12 +15,8 @@ const routes: Routes = [
     loadChildren: () => import('./raffle/raffle.module').then(m => m.RaffleModule)
   },
   {
-    path: 'student',
-    loadChildren: () => import('./student/student.module').then(m => m.StudentModule)
-  },
-  {
-    path: 'staff',
-    loadChildren: () => import('./staff/staff.module').then(m => m.StaffModule)
+    path: 'attendee',
+    loadChildren: () => import('./attendee/attendee.module').then(m => m.AttendeeModule)
   },
   {
     path: 'start',

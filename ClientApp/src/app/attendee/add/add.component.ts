@@ -1,8 +1,8 @@
-import { StaffAdd } from '../../models/staff/staff-add.model';
-import { StaffService } from '../../services/staff/staff.service';
+import { AttendeeAdd } from '../../models/attendee/attendee-add.model';
+import { AttendeeService } from '../../services/attendee/attendee.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -12,19 +12,19 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class AddComponent implements OnInit {
 
-  roundId: string;
+  itemId: string;
   loading = false;
-  addStaffForm: FormGroup;
+  addAttendeeForm: FormGroup;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
-    private staffService: StaffService,
+    private attendeeService: AttendeeService,
     private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.getUrlId();
-    this.addStaffForm = this.fb.group({
+    this.addAttendeeForm = this.fb.group({
       nid: [null, Validators.required],
       name: [null, Validators.required],
       department: [null, Validators.required]
@@ -33,18 +33,18 @@ export class AddComponent implements OnInit {
 
   getUrlId(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.roundId = params.id;
+      this.itemId = params.id;
     });
   }
 
-  onSubmit(staff: StaffAdd, formDirective: FormGroupDirective): void {
+  onSubmit(attendee: AttendeeAdd, formDirective: FormGroupDirective): void {
     this.loading = true;
-    this.staffService.createStaffForRound(this.roundId, staff)
+    this.attendeeService.createAttendeeForItemId(this.itemId, attendee)
       .subscribe(
         data => {
           this.snackBar.open('新增成功', '關閉', { duration: 5000 });
           formDirective.resetForm();
-          this.addStaffForm.reset();
+          this.addAttendeeForm.reset();
           this.loading = false;
         },
         error => {
