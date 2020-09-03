@@ -1,9 +1,9 @@
 import { RaffleService } from '../../services/raffle/raffle.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Round } from 'src/app/models/round/round.model';
 import { MatPaginator, PageEvent, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Item } from '../../models/item/item.model';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  dataSource = new MatTableDataSource<Round>();
+  dataSource = new MatTableDataSource<Item>();
   pageIndex = 0;
   pageSize = 10;
   pageLength: number;
@@ -39,14 +39,14 @@ export class HomeComponent implements OnInit {
   }
 
   getData(): void {
-    this.raffleService.getRoundsLength()
+    this.raffleService.getAllItemsLength()
       .subscribe(
         data => {
           this.pageLength = data;
         },
         error => {}
       );
-    this.raffleService.getRounds(this.pageIndex + 1, this.pageSize)
+    this.raffleService.getItems(this.pageIndex + 1, this.pageSize)
       .subscribe(
         data => {
           this.dataSource.data = data;

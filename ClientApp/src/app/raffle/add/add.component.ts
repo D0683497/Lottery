@@ -1,7 +1,6 @@
-import { RoundAdd } from '../../models/round/round-add.model';
+import { ItemAdd } from '../../models/item/item-add.model';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroupDirective, FormGroup } from '@angular/forms';
-
 import { RaffleService } from '../../services/raffle/raffle.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -26,9 +25,9 @@ export class AddComponent implements OnInit {
     });
   }
 
-  onSubmit(round: RoundAdd, formDirective: FormGroupDirective): void {
+  onSubmit(item: ItemAdd, formDirective: FormGroupDirective): void {
     this.loading = true;
-    this.raffleService.createRound(round)
+    this.raffleService.createItem(item)
       .subscribe(
         data => {
           this.snackBar.open('新增成功', '關閉', { duration: 5000 });

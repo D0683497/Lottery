@@ -1,16 +1,16 @@
 <form [formGroup]="addRaffleForm" novalidate #formDirective="ngForm" (ngSubmit)="onSubmit(addRaffleForm.value, formDirective)" method="POST">
   <mat-card>
     <mat-card-header>
-      <mat-card-title>新增抽獎活動</mat-card-title>
+      <mat-card-title>新增清單</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
-            <mat-label>抽獎活動名稱</mat-label>
-            <input matInput type="text" matInput placeholder="抽獎活動名稱" formControlName="name" required>
+            <mat-label>清單名稱</mat-label>
+            <input matInput type="text" matInput placeholder="清單名稱" formControlName="name" required>
             <mat-error *ngIf="addRaffleForm.controls['name'].hasError('required')">
-              抽獎活動名稱是<strong>必填的</strong>
+              清單名稱是<strong>必填的</strong>
             </mat-error>
           </mat-form-field>
         </div>

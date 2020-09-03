@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RaffleService } from '../../services/raffle/raffle.service';
 import { ActivatedRoute } from '@angular/router';
-import { Round } from 'src/app/models/round/round.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Item } from '../../models/item/item.model';
 
 @Component({
   selector: 'app-detail',
@@ -13,8 +13,8 @@ export class DetailComponent implements OnInit {
 
   loading = true;
   fetchDataError = false;
-  roundId: string;
-  round: Round;
+  itemId: string;
+  item: Item;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -27,10 +27,10 @@ export class DetailComponent implements OnInit {
   }
 
   initData(): void {
-    this.raffleService.getRoundById(this.roundId)
+    this.raffleService.getItemById(this.itemId)
       .subscribe(
         data => {
-          this.round = data;
+          this.item = data;
           this.fetchDataError = false;
           this.loading = false;
         },
@@ -44,7 +44,7 @@ export class DetailComponent implements OnInit {
 
   getUrlId(): void {
     this.activatedRoute.paramMap.subscribe(params => {
-      this.roundId = params.get('roundId');
+      this.itemId = params.get('itemId');
     });
   }
 
