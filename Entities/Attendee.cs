@@ -1,9 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Lottery.Entities
 {
     public class Attendee
     {
+        public Attendee()
+        {
+            AttendeeId = Guid.NewGuid().ToString();
+        }
+
         [Key]
         public string AttendeeId { get; set; }
         
