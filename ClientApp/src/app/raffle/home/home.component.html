@@ -33,12 +33,13 @@
     </mat-card-content>
     <mat-card-actions>
       <mat-paginator
-      [pageIndex]="pageIndex"
-      [pageSize]="pageSize"
-      [length]="pageLength"
-      [pageSizeOptions]="pageSizeOptions"
-      (page)="onPageChange($event)"
-      showFirstLastButtons></mat-paginator>
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        [length]="pageLength"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onPageChange($event)"
+        showFirstLastButtons>
+      </mat-paginator>
     </mat-card-actions>
   </ng-container>
   <!-- Loading -->

@@ -19,6 +19,14 @@
         <mat-list-item>
           <button mat-stroked-button type="button">上傳參與者名單</button>
         </mat-list-item>
+        <mat-list-item>
+          <button mat-stroked-button type="button" [matMenuTriggerFor]="menu">下載參與者名單</button>
+          <mat-menu #menu="matMenu">
+            <button type="button" (click)="exportXlsx()" mat-menu-item>{{item.name}}.xlsx</button>
+            <button type="button" (click)="exportCsv()" mat-menu-item>{{item.name}}.csv</button>
+            <button type="button" (click)="exportJson()" mat-menu-item>{{item.name}}.json</button>
+          </mat-menu>
+        </mat-list-item>
       </mat-list>
     </mat-card-content>
     <mat-card-actions>

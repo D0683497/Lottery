@@ -45,4 +45,9 @@ export class AttendeeService {
     return this.http.get<number>(url, this.httpOptions);
   }
 
+  getAttendeesXlsxForItemId(itemId: string): Observable<Blob> {
+    const url = `${this.urlRoot}/items/${itemId}/attendees/file/xlsx`;
+    return this.http.get(url, { responseType: 'blob' });
+  }
+
 }
