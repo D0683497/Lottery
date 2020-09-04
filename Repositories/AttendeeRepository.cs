@@ -67,6 +67,8 @@ namespace Lottery.Repositories
                 throw new ArgumentNullException(nameof(itemId));
             }
 
+            attendee.ItemId = itemId;
+
             _applicationDbContext.Attendees.Add(attendee);
         }
 

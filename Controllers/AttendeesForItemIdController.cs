@@ -10,14 +10,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace Lottery.Controllers
 {
     [ApiController]
-    [Route("api/items/{itemId}/[controller]")]
-    public class AttendeesController : ControllerBase
+    [Route("api/items/{itemId}/attendees")]
+    public class AttendeesForItemIdController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IAttendeeRepository _attendeeRepository;
         private readonly IItemRepository _itemRepository;
 
-        public AttendeesController(IMapper mapper, IAttendeeRepository attendeeRepository, IItemRepository itemRepository)
+        public AttendeesForItemIdController(IMapper mapper, IAttendeeRepository attendeeRepository, IItemRepository itemRepository)
         {
             _mapper = mapper;
             _attendeeRepository = attendeeRepository;
