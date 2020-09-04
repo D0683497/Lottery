@@ -1,9 +1,11 @@
+import { AddComponent } from '../add/add.component';
 import { RaffleService } from '../../services/raffle/raffle.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Item } from '../../models/item/item.model';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-home',
@@ -26,10 +28,18 @@ export class HomeComponent implements OnInit {
   constructor(
     private raffleService: RaffleService,
     private snackBar: MatSnackBar,
-    private matPaginatorIntl: MatPaginatorIntl) { }
+    private matPaginatorIntl: MatPaginatorIntl,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getData();
+  }
+
+  showAddFormDialog(): void {
+    const dialogRef = this.dialog.open(AddComponent);
+    dialogRef.afterClosed().subscribe(() => {
+      this.reload();
+    });
   }
 
   onPageChange(event: PageEvent): void {

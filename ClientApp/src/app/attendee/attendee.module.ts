@@ -11,6 +11,7 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     AttendeeRoutingModule,
     SharedModule
-  ]
+  ],
+  entryComponents: [AddComponent]
 })
 export class AttendeeModule { }

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroupDirective, FormGroup } from '@angular/forms';
 import { RaffleService } from '../../services/raffle/raffle.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add',
@@ -17,7 +18,8 @@ export class AddComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private raffleService: RaffleService,
-    private snackBar: MatSnackBar) {}
+    private snackBar: MatSnackBar,
+    private dialogRef: MatDialogRef<AddComponent>) {}
 
   ngOnInit(): void {
     this.addRaffleForm = this.fb.group({
@@ -34,6 +36,7 @@ export class AddComponent implements OnInit {
           formDirective.resetForm();
           this.addRaffleForm.reset();
           this.loading = false;
+          this.dialogRef.close();
         },
         error => {
           this.snackBar.open('發生錯誤', '關閉', { duration: 5000 });

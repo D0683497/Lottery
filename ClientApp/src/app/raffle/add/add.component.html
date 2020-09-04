@@ -1,28 +1,25 @@
-<form [formGroup]="addRaffleForm" novalidate #formDirective="ngForm" (ngSubmit)="onSubmit(addRaffleForm.value, formDirective)" method="POST">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>新增清單</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="row">
-        <div class="col">
-          <mat-form-field class="full-width">
-            <mat-label>清單名稱</mat-label>
-            <input matInput type="text" matInput placeholder="清單名稱" formControlName="name" required>
-            <mat-error *ngIf="addRaffleForm.controls['name'].hasError('required')">
-              清單名稱是<strong>必填的</strong>
-            </mat-error>
-          </mat-form-field>
-        </div>
+<h2 mat-dialog-title>新增清單</h2>
+<form  [formGroup]="addRaffleForm" novalidate #formDirective="ngForm" (ngSubmit)="onSubmit(addRaffleForm.value, formDirective)" method="POST">
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col">
+        <mat-form-field class="full-width">
+          <mat-label>清單名稱</mat-label>
+          <input matInput type="text" matInput placeholder="清單名稱" formControlName="name" required>
+          <mat-error *ngIf="addRaffleForm.controls['name'].hasError('required')">
+            清單名稱是<strong>必填的</strong>
+          </mat-error>
+        </mat-form-field>
       </div>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" type="submit" [disabled]="!addRaffleForm.valid || loading">
-        <mat-icon *ngIf="loading">
-          <mat-spinner color="accent" diameter="20"></mat-spinner>
-        </mat-icon>
-        新增
-      </button>
-    </mat-card-actions>
-  </mat-card>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button type="submit" color="primary" [disabled]="!addRaffleForm.valid || loading">
+      <mat-icon *ngIf="loading">
+        <mat-spinner color="accent" diameter="20"></mat-spinner>
+      </mat-icon>
+      新增
+    </button>
+    <button mat-raised-button type="button" mat-dialog-close color="warn">取消</button>
+  </mat-dialog-actions>
 </form>

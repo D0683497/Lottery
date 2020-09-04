@@ -14,12 +14,16 @@
           <button mat-stroked-button type="button" [routerLink]="['/attendee']" [queryParams]="{ id: item.id }">查看參與者名單</button>
         </mat-list-item>
         <mat-list-item>
-          <button mat-stroked-button type="button" [routerLink]="['/attendee/add']" [queryParams]="{ id: item.id }">新增參與者名單</button>
+          <button mat-stroked-button type="button" (click)="showAddFormDialog()">新增參與者名單</button>
+        </mat-list-item>
+        <mat-list-item>
+          <button mat-stroked-button type="button">上傳參與者名單</button>
         </mat-list-item>
       </mat-list>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button [routerLink]="['/raffle/edit', item.id]" color="primary">編輯</button>
+      <button mat-raised-button color="primary">編輯</button>
+      <button mat-raised-button color="warn">刪除</button>
     </mat-card-actions>
   </ng-container>
   <!-- Loading -->

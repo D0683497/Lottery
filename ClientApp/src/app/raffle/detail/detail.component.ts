@@ -3,6 +3,8 @@ import { RaffleService } from '../../services/raffle/raffle.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Item } from '../../models/item/item.model';
+import { MatDialog } from '@angular/material/dialog';
+import { AddComponent } from '../../attendee/add/add.component';
 
 @Component({
   selector: 'app-detail',
@@ -19,11 +21,21 @@ export class DetailComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private raffleService: RaffleService,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getUrlId();
     this.initData();
+  }
+
+  showAddFormDialog(): void {
+    const dialogRef = this.dialog.open(AddComponent, {
+      data: this.itemId
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      // this.reload();
+    });
   }
 
   initData(): void {

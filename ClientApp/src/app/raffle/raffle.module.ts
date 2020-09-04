@@ -10,6 +10,7 @@ import { DetailComponent } from './detail/detail.component';
   imports: [
     RaffleRoutingModule,
     SharedModule
-  ]
+  ],
+  entryComponents: [AddComponent]
 })
 export class RaffleModule { }

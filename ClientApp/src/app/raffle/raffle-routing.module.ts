@@ -11,7 +11,6 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: '', component: HomeComponent },
-      { path: 'add', component: AddComponent },
       { path: 'detail/:itemId', component: DetailComponent }
     ]
   }
