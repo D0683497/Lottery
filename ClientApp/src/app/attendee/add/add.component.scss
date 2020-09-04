@@ -8,6 +8,17 @@ mat-card {
   margin-bottom: 10vh;
 }
 
+mat-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1vh;
+}
+
+mat-card-header > button {
+  margin-right: 1.5vw;
+}
+
 .row {
   display: flex;
   flex-direction: row;
