@@ -1,7 +1,10 @@
+import { Item } from '../../models/item/item.model';
+import { RaffleService } from '../../services/raffle/raffle.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ResultComponent } from '../result/result.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-home',
@@ -10,42 +13,70 @@ import { ResultComponent } from '../result/result.component';
 })
 export class HomeComponent implements OnInit {
 
-  roundId: string;
+  loading = true;
+  fetchDataError = false;
+  items: Item[];
+  // roundId: string;
   starting = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private raffleService: RaffleService,
+    private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe(params => {
-      this.roundId = params.get('roundId');
-    });
+    // this.activatedRoute.paramMap.subscribe(params => {
+    //   this.roundId = params.get('roundId');
+    // });
+    this.initData();
   }
 
-  openDialog(method: string): void {
-    const dialogRef = this.dialog.open(ResultComponent, {
-      height: '90%',
-      width: '80%',
-      backdropClass: 'backdropBackground',
-      data: {
-        roundId: this.roundId,
-        method
-      }
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      this.starting = false;
-    });
+  initData(): void {
+    this.raffleService.getAllItems()
+      .subscribe(
+        data => {
+          this.items = data;
+          this.fetchDataError = false;
+          this.loading = false;
+        },
+        error => {
+          this.snackBar.open('發生錯誤', '關閉', { duration: 5000 });
+          this.fetchDataError = true;
+          this.loading = false;
+        }
+      );
   }
 
-  startStudent(): void {
-    this.starting = true;
-    this.openDialog('student');
+  reload(): void {
+    this.loading = true;
+    this.fetchDataError = false;
+    this.initData();
   }
 
-  startStaff(): void {
-    this.starting = true;
-    this.openDialog('staff');
-  }
+  // openDialog(method: string): void {
+  //   const dialogRef = this.dialog.open(ResultComponent, {
+  //     height: '90%',
+  //     width: '80%',
+  //     backdropClass: 'backdropBackground',
+  //     data: {
+  //       roundId: this.roundId,
+  //       method
+  //     }
+  //   });
+  //   dialogRef.afterClosed().subscribe(() => {
+  //     this.starting = false;
+  //   });
+  // }
+
+  // startStudent(): void {
+  //   this.starting = true;
+  //   this.openDialog('student');
+  // }
+
+  // startStaff(): void {
+  //   this.starting = true;
+  //   this.openDialog('staff');
+  // }
 
 }
