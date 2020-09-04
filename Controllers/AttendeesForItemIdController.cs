@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using ClosedXML.Excel;
@@ -10,6 +11,7 @@ using Lottery.Helpers;
 using Lottery.Models.Attendee;
 using Lottery.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Lottery.Controllers
 {
@@ -110,7 +112,7 @@ namespace Lottery.Controllers
         }
         
         [HttpGet("file/xlsx", Name = nameof(GetAttendeesXlsxForItemId))]
-        public async Task<ActionResult<AttendeeViewModel>> GetAttendeesXlsxForItemId(string itemId)
+        public async Task<IActionResult> GetAttendeesXlsxForItemId(string itemId)
         {
             var item = await _itemRepository.GetItemByIdAsync(itemId);
             if (item == null)
@@ -120,16 +122,15 @@ namespace Lottery.Controllers
 
             var entity = await _attendeeRepository.GetAllAttendeesForItemIdAsync(itemId);
 
-            var models = _mapper.Map<List<AttendeeViewModel>>(entity);
+            var models = _mapper.Map<List<AttendeeFileViewModel>>(entity);
             
-            string itemName = item.ItemName;
-            string fileName = $"{itemName}.xlsx";
+            var fileName = $"{item.ItemName}.xlsx";
 
             try
             {
                 using (var workbook = new XLWorkbook())
                 {
-                    IXLWorksheet worksheet = workbook.Worksheets.Add($"{itemName}列表");
+                    IXLWorksheet worksheet = workbook.Worksheets.Add($"{item.ItemName}列表");
                     worksheet.Cell(1, 1).Value = "學號";
                     worksheet.Cell(1, 2).Value = "姓名";
                     worksheet.Cell(1, 3).Value = "系所";
@@ -151,6 +152,53 @@ namespace Lottery.Controllers
             {
                 return BadRequest();
             }
+        }
+
+        [HttpGet("file/csv", Name = nameof(GetAttendeesCsvForItemId))]
+        public async Task<IActionResult> GetAttendeesCsvForItemId(string itemId)
+        {
+            var item = await _itemRepository.GetItemByIdAsync(itemId);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            var entity = await _attendeeRepository.GetAllAttendeesForItemIdAsync(itemId);
+
+            var models = _mapper.Map<List<AttendeeFileViewModel>>(entity);
+            
+            var fileName = $"{item.ItemName}.csv";
+
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("學號, 姓名, 系所");
+            foreach (var m in models)
+            {
+                stringBuilder.AppendLine($"{m.NID}, {m.Name}, {m.Department}");
+            }
+
+            var content = Encoding.UTF8.GetBytes(stringBuilder.ToString());
+
+            return File(content, ContentType.Csv, fileName);
+        }
+        
+        [HttpGet("file/json", Name = nameof(GetAttendeesJsonForItemId))]
+        public async Task<IActionResult> GetAttendeesJsonForItemId(string itemId)
+        {
+            var item = await _itemRepository.GetItemByIdAsync(itemId);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            var entity = await _attendeeRepository.GetAllAttendeesForItemIdAsync(itemId);
+
+            var models = _mapper.Map<List<AttendeeFileViewModel>>(entity);
+            
+            var fileName = $"{item.ItemName}.json";
+
+            var content = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(models));
+
+            return File(content, ContentType.Json, fileName);
         }
     }
 }

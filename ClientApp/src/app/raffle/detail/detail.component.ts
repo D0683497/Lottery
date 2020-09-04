@@ -70,7 +70,6 @@ export class DetailComponent implements OnInit {
   }
 
   exportXlsx(): void {
-    console.log('8888888');
     this.attendeeService.getAttendeesXlsxForItemId(this.itemId)
       .subscribe(
         data => {
@@ -84,11 +83,29 @@ export class DetailComponent implements OnInit {
   }
 
   exportCsv(): void {
-
+    this.attendeeService.getAttendeesCsvForItemId(this.itemId)
+      .subscribe(
+        data => {
+          saveAs(data, `${this.item.name}.csv`);
+          this.snackBar.open('下載成功', '關閉', { duration: 5000 });
+        },
+        error => {
+          this.snackBar.open('下載失敗', '關閉', { duration: 5000 });
+        }
+      );
   }
 
   exportJson(): void {
-
+    this.attendeeService.getAttendeesJsonForItemId(this.itemId)
+      .subscribe(
+        data => {
+          saveAs(data, `${this.item.name}.json`);
+          this.snackBar.open('下載成功', '關閉', { duration: 5000 });
+        },
+        error => {
+          this.snackBar.open('下載失敗', '關閉', { duration: 5000 });
+        }
+      );
   }
 
 }

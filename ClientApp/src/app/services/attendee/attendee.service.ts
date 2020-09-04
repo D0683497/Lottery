@@ -50,4 +50,14 @@ export class AttendeeService {
     return this.http.get(url, { responseType: 'blob' });
   }
 
+  getAttendeesCsvForItemId(itemId: string): Observable<Blob> {
+    const url = `${this.urlRoot}/items/${itemId}/attendees/file/csv`;
+    return this.http.get(url, { responseType: 'blob' });
+  }
+
+  getAttendeesJsonForItemId(itemId: string): Observable<Blob> {
+    const url = `${this.urlRoot}/items/${itemId}/attendees/file/json`;
+    return this.http.get(url, { responseType: 'blob' });
+  }
+
 }
