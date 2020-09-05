@@ -210,8 +210,7 @@ namespace Lottery.Controllers
         [HttpGet("random", Name = nameof(GetAttendeeRandomForItemId))]
         public async Task<ActionResult<AttendeeViewModel>> GetAttendeeRandomForItemId(string itemId)
         {
-            var item = await _itemRepository.GetItemByIdAsync(itemId);
-            if (item == null)
+            if (!await _itemRepository.ExistItemByIdAsync(itemId))
             {
                 return NotFound();
             }
