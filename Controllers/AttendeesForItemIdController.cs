@@ -200,5 +200,21 @@ namespace Lottery.Controllers
 
             return File(content, ContentType.Json, fileName);
         }
+
+        [HttpGet("random", Name = nameof(GetAttendeeRandomForItemId))]
+        public async Task<ActionResult<AttendeeViewModel>> GetAttendeeRandomForItemId(string itemId)
+        {
+            var item = await _itemRepository.GetItemByIdAsync(itemId);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            var entity =  _attendeeRepository.GetAttendeeRandomForItemId(itemId);
+
+            var model = _mapper.Map<AttendeeViewModel>(entity);
+
+            return Ok(model);
+        }
     }
 }

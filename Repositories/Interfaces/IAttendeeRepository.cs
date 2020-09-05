@@ -45,6 +45,13 @@ namespace Lottery.Repositories.Interfaces
         Task<int> GetAllAttendeesLengthForItemIdAsync(string itemId);
 
         /// <summary>
+        /// 隨機獲取清單中的參與者
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
+        Attendee GetAttendeeRandomForItemId(string itemId);
+
+        /// <summary>
         /// 查看清單中的參與者是否存在
         /// </summary>
         /// <param name="itemId"></param>

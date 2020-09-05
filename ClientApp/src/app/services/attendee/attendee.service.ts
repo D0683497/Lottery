@@ -45,6 +45,11 @@ export class AttendeeService {
     return this.http.get<number>(url, this.httpOptions);
   }
 
+  getAttendeeRandomForItemId(itemId: string): Observable<Attendee> {
+    const url = `${this.urlRoot}/items/${itemId}/attendees/random`;
+    return this.http.get<Attendee>(url, this.httpOptions);
+  }
+
   getAttendeesXlsxForItemId(itemId: string): Observable<Blob> {
     const url = `${this.urlRoot}/items/${itemId}/attendees/file/xlsx`;
     return this.http.get(url, { responseType: 'blob' });

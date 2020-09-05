@@ -26,9 +26,6 @@ export class HomeComponent implements OnInit {
     private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    // this.activatedRoute.paramMap.subscribe(params => {
-    //   this.roundId = params.get('roundId');
-    // });
     this.initData();
   }
 
@@ -52,6 +49,21 @@ export class HomeComponent implements OnInit {
     this.loading = true;
     this.fetchDataError = false;
     this.initData();
+  }
+
+  startDraw(itemId: string): void {
+    console.log(itemId);
+    const dialogRef = this.dialog.open(ResultComponent, {
+      height: 'calc(100% - 50px)',
+      width: 'calc(100% - 50px)',
+      maxWidth: '100%',
+      maxHeight: '100%',
+      disableClose: true,
+      data: itemId
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      // this.reload();
+    });
   }
 
   // openDialog(method: string): void {

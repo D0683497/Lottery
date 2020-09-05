@@ -4,9 +4,12 @@
     <!-- Content -->
     <ng-container *ngIf="!loading && !fetchDataError">
       <mat-card-content>
-        <button mat-flat-button color="accent" *ngFor="let item of items">{{item.name}}</button>
+        <button mat-flat-button color="accent" class="start-button"
+          *ngFor="let item of items"
+          (click)="startDraw(item.id)">
+          {{item.name}}
+        </button>
       </mat-card-content>
-      <mat-card-footer>Powered by HackerSir</mat-card-footer>
     </ng-container>
     <!-- Loading -->
     <ng-container *ngIf="loading">
@@ -28,5 +31,6 @@
         <button mat-stroked-button (click)="reload()" type="button">重新載入</button>
       </mat-card-content>
     </ng-container>
+    <mat-card-footer>Powered by HackerSir</mat-card-footer>
   </mat-card>
 </div>

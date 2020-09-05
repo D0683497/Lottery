@@ -84,6 +84,20 @@ namespace Lottery.Repositories
                 .CountAsync();
         }
 
+        public Attendee GetAttendeeRandomForItemId(string itemId)
+        {
+            if (itemId == null)
+            {
+                throw new ArgumentNullException(nameof(itemId));
+            }
+
+            return _applicationDbContext.Attendees
+                .Where(x => x.ItemId == itemId)
+                .AsEnumerable()
+                .OrderBy(r => Guid.NewGuid())
+                .FirstOrDefault();
+        }
+
         public async Task<bool> ExistAttendeeByIdForItemIdAsync(string itemId, string attendeeId)
         {
             if (itemId == null)
