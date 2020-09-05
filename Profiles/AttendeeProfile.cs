@@ -16,7 +16,9 @@ namespace Lottery.Profiles
                 .ForMember(dest => dest.Name,
                     opt => opt.MapFrom(src => src.AttendeeName))
                 .ForMember(dest => dest.Department,
-                    opt => opt.MapFrom(src => src.AttendeeDepartment));
+                    opt => opt.MapFrom(src => src.AttendeeDepartment))
+                .ForMember(dest => dest.IsAwarded,
+                    opt => opt.MapFrom(src => src.AttendeeIsAwarded));
 
             CreateMap<AttendeeAddViewModel, Attendee>()
                 .ForMember(dest => dest.AttendeeNID,
@@ -32,7 +34,9 @@ namespace Lottery.Profiles
                 .ForMember(dest => dest.Name,
                     opt => opt.MapFrom(src => src.AttendeeName))
                 .ForMember(dest => dest.Department,
-                    opt => opt.MapFrom(src => src.AttendeeDepartment));
+                    opt => opt.MapFrom(src => src.AttendeeDepartment))
+                .ForMember(dest => dest.IsAwarded,
+                    opt => opt.MapFrom(src => src.AttendeeIsAwarded ? "是" : "否"));
         }
     }
 }

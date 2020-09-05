@@ -15,5 +15,8 @@ namespace Lottery.Models.Attendee
 
         [Display(Name = "參與者系所")]
         public string Department { get; set; }
+        
+        [Display(Name = "參與者是否得獎")]
+        public bool IsAwarded { get; set; }
     }
 }

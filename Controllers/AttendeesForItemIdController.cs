@@ -140,11 +140,13 @@ namespace Lottery.Controllers
                     worksheet.Cell(1, 1).Value = "學號";
                     worksheet.Cell(1, 2).Value = "姓名";
                     worksheet.Cell(1, 3).Value = "系所";
+                    worksheet.Cell(1, 4).Value = "是否得獎";
                     for (int i = 1; i <= models.Count; i++)
                     {
                         worksheet.Cell(i + 1, 1).Value = models[i - 1].NID;
                         worksheet.Cell(i + 1, 2).Value = models[i - 1].Name;
                         worksheet.Cell(i + 1, 3).Value = models[i - 1].Department;
+                        worksheet.Cell(i + 1, 4).Value = models[i - 1].IsAwarded;
                     }
                     using (var stream = new MemoryStream())
                     {
@@ -176,10 +178,10 @@ namespace Lottery.Controllers
             var fileName = $"{item.ItemName}.csv";
 
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine("學號, 姓名, 系所");
+            stringBuilder.AppendLine("學號, 姓名, 系所, 是否得獎");
             foreach (var m in models)
             {
-                stringBuilder.AppendLine($"{m.NID}, {m.Name}, {m.Department}");
+                stringBuilder.AppendLine($"{m.NID}, {m.Name}, {m.Department}, {m.IsAwarded}");
             }
 
             var content = Encoding.UTF8.GetBytes(stringBuilder.ToString());

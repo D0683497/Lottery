@@ -8,6 +8,7 @@ namespace Lottery.Entities
         public Attendee()
         {
             AttendeeId = Guid.NewGuid().ToString();
+            AttendeeIsAwarded = false;
         }
 
         [Key]
@@ -27,6 +28,11 @@ namespace Lottery.Entities
         /// 參與者系所
         /// </summary>
         public string AttendeeDepartment { get; set; }
+
+        /// <summary>
+        /// 參與者是否得獎
+        /// </summary>
+        public bool AttendeeIsAwarded { get; set; }
 
         public string ItemId { get; set; }
         public Item Item { get; set; }
