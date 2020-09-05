@@ -22,12 +22,18 @@ namespace Lottery.Controllers
         private readonly IMapper _mapper;
         private readonly IAttendeeRepository _attendeeRepository;
         private readonly IItemRepository _itemRepository;
+        private readonly IWinnerRepository _winnerRepository;
 
-        public AttendeesForItemIdController(IMapper mapper, IAttendeeRepository attendeeRepository, IItemRepository itemRepository)
+        public AttendeesForItemIdController(
+            IMapper mapper, 
+            IAttendeeRepository attendeeRepository, 
+            IItemRepository itemRepository, 
+            IWinnerRepository winnerRepository)
         {
             _mapper = mapper;
             _attendeeRepository = attendeeRepository;
             _itemRepository = itemRepository;
+            _winnerRepository = winnerRepository;
         }
         
         [HttpGet("all", Name = nameof(GetAllAttendeesForItemId))]
@@ -210,11 +216,20 @@ namespace Lottery.Controllers
                 return NotFound();
             }
 
-            var entity =  _attendeeRepository.GetAttendeeRandomForItemId(itemId);
+            while (true)
+            {
+                var entity =  _attendeeRepository.GetAttendeeRandomForItemId(itemId);
+                
+                if (await _winnerRepository.ExistWinnerByItemIAttendeeIddAsync(itemId, entity.AttendeeId)) continue;
+                
+                _winnerRepository.CreateWinnerForItemIdAttendeeId(itemId, entity.AttendeeId, new Winner());
+                var result = await _winnerRepository.SaveAsync();
+                if (!result) return BadRequest();
 
-            var model = _mapper.Map<AttendeeViewModel>(entity);
+                var model = _mapper.Map<AttendeeViewModel>(entity);
 
-            return Ok(model);
+                return Ok(model);
+            }
         }
     }
 }
