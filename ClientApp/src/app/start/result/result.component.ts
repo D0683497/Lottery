@@ -18,6 +18,7 @@ export class ResultComponent implements OnInit {
   // showResult = false;
   loading = true;
   fetchDataError = false;
+  fetchDataNoContent = false;
   itemId: string;
   attendee: Attendee;
 
@@ -45,6 +46,9 @@ export class ResultComponent implements OnInit {
     this.attendeeService.getAttendeeRandomForItemId(this.itemId)
       .subscribe(
         data => {
+          if (data == null) {
+            this.fetchDataNoContent = true;
+          }
           this.attendee = data;
           this.fetchDataError = false;
           this.loading = false;

@@ -72,6 +72,11 @@ namespace Lottery.Repositories
             _applicationDbContext.Attendees.Add(attendee);
         }
 
+        public void UpdateAttendee(Attendee attendee)
+        {
+            _applicationDbContext.Entry(attendee).State = EntityState.Modified;
+        }
+
         public async Task<int> GetAllAttendeesLengthForItemIdAsync(string itemId)
         {
             if (itemId == null)
@@ -93,6 +98,7 @@ namespace Lottery.Repositories
 
             return _applicationDbContext.Attendees
                 .Where(x => x.ItemId == itemId)
+                .Where(x => x.AttendeeIsAwarded == false)
                 .AsEnumerable()
                 .OrderBy(r => Guid.NewGuid())
                 .FirstOrDefault();

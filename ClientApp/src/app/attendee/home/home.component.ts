@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   pageSize = 10;
   pageLength: number;
   pageSizeOptions: number[] = [10, 20, 30, 40, 50];
-  displayedColumns: string[] = ['id', 'nid', 'name', 'department'];
+  displayedColumns: string[] = ['id', 'nid', 'name', 'department', 'isAwarded'];
   fetchDataError = false;
   loading = true;
   itemId: string;

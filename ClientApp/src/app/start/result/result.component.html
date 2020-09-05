@@ -1,6 +1,6 @@
 <div class="container">
   <!-- Content -->
-  <ng-container *ngIf="!loading && !fetchDataError">
+  <ng-container *ngIf="!loading && !fetchDataError &&!fetchDataNoContent">
     <div class="mat-display-4" mat-dialog-title>恭喜以下同學</div>
     <mat-divider></mat-divider>
     <mat-dialog-content>
@@ -20,6 +20,14 @@
   <!-- Error -->
   <ng-container *ngIf="fetchDataError">
     <div mat-dialog-title class="mat-display-4">發生錯誤</div>
+    <mat-divider></mat-divider>
+    <mat-dialog-content class="error-content">
+      <mat-icon aria-hidden="false" aria-label="Example report icon">report</mat-icon>
+    </mat-dialog-content>
+  </ng-container>
+  <!-- NoContent -->
+  <ng-container *ngIf="fetchDataNoContent">
+    <div mat-dialog-title class="mat-display-4">別抽啦</div>
     <mat-divider></mat-divider>
     <mat-dialog-content class="error-content">
       <mat-icon aria-hidden="false" aria-label="Example report icon">report</mat-icon>

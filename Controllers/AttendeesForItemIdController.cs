@@ -216,21 +216,22 @@ namespace Lottery.Controllers
             {
                 return NotFound();
             }
-
-            while (true)
+            
+            var entity =  _attendeeRepository.GetAttendeeRandomForItemId(itemId);
+            if (entity == null) // 清單中的參與者都獲獎了
             {
-                var entity =  _attendeeRepository.GetAttendeeRandomForItemId(itemId);
-                
-                if (await _winnerRepository.ExistWinnerByItemIAttendeeIddAsync(itemId, entity.AttendeeId)) continue;
-                
-                _winnerRepository.CreateWinnerForItemIdAttendeeId(itemId, entity.AttendeeId, new Winner());
-                var result = await _winnerRepository.SaveAsync();
-                if (!result) return BadRequest();
-
-                var model = _mapper.Map<AttendeeViewModel>(entity);
-
-                return Ok(model);
+                return NoContent();
             }
+
+            entity.AttendeeIsAwarded = true;
+            _attendeeRepository.UpdateAttendee(entity);
+            _winnerRepository.CreateWinnerForItemIdAttendeeId(itemId, entity.AttendeeId, new Winner());
+            var result = await _winnerRepository.SaveAsync();
+            if (!result) return BadRequest();
+            
+            var model = _mapper.Map<AttendeeViewModel>(entity);
+
+            return Ok(model);
         }
     }
 }

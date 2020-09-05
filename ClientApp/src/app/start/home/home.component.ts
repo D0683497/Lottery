@@ -52,7 +52,6 @@ export class HomeComponent implements OnInit {
   }
 
   startDraw(itemId: string): void {
-    console.log(itemId);
     const dialogRef = this.dialog.open(ResultComponent, {
       height: 'calc(100% - 50px)',
       width: 'calc(100% - 50px)',
