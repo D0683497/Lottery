@@ -3,4 +3,5 @@ export class Attendee {
   nid: string;
   name: string;
   department: string;
+  isAwarded: boolean;
 }
