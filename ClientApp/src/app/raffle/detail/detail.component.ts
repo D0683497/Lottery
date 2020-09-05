@@ -1,8 +1,12 @@
+import { AttendeeService } from '../../services/attendee/attendee.service';
 import { Component, OnInit } from '@angular/core';
 import { RaffleService } from '../../services/raffle/raffle.service';
 import { ActivatedRoute } from '@angular/router';
-import { Round } from 'src/app/models/round/round.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Item } from '../../models/item/item.model';
+import { MatDialog } from '@angular/material/dialog';
+import { AddComponent } from '../../attendee/add/add.component';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-detail',
@@ -13,24 +17,35 @@ export class DetailComponent implements OnInit {
 
   loading = true;
   fetchDataError = false;
-  roundId: string;
-  round: Round;
+  itemId: string;
+  item: Item;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private raffleService: RaffleService,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
+    private attendeeService: AttendeeService ) { }
 
   ngOnInit(): void {
     this.getUrlId();
     this.initData();
   }
 
+  showAddFormDialog(): void {
+    const dialogRef = this.dialog.open(AddComponent, {
+      data: this.itemId
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      // this.reload();
+    });
+  }
+
   initData(): void {
-    this.raffleService.getRoundById(this.roundId)
+    this.raffleService.getItemById(this.itemId)
       .subscribe(
         data => {
-          this.round = data;
+          this.item = data;
           this.fetchDataError = false;
           this.loading = false;
         },
@@ -44,7 +59,7 @@ export class DetailComponent implements OnInit {
 
   getUrlId(): void {
     this.activatedRoute.paramMap.subscribe(params => {
-      this.roundId = params.get('roundId');
+      this.itemId = params.get('itemId');
     });
   }
 
@@ -52,6 +67,45 @@ export class DetailComponent implements OnInit {
     this.loading = true;
     this.fetchDataError = false;
     this.initData();
+  }
+
+  exportXlsx(): void {
+    this.attendeeService.getAttendeesXlsxForItemId(this.itemId)
+      .subscribe(
+        data => {
+          saveAs(data, `${this.item.name}.xlsx`);
+          this.snackBar.open('下載成功', '關閉', { duration: 5000 });
+        },
+        error => {
+          this.snackBar.open('下載失敗', '關閉', { duration: 5000 });
+        }
+      );
+  }
+
+  exportCsv(): void {
+    this.attendeeService.getAttendeesCsvForItemId(this.itemId)
+      .subscribe(
+        data => {
+          saveAs(data, `${this.item.name}.csv`);
+          this.snackBar.open('下載成功', '關閉', { duration: 5000 });
+        },
+        error => {
+          this.snackBar.open('下載失敗', '關閉', { duration: 5000 });
+        }
+      );
+  }
+
+  exportJson(): void {
+    this.attendeeService.getAttendeesJsonForItemId(this.itemId)
+      .subscribe(
+        data => {
+          saveAs(data, `${this.item.name}.json`);
+          this.snackBar.open('下載成功', '關閉', { duration: 5000 });
+        },
+        error => {
+          this.snackBar.open('下載失敗', '關閉', { duration: 5000 });
+        }
+      );
   }
 
 }

@@ -4,6 +4,7 @@ using AutoMapper;
 using Lottery.Data;
 using Lottery.Entities;
 using Lottery.Repositories;
+using Lottery.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -89,11 +90,10 @@ namespace Lottery
                 });
             });
 
-            // services.AddAutoMapper(typeof(Startup));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddScoped<IRoundRepository, RoundRepository>();
-            services.AddScoped<IStudentRepository, StudentRepository>();
-            services.AddScoped<IStaffRepository, StaffRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
+            services.AddScoped<IAttendeeRepository, AttendeeRepository>();
+            services.AddScoped<IWinnerRepository, WinnerRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

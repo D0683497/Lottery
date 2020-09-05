@@ -11,6 +11,7 @@ import { ResultComponent } from './result/result.component';
   imports: [
     StartRoutingModule,
     SharedModule
-  ]
+  ],
+  entryComponents: [ResultComponent]
 })
 export class StartModule { }

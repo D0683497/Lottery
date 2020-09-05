@@ -1,29 +1,37 @@
 .container {
-  min-height: 100vh;
-  min-width: 100vw;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
+  max-height: 100vh;
+  max-width: 100vw;
 }
 
-/* 這裡的高度決定 button 高度 */
-.action {
-  height: 10vh;
-  width: 100vw;
+mat-card {
+  height: 85vh;
+  background-color: #303030;
+  box-shadow: none;
+}
+
+mat-card-header {
+  display: flex;
+  justify-content: center;
+}
+
+mat-card-content {
   display: flex;
   justify-content: space-around;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
 }
 
-/* 多個 button 時，修改 margin */
-button {
-  width: 100%;
-  margin-left: 20vw;
-  margin-right: 20vw;
+mat-card-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 3vh;
+  font-size: 1vw;
 }
 
-.power {
-  margin-top: 5vh;
+.start-button {
+  font-size: 2.5vw;
+  padding-top: 1vw;
+  padding-bottom: 1vw;
+  padding-right: 2vw;
+  padding-left: 2vw;
 }

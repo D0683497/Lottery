@@ -1,9 +1,10 @@
-import { StaffService } from '../../services/staff/staff.service';
-import { StudentService } from '../../services/student/student.service';
+import { AttendeeService } from '../../services/attendee/attendee.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { Observable, timer } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Attendee } from 'src/app/models/attendee/attendee.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-result',
@@ -14,63 +15,49 @@ export class ResultComponent implements OnInit {
 
   counter$: Observable<number>;
   count = 10;
-  showResult = false;
-
-  roundId: string;
-  nid: string;
-  name: string;
-  department: string;
+  // showResult = false;
+  loading = true;
+  fetchDataError = false;
+  fetchDataNoContent = false;
+  itemId: string;
+  attendee: Attendee;
 
   constructor(
-    private studentService: StudentService,
-    private staffService: StaffService,
-    @Inject(MAT_DIALOG_DATA) private data: any) {
-      this.roundId = data.roundId;
-      this.counter$ = timer(0, 1000).pipe(
-        take(this.count),
-        map(() => --this.count)
-      );
+    @Inject(MAT_DIALOG_DATA) private data: string,
+    private attendeeService: AttendeeService,
+    private snackBar: MatSnackBar) {
+    this.itemId = data;
+    // this.counter$ = timer(0, 1000).pipe(
+    //   take(this.count),
+    //   map(() => --this.count)
+    // );
   }
 
   ngOnInit(): void {
-    this.counter$.subscribe(t => {
-      if (t === 0) {
-        this.showResult = true;
-      }
-    });
-    switch (this.data.method) {
-      case 'student':
-        this.getStudentData();
-        break;
-      case 'staff':
-        this.getStaffData();
-        break;
-      default:
-        break;
-    }
+    // this.counter$.subscribe(t => {
+    //   if (t === 0) {
+    //     // this.showResult = true;
+    //   }
+    // });
+    this.initData();
   }
 
-  getStaffData(): void {
-    this.staffService.getRandomStaffForRound(this.roundId)
+  initData(): void {
+    this.attendeeService.getAttendeeRandomForItemId(this.itemId)
       .subscribe(
         data => {
-          this.nid = data.nid;
-          this.name = data.name;
-          this.department = data.department;
+          if (data == null) {
+            this.fetchDataNoContent = true;
+          }
+          this.attendee = data;
+          this.fetchDataError = false;
+          this.loading = false;
         },
-        error => {}
-      );
-  }
-
-  getStudentData(): void {
-    this.studentService.getRandomStudentForRound(this.roundId)
-      .subscribe(
-        data => {
-          this.nid = data.nid;
-          this.name = data.name;
-          this.department = data.department;
-        },
-        error => {}
+        error => {
+          this.snackBar.open('發生錯誤', '關閉', { duration: 5000 });
+          this.fetchDataError = true;
+          this.loading = false;
+        }
       );
   }
 

@@ -2,24 +2,35 @@
   <!-- Content -->
   <ng-container *ngIf="!loading && !fetchDataError">
     <mat-card-header>
-      <mat-card-title>抽獎活動詳情</mat-card-title>
-      <mat-card-subtitle>識別碼：{{round.id}}</mat-card-subtitle>
-      <button mat-raised-button type="button" [routerLink]="['/start', round.id]" color="accent">開始抽獎</button>
+      <mat-card-title>清單詳情</mat-card-title>
+      <mat-card-subtitle>識別碼：{{item.id}}</mat-card-subtitle>
     </mat-card-header>
     <mat-divider [inset]="true"></mat-divider>
     <mat-card-content>
       <mat-list>
-        <mat-list-item>抽獎活動名稱：{{round.name}}</mat-list-item>
+        <mat-list-item>清單名稱：{{item.name}}</mat-list-item>
         <mat-list-item>
-          <button mat-stroked-button type="button" [routerLink]="['/student']" [queryParams]="{ id: round.id }">查看學生名單</button>
+          <button mat-stroked-button type="button" [routerLink]="['/attendee']" [queryParams]="{ id: item.id }">查看參與者名單</button>
         </mat-list-item>
         <mat-list-item>
-          <button mat-stroked-button type="button" [routerLink]="['/staff']" [queryParams]="{ id: round.id }">查看工作人員名單</button>
+          <button mat-stroked-button type="button" (click)="showAddFormDialog()">新增參與者名單</button>
+        </mat-list-item>
+        <mat-list-item>
+          <button mat-stroked-button type="button">上傳參與者名單</button>
+        </mat-list-item>
+        <mat-list-item>
+          <button mat-stroked-button type="button" [matMenuTriggerFor]="menu">下載參與者名單</button>
+          <mat-menu #menu="matMenu">
+            <button type="button" (click)="exportXlsx()" mat-menu-item>{{item.name}}.xlsx</button>
+            <button type="button" (click)="exportCsv()" mat-menu-item>{{item.name}}.csv</button>
+            <button type="button" (click)="exportJson()" mat-menu-item>{{item.name}}.json</button>
+          </mat-menu>
         </mat-list-item>
       </mat-list>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button [routerLink]="['/raffle/edit', round.id]" color="primary">編輯</button>
+      <button mat-raised-button color="primary">編輯</button>
+      <button mat-raised-button color="warn">刪除</button>
     </mat-card-actions>
   </ng-container>
   <!-- Loading -->

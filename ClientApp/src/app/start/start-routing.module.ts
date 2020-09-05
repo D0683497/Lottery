@@ -5,7 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { ResultComponent } from './result/result.component';
 
 const routes: Routes = [
-  { path: ':roundId', component: HomeComponent },
+  { path: '', component: HomeComponent },
   // { path: ':roundId/result', component: ResultComponent },
 ];
 
