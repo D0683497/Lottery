@@ -27,4 +27,19 @@ export class WinnerService {
     return this.http.get<number>(url, this.httpOptions);
   }
 
+  getWinnersXlsxForItemId(itemId: string): Observable<Blob> {
+    const url = `${this.urlRoot}/items/${itemId}/winners/file/xlsx`;
+    return this.http.get(url, { responseType: 'blob' });
+  }
+
+  getWinnersCsvForItemId(itemId: string): Observable<Blob> {
+    const url = `${this.urlRoot}/items/${itemId}/winners/file/csv`;
+    return this.http.get(url, { responseType: 'blob' });
+  }
+
+  getWinnersJsonForItemId(itemId: string): Observable<Blob> {
+    const url = `${this.urlRoot}/items/${itemId}/winners/file/json`;
+    return this.http.get(url, { responseType: 'blob' });
+  }
+
 }

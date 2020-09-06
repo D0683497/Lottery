@@ -18,6 +18,19 @@ namespace Lottery.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
+        public async Task<IEnumerable<Attendee>> GetAllWinnersForItemIdAsync(string itemId)
+        {
+            if (itemId == null)
+            {
+                throw new ArgumentNullException(nameof(itemId));
+            }
+
+            return await _applicationDbContext.Attendees
+                .Where(x => x.ItemId == itemId)
+                .Where(x => x.AttendeeIsAwarded == true)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<Attendee>> GetWinnersForItemIdAsync(string itemId, int skipNumber, int takeNumber)
         {
             if (itemId == null)

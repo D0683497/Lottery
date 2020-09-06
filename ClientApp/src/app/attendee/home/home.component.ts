@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { saveAs } from 'file-saver';
-import { Item } from '../..//models/item/item.model';
+import { Item } from '../../models/item/item.model';
 
 @Component({
   selector: 'app-home',

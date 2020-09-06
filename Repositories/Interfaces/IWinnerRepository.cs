@@ -7,6 +7,13 @@ namespace Lottery.Repositories.Interfaces
     public interface IWinnerRepository
     {
         /// <summary>
+        /// 獲取清單中的所有得獎者
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
+        Task<IEnumerable<Attendee>> GetAllWinnersForItemIdAsync(string itemId);
+        
+        /// <summary>
         /// 獲取清單中的得獎者
         /// </summary>
         /// <param name="itemId"></param>
