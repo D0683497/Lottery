@@ -5,14 +5,18 @@
       <mat-card-title>參與者名單</mat-card-title>
       <mat-card-subtitle>清單識別碼：{{itemId}}}</mat-card-subtitle>
       <button mat-mini-fab
-        [routerLink]="['/attendee/add']"
-        [queryParams]="{ id: itemId }"
         type="button" color="accent"
+        [matMenuTriggerFor]="menu"
         matTooltip="下載參與者名單"
         aria-label="icon button with a arrow_downward icon">
         <mat-icon>arrow_downward</mat-icon>
       </button>
     </mat-card-header>
+    <mat-menu #menu="matMenu">
+      <button type="button" (click)="exportXlsx()" mat-menu-item>{{item.name}}.xlsx</button>
+      <button type="button" (click)="exportCsv()" mat-menu-item>{{item.name}}.csv</button>
+      <button type="button" (click)="exportJson()" mat-menu-item>{{item.name}}.json</button>
+    </mat-menu>
     <mat-divider [inset]="true"></mat-divider>
     <mat-card-content>
       <table mat-table [dataSource]="dataSource">

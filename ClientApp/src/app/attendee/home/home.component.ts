@@ -1,3 +1,4 @@
+import { RaffleService } from '../../services/raffle/raffle.service';
 import { AttendeeService } from '../../services/attendee/attendee.service';
 import { Attendee } from '../../models/attendee/attendee.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -5,6 +6,8 @@ import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/pag
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { saveAs } from 'file-saver';
+import { Item } from '../..//models/item/item.model';
 
 @Component({
   selector: 'app-home',
@@ -24,12 +27,14 @@ export class HomeComponent implements OnInit {
   fetchDataError = false;
   loading = true;
   itemId: string;
+  item: Item;
 
   constructor(
     private attendeeService: AttendeeService,
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
-    private matPaginatorIntl: MatPaginatorIntl) { }
+    private matPaginatorIntl: MatPaginatorIntl,
+    private raffleService: RaffleService) { }
 
   ngOnInit(): void {
     this.getUrlId();
@@ -44,6 +49,19 @@ export class HomeComponent implements OnInit {
   }
 
   getData(): void {
+    this.raffleService.getItemById(this.itemId)
+      .subscribe(
+        data => {
+          this.item = data;
+          this.fetchDataError = false;
+          this.loading = false;
+        },
+        error => {
+          this.snackBar.open('發生錯誤', '關閉', { duration: 5000 });
+          this.fetchDataError = true;
+          this.loading = false;
+        }
+      );
     this.attendeeService.getAllAttendeesLengthForItemId(this.itemId)
       .subscribe(
         data => {
@@ -70,6 +88,45 @@ export class HomeComponent implements OnInit {
     this.fetchDataError = false;
     this.loading = true;
     this.getData();
+  }
+
+  exportXlsx(): void {
+    this.attendeeService.getAttendeesXlsxForItemId(this.itemId)
+      .subscribe(
+        data => {
+          saveAs(data, `${this.item.name}.xlsx`);
+          this.snackBar.open('下載成功', '關閉', { duration: 5000 });
+        },
+        error => {
+          this.snackBar.open('下載失敗', '關閉', { duration: 5000 });
+        }
+      );
+  }
+
+  exportCsv(): void {
+    this.attendeeService.getAttendeesCsvForItemId(this.itemId)
+      .subscribe(
+        data => {
+          saveAs(data, `${this.item.name}.csv`);
+          this.snackBar.open('下載成功', '關閉', { duration: 5000 });
+        },
+        error => {
+          this.snackBar.open('下載失敗', '關閉', { duration: 5000 });
+        }
+      );
+  }
+
+  exportJson(): void {
+    this.attendeeService.getAttendeesJsonForItemId(this.itemId)
+      .subscribe(
+        data => {
+          saveAs(data, `${this.item.name}.json`);
+          this.snackBar.open('下載成功', '關閉', { duration: 5000 });
+        },
+        error => {
+          this.snackBar.open('下載失敗', '關閉', { duration: 5000 });
+        }
+      );
   }
 
   getUrlId(): void {
