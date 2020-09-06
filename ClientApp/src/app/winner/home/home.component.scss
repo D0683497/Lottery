@@ -1,0 +1,27 @@
+mat-card {
+  min-width: 120px;
+  margin: 20px;
+  margin-bottom: 10vh;
+}
+
+mat-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2vh;
+}
+
+mat-card-header > button {
+  margin-right: 1.5vw;
+}
+
+mat-card-content {
+  margin-top: 2vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+table {
+  width: 100%;
+}

@@ -1,22 +1,13 @@
-.grid-container {
-  margin: 20px;
+.container {
+  margin-top: 10vh;
   margin-bottom: 10vh;
+  margin-left: 20px;
+  margin-right: 20px;
+  display: flex;
+  justify-content: center;
 }
 
-.dashboard-card {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  right: 15px;
-  bottom: 15px;
-}
-
-.more-button {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-}
-
-.dashboard-card-content {
-  text-align: center;
+img {
+  height: 60vmin;
+  width: 60vmin;
 }

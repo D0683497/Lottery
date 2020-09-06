@@ -2,12 +2,12 @@
   <!-- Content -->
   <ng-container *ngIf="!loading && !fetchDataError">
     <mat-card-header>
-      <mat-card-title>參與者名單</mat-card-title>
+      <mat-card-title>獲獎者名單</mat-card-title>
       <mat-card-subtitle>清單識別碼：{{itemId}}}</mat-card-subtitle>
       <button mat-mini-fab
         type="button" color="accent"
         [matMenuTriggerFor]="menu"
-        matTooltip="下載參與者名單"
+        matTooltip="下載獲獎者名單"
         aria-label="icon button with a arrow_downward icon">
         <mat-icon>arrow_downward</mat-icon>
       </button>
@@ -22,29 +22,29 @@
       <table mat-table [dataSource]="dataSource">
         <!-- Id Column -->
         <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef>參與者識別碼</th>
+          <th mat-header-cell *matHeaderCellDef>獲獎者識別碼</th>
           <td mat-cell *matCellDef="let element">{{element.id}}</td>
         </ng-container>
         <!-- NID Column -->
         <ng-container matColumnDef="nid">
-          <th mat-header-cell *matHeaderCellDef>參與者學號</th>
+          <th mat-header-cell *matHeaderCellDef>獲獎者學號</th>
           <td mat-cell *matCellDef="let element">{{element.nid}}</td>
         </ng-container>
         <!-- Name Column -->
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>參與者姓名</th>
+          <th mat-header-cell *matHeaderCellDef>獲獎者姓名</th>
           <td mat-cell *matCellDef="let element">{{element.name}}</td>
         </ng-container>
         <!-- Department Column -->
         <ng-container matColumnDef="department">
-          <th mat-header-cell *matHeaderCellDef>參與者系所</th>
+          <th mat-header-cell *matHeaderCellDef>獲獎者系所</th>
           <td mat-cell *matCellDef="let element">{{element.department}}</td>
         </ng-container>
         <!-- IsAwarded Column -->
-        <ng-container matColumnDef="isAwarded">
+        <!-- <ng-container matColumnDef="isAwarded">
           <th mat-header-cell *matHeaderCellDef>參與者是否得獎</th>
           <td mat-cell *matCellDef="let element">{{element.isAwarded}}</td>
-        </ng-container>
+        </ng-container> -->
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>

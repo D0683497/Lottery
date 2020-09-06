@@ -1,13 +1,13 @@
-import { RaffleService } from '../../services/raffle/raffle.service';
-import { AttendeeService } from '../../services/attendee/attendee.service';
-import { Attendee } from '../../models/attendee/attendee.model';
+import { WinnerService } from '../../services/winner/winner.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Attendee } from '../../models/attendee/attendee.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { saveAs } from 'file-saver';
 import { Item } from '../../models/item/item.model';
+import { RaffleService } from '../../services/raffle/raffle.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-home',
@@ -23,14 +23,14 @@ export class HomeComponent implements OnInit {
   pageSize = 10;
   pageLength: number;
   pageSizeOptions: number[] = [10, 20, 30, 40, 50];
-  displayedColumns: string[] = ['id', 'nid', 'name', 'department', 'isAwarded'];
+  displayedColumns: string[] = ['id', 'nid', 'name', 'department'];
   fetchDataError = false;
   loading = true;
   itemId: string;
   item: Item;
 
   constructor(
-    private attendeeService: AttendeeService,
+    private winnerService: WinnerService,
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
     private matPaginatorIntl: MatPaginatorIntl,
@@ -62,14 +62,14 @@ export class HomeComponent implements OnInit {
           this.loading = false;
         }
       );
-    this.attendeeService.getAllAttendeesLengthForItemId(this.itemId)
+    this.winnerService.getAllWinnersLengthForItemId(this.itemId)
       .subscribe(
         data => {
           this.pageLength = data;
         },
         error => {}
       );
-    this.attendeeService.getAttendeesForItemId(this.itemId, this.pageIndex + 1, this.pageSize)
+    this.winnerService.getWinnersForItemId(this.itemId, this.pageIndex + 1, this.pageSize)
       .subscribe(
         data => {
           this.dataSource.data = data;
@@ -84,14 +84,8 @@ export class HomeComponent implements OnInit {
       );
   }
 
-  reload(): void {
-    this.fetchDataError = false;
-    this.loading = true;
-    this.getData();
-  }
-
   exportXlsx(): void {
-    this.attendeeService.getAttendeesXlsxForItemId(this.itemId)
+    this.winnerService.getWinnersXlsxForItemId(this.itemId)
       .subscribe(
         data => {
           saveAs(data, `${this.item.name}.xlsx`);
@@ -104,7 +98,7 @@ export class HomeComponent implements OnInit {
   }
 
   exportCsv(): void {
-    this.attendeeService.getAttendeesCsvForItemId(this.itemId)
+    this.winnerService.getWinnersCsvForItemId(this.itemId)
       .subscribe(
         data => {
           saveAs(data, `${this.item.name}.csv`);
@@ -117,7 +111,7 @@ export class HomeComponent implements OnInit {
   }
 
   exportJson(): void {
-    this.attendeeService.getAttendeesJsonForItemId(this.itemId)
+    this.winnerService.getWinnersJsonForItemId(this.itemId)
       .subscribe(
         data => {
           saveAs(data, `${this.item.name}.json`);
@@ -127,6 +121,12 @@ export class HomeComponent implements OnInit {
           this.snackBar.open('下載失敗', '關閉', { duration: 5000 });
         }
       );
+  }
+
+  reload(): void {
+    this.fetchDataError = false;
+    this.loading = true;
+    this.getData();
   }
 
   getUrlId(): void {

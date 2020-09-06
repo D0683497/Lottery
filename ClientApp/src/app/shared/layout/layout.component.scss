@@ -33,6 +33,11 @@ a.mat-list-item.active {
   padding-top: 56px;
 }
 
+mat-sidenav-content > p {
+  text-align: center;
+  font-size: 1vw;
+}
+
 .toolbar-spacer {
   flex: 1 1 auto;
 }

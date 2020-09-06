@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Lottery.Data;
@@ -17,6 +18,34 @@ namespace Lottery.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
+        public async Task<IEnumerable<Attendee>> GetAllWinnersForItemIdAsync(string itemId)
+        {
+            if (itemId == null)
+            {
+                throw new ArgumentNullException(nameof(itemId));
+            }
+
+            return await _applicationDbContext.Attendees
+                .Where(x => x.ItemId == itemId)
+                .Where(x => x.AttendeeIsAwarded == true)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Attendee>> GetWinnersForItemIdAsync(string itemId, int skipNumber, int takeNumber)
+        {
+            if (itemId == null)
+            {
+                throw new ArgumentNullException(nameof(itemId));
+            }
+
+            return await _applicationDbContext.Attendees
+                .Where(x => x.ItemId == itemId)
+                .Where(x => x.AttendeeIsAwarded == true)
+                .Skip(skipNumber)
+                .Take(takeNumber)
+                .ToListAsync();
+        }
+
         public void CreateWinnerForItemIdAttendeeId(string itemId, string attendeeId, Winner winner)
         {
             if (itemId == null)
@@ -32,6 +61,18 @@ namespace Lottery.Repositories
             winner.AttendeeId = attendeeId;
 
             _applicationDbContext.Winners.Add(winner);
+        }
+
+        public async Task<int> GetAllWinnersLengthForItemIdAsync(string itemId)
+        {
+            if (itemId == null)
+            {
+                throw new ArgumentNullException(nameof(itemId));
+            }
+
+            return await _applicationDbContext.Winners
+                .Where(x => x.ItemId == itemId)
+                .CountAsync();
         }
 
         public async Task<bool> SaveAsync()
