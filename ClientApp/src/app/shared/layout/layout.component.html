@@ -7,7 +7,7 @@
       (click)="drawer.toggle()">
       <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
     </button>
-    <a [routerLink]="['/']" matTooltip="Home" class="toolbar-title">新鮮人成長營</a>
+    <a [routerLink]="['/']" matTooltip="Home" class="toolbar-title">抽獎系統</a>
     <span class="toolbar-spacer"></span>
     <a [routerLink]="['/account/login']" mat-flat-button class="login-button">
       <mat-icon>account_circle</mat-icon>
@@ -49,6 +49,7 @@
     </mat-sidenav>
     <mat-sidenav-content [class]="(isHandset$ | async) ? 'sidenav-content-mobile' : 'sidenav-content-computer'">
       <router-outlet></router-outlet>
+      <p>Powered by HackerSir</p>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </ng-container>
