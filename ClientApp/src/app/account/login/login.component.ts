@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
           this.loading = false;
         },
         error => {
-          this.snackBar.open('發生錯誤', '關閉', { duration: 5000 });
+          this.snackBar.open('登入失敗', '關閉', { duration: 5000 });
           this.loading = false;
         }
       );

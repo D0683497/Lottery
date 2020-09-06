@@ -1,3 +1,4 @@
+import { RoleGuard } from '../services/auth/role.guard';
 import { AuthGuard } from '../services/auth/auth.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -9,7 +10,10 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+      allowRole: ['Admin']
+    },
     children: [
       { path: '', component: HomeComponent },
       { path: 'detail/:itemId', component: DetailComponent }
