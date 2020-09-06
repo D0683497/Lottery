@@ -1,8 +1,10 @@
+import { LoginComponent } from '../../account/login/login.component';
 import { AuthService } from '../../services/auth/auth.service';
 import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-layout',
@@ -17,6 +19,10 @@ export class LayoutComponent {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver, public authService: AuthService) {}
+  constructor(private breakpointObserver: BreakpointObserver, public authService: AuthService, private dialog: MatDialog) {}
+
+  showAddFormDialog(): void {
+    const dialogRef = this.dialog.open(LoginComponent);
+  }
 
 }

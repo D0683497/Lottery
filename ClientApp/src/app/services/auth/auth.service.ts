@@ -1,3 +1,4 @@
+import { Register } from '../../models/register/register.model';
 import { LoginResponse } from '../../models/login/login-response';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -20,47 +21,56 @@ export class AuthService {
 
   constructor(private http: HttpClient, public jwtHelper: JwtHelperService) { }
 
+  // 登入
   login(loginForm: Login): Observable<void> {
     const url = `${this.urlRoot}/auth/login`;
     return this.http.post(url, loginForm, this.httpOptions).pipe(
-      map((data: LoginResponse) => {
-        localStorage.setItem('access_token', data.access_token);
-      })
+      map((data: LoginResponse) => localStorage.setItem('access_token', data.access_token))
     );
   }
 
-  getEmail(): string {
-    const token = localStorage.getItem('access_token');
-    const decodeToken = this.jwtHelper.decodeToken(token);
-    return decodeToken.email;
+  createAdminUser(registerForm: Register): Observable<object> {
+    const url = `${this.urlRoot}/account/register/admin`;
+    return this.http.post(url, registerForm, this.httpOptions);
   }
 
+  createHostUser(registerForm: Register): Observable<object> {
+    const url = `${this.urlRoot}/account/register/host`;
+    return this.http.post(url, registerForm, this.httpOptions);
+  }
+
+  createClientUser(registerForm: Register): Observable<object> {
+    const url = `${this.urlRoot}/account/register/client`;
+    return this.http.post(url, registerForm, this.httpOptions);
+  }
+
+  // 登出
+  logout(): void {
+    localStorage.clear();
+  }
+
+  // 獲取角色
   getRole(): string {
     const token = localStorage.getItem('access_token');
     const decodeToken = this.jwtHelper.decodeToken(token);
     return decodeToken.role;
   }
 
+  // 獲取用戶名稱
   getUniqueName(): string {
     const token = localStorage.getItem('access_token');
     const decodeToken = this.jwtHelper.decodeToken(token);
     return decodeToken.unique_name;
   }
 
-  getAccessToken(): string {
-    return localStorage.getItem('access_token');
-  }
-
-  logout(): void {
-    localStorage.clear();
-  }
-
+  // Token 是否過期
   isTokenExpired(): boolean {
     return this.jwtHelper.isTokenExpired(localStorage.getItem('access_token'));
   }
 
+  // 是否登入
   isLoggedIn(): boolean {
-    return this.getAccessToken() != null;
+    return localStorage.getItem('access_token') != null;
   }
 
 }

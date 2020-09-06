@@ -35,25 +35,36 @@
         [mode]="(isHandset$ | async) ? 'push' : 'side'"
         [opened]="(isHandset$ | async) === false">
       <mat-nav-list class="sidenav-list">
+        <!-- Dashboard -->
         <h3 mat-subheader>Dashboard</h3>
         <a mat-list-item routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <mat-icon mat-list-icon>home</mat-icon>
           <p mat-line>Home</p>
         </a>
-        <h3 mat-subheader>Account</h3>
-        <a mat-list-item routerLink="/account/register" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <mat-icon mat-list-icon>account_box</mat-icon>
-          <p mat-line>Register</p>
-        </a>
-        <a mat-list-item routerLink="/account/login" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <mat-icon mat-list-icon>login</mat-icon>
-          <p mat-line>Login</p>
-        </a>
+        <!-- Account -->
+        <ng-container *ngIf="this.authService.isLoggedIn(); else notLoginSlideNav">
+          <ng-container *ngIf="this.authService.getRole() === 'Admin'">
+            <h3 mat-subheader>Account</h3>
+            <a mat-list-item routerLink="/account/register" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              <mat-icon mat-list-icon>account_box</mat-icon>
+              <p mat-line>Register</p>
+            </a>
+          </ng-container>
+        </ng-container>
+        <ng-template #notLoginSlideNav>
+          <h3 mat-subheader>Account</h3>
+          <a mat-list-item routerLink="/account/login" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <mat-icon mat-list-icon>login</mat-icon>
+            <p mat-line>Login</p>
+          </a>
+        </ng-template>
+        <!-- Raffle -->
         <h3 mat-subheader>Raffle</h3>
         <a mat-list-item routerLink="/raffle" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <mat-icon mat-list-icon>home</mat-icon>
           <p mat-line>Home</p>
         </a>
+        <!-- Start -->
         <h3 mat-subheader>Start</h3>
         <a mat-list-item routerLink="/start" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <mat-icon mat-list-icon>home</mat-icon>
