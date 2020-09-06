@@ -26,6 +26,9 @@
             <button type="button" (click)="exportJson()" mat-menu-item>{{item.name}}.json</button>
           </mat-menu>
         </mat-list-item>
+        <mat-list-item>
+          <button mat-stroked-button type="button" [routerLink]="['/winner']" [queryParams]="{ id: item.id }">查看得獎者名單</button>
+        </mat-list-item>
       </mat-list>
     </mat-card-content>
     <mat-card-actions>

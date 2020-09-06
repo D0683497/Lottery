@@ -19,6 +19,10 @@ const routes: Routes = [
     loadChildren: () => import('./attendee/attendee.module').then(m => m.AttendeeModule)
   },
   {
+    path: 'winner',
+    loadChildren: () => import('./winner/winner.module').then(m => m.WinnerModule)
+  },
+  {
     path: 'start',
     loadChildren: () => import('./start/start.module').then(m => m.StartModule)
   }
