@@ -72,6 +72,20 @@ namespace Lottery.Repositories
             _applicationDbContext.Attendees.Add(attendee);
         }
 
+        public void CreateAttendeesForItemId(string itemId, IEnumerable<Attendee> attendees)
+        {
+            if (itemId == null)
+            {
+                throw new ArgumentNullException(nameof(itemId));
+            }
+
+            foreach (var attendee in attendees)
+            {
+                attendee.ItemId = itemId;
+                _applicationDbContext.Attendees.Add(attendee);
+            }
+        }
+
         public void UpdateAttendee(Attendee attendee)
         {
             _applicationDbContext.Entry(attendee).State = EntityState.Modified;

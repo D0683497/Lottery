@@ -38,6 +38,13 @@ namespace Lottery.Repositories.Interfaces
         void CreateAttendeeForItemId(string itemId, Attendee attendee);
 
         /// <summary>
+        /// 建立參與者
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <param name="attendees"></param>
+        void CreateAttendeesForItemId(string itemId, IEnumerable<Attendee> attendees);
+
+        /// <summary>
         /// 更新參與者
         /// </summary>
         /// <param name="attendee"></param>

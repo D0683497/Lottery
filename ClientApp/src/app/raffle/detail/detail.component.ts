@@ -1,3 +1,4 @@
+import { UploadComponent } from '../upload/upload.component';
 import { Component, OnInit } from '@angular/core';
 import { RaffleService } from '../../services/raffle/raffle.service';
 import { ActivatedRoute } from '@angular/router';
@@ -30,11 +31,14 @@ export class DetailComponent implements OnInit {
   }
 
   showAddFormDialog(): void {
-    const dialogRef = this.dialog.open(AddComponent, {
+    this.dialog.open(AddComponent, {
       data: this.itemId
     });
-    dialogRef.afterClosed().subscribe(() => {
-      // this.reload();
+  }
+
+  showUploadFormDialog(): void {
+    this.dialog.open(UploadComponent, {
+      data: this.itemId
     });
   }
 

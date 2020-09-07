@@ -116,6 +116,26 @@ namespace Lottery.Controllers
             
             return CreatedAtRoute(nameof(GetAttendeeByIdForItemId), new { itemId, attendeeId = returnModel.Id }, returnModel);
         }
+
+        [HttpPost("collections", Name = nameof(CreateAttendeesForItemId))]
+        public async Task<IActionResult> CreateAttendeesForItemId(string itemId, IEnumerable<AttendeeAddViewModel> models)
+        {
+            if (!await _itemRepository.ExistItemByIdAsync(itemId))
+            {
+                return NotFound();
+            }
+
+            var entities = _mapper.Map<IEnumerable<Attendee>>(models);
+            
+            _attendeeRepository.CreateAttendeesForItemId(itemId, entities);
+            
+            var result = await _attendeeRepository.SaveAsync();
+            if (!result) return BadRequest();
+            
+            // var returnModel = _mapper.Map<IEnumerable<AttendeeViewModel>>(entities);
+
+            return Ok();
+        }
         
         [HttpGet("file/xlsx", Name = nameof(GetAttendeesXlsxForItemId))]
         public async Task<IActionResult> GetAttendeesXlsxForItemId(string itemId)
