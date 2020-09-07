@@ -28,6 +28,9 @@
             <mat-error *ngIf="registerForm.controls['userName'].hasError('required')">
               使用者名稱是<strong>必填的</strong>
             </mat-error>
+            <mat-error *ngIf="registerForm.controls['userName'].hasError('pattern')">
+              使用者名稱只能是<strong>字母或數字或<code>{{ ' - . @ + # $ % \\ / ( ) [ ] * & : >  ^ ! { } =' }}</code></strong>
+            </mat-error>
           </mat-form-field>
         </div>
       </div>

@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class AuthService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private http: HttpClient, public jwtHelper: JwtHelperService) { }
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService, private router: Router) { }
 
   // 登入
   login(loginForm: Login): Observable<void> {
@@ -47,6 +48,7 @@ export class AuthService {
   // 登出
   logout(): void {
     localStorage.clear();
+    this.router.navigate(['/']);
   }
 
   // 獲取角色

@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
+  pattern = new RegExp(/[\w\-\.\@\+\#\$\%\\\/\(\)\[\]\*\&\:\>\<\^\!\{\}\=]+/gm);
   loading = false;
   loginForm: FormGroup;
   hide = true;
@@ -24,8 +25,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      userName: [null, Validators.required],
-      password: [null, Validators.required]
+      userName: [null, [Validators.required, Validators.pattern(this.pattern)]],
+      password: [null, [Validators.required, Validators.minLength(8), Validators.maxLength(64)]]
     });
   }
 
