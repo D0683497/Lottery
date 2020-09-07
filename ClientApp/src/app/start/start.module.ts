@@ -7,7 +7,6 @@ import { ResultComponent } from './result/result.component';
 import { ClientComponent } from './client/client.component';
 import { HostComponent } from './host/host.component';
 
-
 @NgModule({
   declarations: [HomeComponent, ResultComponent, ClientComponent, HostComponent],
   imports: [
