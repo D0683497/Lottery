@@ -89,7 +89,7 @@ namespace Lottery.Controllers
                 Subject = userClaimsIdentity,
                 NotBefore = DateTime.Now, // Token 在什麼時間之前，不可用
                 IssuedAt = DateTime.UtcNow, // Token 的建立時間
-                Expires = DateTime.Now.AddMinutes(2), // Token 的逾期時間
+                Expires = DateTime.Now.AddHours(2), // Token 的逾期時間
                 SigningCredentials = signingCredentials
             };
 

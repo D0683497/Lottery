@@ -10,12 +10,14 @@ using Lottery.Data;
 using Lottery.Helpers;
 using Lottery.Models.Attendee;
 using Lottery.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace Lottery.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/items/{itemId}/winners")]
     public class WinnersForItemIdController : ControllerBase
     {

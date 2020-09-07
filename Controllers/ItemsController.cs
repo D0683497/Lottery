@@ -5,11 +5,13 @@ using Lottery.Entities;
 using Lottery.Helpers;
 using Lottery.Models.Item;
 using Lottery.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lottery.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class ItemsController : ControllerBase
     {

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Lottery.Data;
 using Lottery.Entities;
 using Lottery.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace Lottery.Controllers
 {
     [ApiController]
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {
