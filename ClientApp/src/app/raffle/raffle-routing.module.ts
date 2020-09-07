@@ -10,13 +10,23 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [AuthGuard, RoleGuard],
-    data: {
-      allowRole: ['Admin']
-    },
     children: [
-      { path: '', component: HomeComponent },
-      { path: 'detail/:itemId', component: DetailComponent }
+      {
+        path: '',
+        component: HomeComponent,
+        canActivate: [AuthGuard, RoleGuard],
+        data: {
+          allowRole: ['Admin', 'Host']
+        },
+      },
+      {
+        path: 'detail/:itemId',
+        component: DetailComponent,
+        canActivate: [AuthGuard, RoleGuard],
+        data: {
+          allowRole: ['Admin', 'Host']
+        },
+      }
     ]
   }
 ];

@@ -46,7 +46,7 @@ export class UploadComponent implements OnInit {
       this.attendeeService
         .createAttendeesForItemId(this.itemId, XLSX.utils.sheet_to_json(worksheet, {header: ['nid', 'department', 'name'], raw: true}))
         .subscribe(
-          data => {
+          () => {
             this.snackBar.open('新增成功', '關閉', { duration: 5000 });
             this.loading = false;
             this.dialogRef.close();

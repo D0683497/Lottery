@@ -41,35 +41,50 @@
           <mat-icon mat-list-icon>home</mat-icon>
           <p mat-line>Home</p>
         </a>
-        <!-- Account -->
         <ng-container *ngIf="this.authService.isLoggedIn(); else notLoginSlideNav">
           <ng-container *ngIf="this.authService.getRole() === 'Admin'">
+            <!-- Account -->
             <h3 mat-subheader>Account</h3>
             <a mat-list-item routerLink="/account/register" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
               <mat-icon mat-list-icon>account_box</mat-icon>
               <p mat-line>Register</p>
             </a>
+            <!-- Raffle -->
+            <h3 mat-subheader>Raffle</h3>
+            <a mat-list-item routerLink="/raffle" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              <mat-icon mat-list-icon>home</mat-icon>
+              <p mat-line>Home</p>
+            </a>
+            <!-- Start -->
+            <h3 mat-subheader>Start</h3>
+            <a mat-list-item routerLink="/start" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              <mat-icon mat-list-icon>home</mat-icon>
+              <p mat-line>Home</p>
+            </a>
+          </ng-container>
+          <ng-container *ngIf="this.authService.getRole() === 'Host'">
+            <!-- Raffle -->
+            <h3 mat-subheader>Raffle</h3>
+            <a mat-list-item routerLink="/raffle" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              <mat-icon mat-list-icon>home</mat-icon>
+              <p mat-line>Home</p>
+            </a>
+            <!-- Start -->
+            <h3 mat-subheader>Start</h3>
+            <a mat-list-item routerLink="/start" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              <mat-icon mat-list-icon>home</mat-icon>
+              <p mat-line>Home</p>
+            </a>
           </ng-container>
         </ng-container>
         <ng-template #notLoginSlideNav>
+          <!-- Account -->
           <h3 mat-subheader>Account</h3>
           <a mat-list-item routerLink="/account/login" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
             <mat-icon mat-list-icon>login</mat-icon>
             <p mat-line>Login</p>
           </a>
         </ng-template>
-        <!-- Raffle -->
-        <h3 mat-subheader>Raffle</h3>
-        <a mat-list-item routerLink="/raffle" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <mat-icon mat-list-icon>home</mat-icon>
-          <p mat-line>Home</p>
-        </a>
-        <!-- Start -->
-        <h3 mat-subheader>Start</h3>
-        <a mat-list-item routerLink="/start" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <mat-icon mat-list-icon>home</mat-icon>
-          <p mat-line>Home</p>
-        </a>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content [class]="(isHandset$ | async) ? 'sidenav-content-mobile' : 'sidenav-content-computer'">

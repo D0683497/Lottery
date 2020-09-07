@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class RoleGuard implements CanActivate {
 
-  constructor(private authService: AuthService, private snackBar: MatSnackBar) {}
+  constructor(private authService: AuthService, private snackBar: MatSnackBar, private router: Router) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -17,6 +17,7 @@ export class RoleGuard implements CanActivate {
     const role = this.authService.getRole();
     if (activateRole.indexOf(role) === -1) {
       this.snackBar.open('沒有權限', '關閉', { duration: 5000 });
+      this.router.navigate(['/']);
       return false;
     }
     return true;

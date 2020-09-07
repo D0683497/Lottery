@@ -1,3 +1,4 @@
+import { AuthService } from '../../services/auth/auth.service';
 import { UploadComponent } from '../upload/upload.component';
 import { Component, OnInit } from '@angular/core';
 import { RaffleService } from '../../services/raffle/raffle.service';
@@ -23,7 +24,8 @@ export class DetailComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private raffleService: RaffleService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    public authService: AuthService) { }
 
   ngOnInit(): void {
     this.getUrlId();

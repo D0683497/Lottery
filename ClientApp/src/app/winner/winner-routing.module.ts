@@ -11,7 +11,7 @@ const routes: Routes = [
     component: LayoutComponent,
     canActivate: [AuthGuard, RoleGuard],
     data: {
-      allowRole: ['Admin']
+      allowRole: ['Admin', 'Host']
     },
     children: [
       { path: '', component: HomeComponent },
