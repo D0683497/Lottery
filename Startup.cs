@@ -40,11 +40,17 @@ namespace Lottery
 
             services.AddSignalR();
 
+            #region DbContext
+
             services.AddDbContext<ApplicationDbContext>(option =>
             {
                 option.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            #endregion
+
+            #region Identity
+            
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -52,7 +58,7 @@ namespace Lottery
             {
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
-                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 8;
                 options.Password.RequiredUniqueChars = 1;
@@ -65,6 +71,10 @@ namespace Lottery
                 options.Lockout.AllowedForNewUsers = true;
             });
 
+            #endregion
+
+            #region Authentication
+            
             services.AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -86,17 +96,23 @@ namespace Lottery
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtSettings:Key"]))
                     };
                 });
+            
+            #endregion
+
+            #region Cors
 
             services.AddCors(options =>
             {
                 options.AddPolicy("api", policy =>
                 {
-                    policy.WithOrigins("http://localhost:4200")
+                    policy.WithOrigins(Configuration["FrontendUrl"])
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
                 });
             });
+
+            #endregion
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IItemRepository, ItemRepository>();
@@ -122,7 +138,7 @@ namespace Lottery
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<LotteryHub>("/lottery");
+                endpoints.MapHub<LotteryHub>("/api/lottery");
             });
         }
     }

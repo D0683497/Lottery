@@ -15,8 +15,11 @@ mat-card-header {
 }
 
 mat-card-content {
+  height: 70vh;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
+  align-items: center;
   margin-top: 1vh;
   margin-bottom: 1vh;
 }
@@ -30,8 +33,6 @@ mat-card-footer {
 
 .start-button {
   font-size: 2.5vw;
-  padding-top: 1vw;
-  padding-bottom: 1vw;
-  padding-right: 2vw;
-  padding-left: 2vw;
+  height: 10vh;
+  width: 70vw;
 }

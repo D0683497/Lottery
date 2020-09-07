@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class RegisterAdminComponent implements OnInit {
 
+  pattern = new RegExp(/[\w\-\.\@\+\#\$\%\\\/\(\)\[\]\*\&\:\>\<\^\!\{\}\=]+/gm);
   loading = false;
   registerForm: FormGroup;
   hidePassword = true;
@@ -24,9 +25,9 @@ export class RegisterAdminComponent implements OnInit {
   ngOnInit(): void {
     this.registerForm = this.fb.group({
       email: [null, [Validators.required, Validators.email]],
-      userName: [null, Validators.required],
-      password: [null, Validators.required],
-      passwordConfirm: [null, Validators.required],
+      userName: [null, [Validators.required, Validators.pattern(this.pattern)]],
+      password: [null, [Validators.required, Validators.minLength(8), Validators.maxLength(64)]],
+      passwordConfirm: [null, [Validators.required, Validators.minLength(8), Validators.maxLength(64)]],
       phoneNumber: null
     });
   }

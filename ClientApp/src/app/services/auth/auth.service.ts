@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -19,34 +20,35 @@ export class AuthService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private http: HttpClient, public jwtHelper: JwtHelperService) { }
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService, private router: Router) { }
 
   // 登入
   login(loginForm: Login): Observable<void> {
-    const url = `${this.urlRoot}/api/auth/login`;
+    const url = `${this.urlRoot}/auth/login`;
     return this.http.post(url, loginForm, this.httpOptions).pipe(
       map((data: LoginResponse) => localStorage.setItem('access_token', data.access_token))
     );
   }
 
   createAdminUser(registerForm: Register): Observable<object> {
-    const url = `${this.urlRoot}/api/account/register/admin`;
+    const url = `${this.urlRoot}/account/register/admin`;
     return this.http.post(url, registerForm, this.httpOptions);
   }
 
   createHostUser(registerForm: Register): Observable<object> {
-    const url = `${this.urlRoot}/api/account/register/host`;
+    const url = `${this.urlRoot}/account/register/host`;
     return this.http.post(url, registerForm, this.httpOptions);
   }
 
   createClientUser(registerForm: Register): Observable<object> {
-    const url = `${this.urlRoot}/api/account/register/client`;
+    const url = `${this.urlRoot}/account/register/client`;
     return this.http.post(url, registerForm, this.httpOptions);
   }
 
   // 登出
   logout(): void {
     localStorage.clear();
+    this.router.navigate(['/']);
   }
 
   // 獲取角色
