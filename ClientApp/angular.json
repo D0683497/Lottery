@@ -194,7 +194,9 @@
         },
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
-          "options": {}
+          "options": {
+            "baseHref": "https://d0683497.github.io/Lottery/"
+          }
         }
       }
     }
