@@ -61,6 +61,14 @@
               <mat-icon mat-list-icon>home</mat-icon>
               <p mat-line>Home</p>
             </a>
+            <a mat-list-item routerLink="/start/host" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              <mat-icon mat-list-icon>home</mat-icon>
+              <p mat-line>Host</p>
+            </a>
+            <a mat-list-item routerLink="/start/client" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              <mat-icon mat-list-icon>home</mat-icon>
+              <p mat-line>Client</p>
+            </a>
           </ng-container>
           <ng-container *ngIf="this.authService.getRole() === 'Host'">
             <!-- Raffle -->
@@ -71,9 +79,17 @@
             </a>
             <!-- Start -->
             <h3 mat-subheader>Start</h3>
-            <a mat-list-item routerLink="/start" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <a mat-list-item routerLink="/start/host" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
               <mat-icon mat-list-icon>home</mat-icon>
-              <p mat-line>Home</p>
+              <p mat-line>Host</p>
+            </a>
+          </ng-container>
+          <ng-container *ngIf="this.authService.getRole() === 'Client'">
+            <!-- Start -->
+            <h3 mat-subheader>Start</h3>
+            <a mat-list-item routerLink="/start/client" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              <mat-icon mat-list-icon>home</mat-icon>
+              <p mat-line>Client</p>
             </a>
           </ng-container>
         </ng-container>

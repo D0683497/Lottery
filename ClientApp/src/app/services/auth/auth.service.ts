@@ -23,24 +23,24 @@ export class AuthService {
 
   // 登入
   login(loginForm: Login): Observable<void> {
-    const url = `${this.urlRoot}/auth/login`;
+    const url = `${this.urlRoot}/api/auth/login`;
     return this.http.post(url, loginForm, this.httpOptions).pipe(
       map((data: LoginResponse) => localStorage.setItem('access_token', data.access_token))
     );
   }
 
   createAdminUser(registerForm: Register): Observable<object> {
-    const url = `${this.urlRoot}/account/register/admin`;
+    const url = `${this.urlRoot}/api/account/register/admin`;
     return this.http.post(url, registerForm, this.httpOptions);
   }
 
   createHostUser(registerForm: Register): Observable<object> {
-    const url = `${this.urlRoot}/account/register/host`;
+    const url = `${this.urlRoot}/api/account/register/host`;
     return this.http.post(url, registerForm, this.httpOptions);
   }
 
   createClientUser(registerForm: Register): Observable<object> {
-    const url = `${this.urlRoot}/account/register/client`;
+    const url = `${this.urlRoot}/api/account/register/client`;
     return this.http.post(url, registerForm, this.httpOptions);
   }
 

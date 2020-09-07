@@ -3,6 +3,7 @@ using System.Text;
 using AutoMapper;
 using Lottery.Data;
 using Lottery.Entities;
+using Lottery.Hubs;
 using Lottery.Repositories;
 using Lottery.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -36,6 +37,8 @@ namespace Lottery
             {
                 options.MaxValidationDepth = 5000;
             });
+
+            services.AddSignalR();
 
             services.AddDbContext<ApplicationDbContext>(option =>
             {
@@ -84,15 +87,14 @@ namespace Lottery
                     };
                 });
 
-            services.AddAuthorization();
-
             services.AddCors(options =>
             {
                 options.AddPolicy("api", policy =>
                 {
                     policy.WithOrigins("http://localhost:4200")
                         .AllowAnyHeader()
-                        .AllowAnyMethod();
+                        .AllowAnyMethod()
+                        .AllowCredentials();
                 });
             });
 
@@ -114,11 +116,13 @@ namespace Lottery
 
             app.UseCors("api");
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<LotteryHub>("/lottery");
             });
         }
     }

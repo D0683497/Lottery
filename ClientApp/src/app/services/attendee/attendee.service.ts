@@ -20,54 +20,54 @@ export class AttendeeService {
   constructor(private http: HttpClient) { }
 
   getAllAttendeesForItemId(itemId: string): Observable<Attendee[]> {
-    const url = `${this.urlRoot}/items/${itemId}/attendees/all`;
+    const url = `${this.urlRoot}/api/items/${itemId}/attendees/all`;
     return this.http.get<Attendee[]>(url, this.httpOptions);
   }
 
   getAttendeesForItemId(itemId: string, pageIndex: number, pageSize: number): Observable<Attendee[]> {
-    const url = `${this.urlRoot}/items/${itemId}/attendees?pageNumber=${pageIndex}&pageSize=${pageSize}`;
+    const url = `${this.urlRoot}/api/items/${itemId}/attendees?pageNumber=${pageIndex}&pageSize=${pageSize}`;
     return this.http.get<Attendee[]>(url, this.httpOptions);
   }
 
   getAttendeeByIdForItemId(itemId: string, attendeeId: string): Observable<Attendee> {
-    const url = `${this.urlRoot}/items/${itemId}/attendees/${attendeeId}`;
+    const url = `${this.urlRoot}/api/items/${itemId}/attendees/${attendeeId}`;
     return this.http.get<Attendee>(url, this.httpOptions);
   }
 
   createAttendeeForItemId(itemId: string, attendee: AttendeeAdd): Observable<Attendee> {
-    const url = `${this.urlRoot}/items/${itemId}/attendees`;
+    const url = `${this.urlRoot}/api/items/${itemId}/attendees`;
     return this.http.post(url, attendee, this.httpOptions).pipe(
       map((newAttendee: Attendee) => newAttendee)
     );
   }
 
   createAttendeesForItemId(itemId: string, attendees: AttendeeAdd[]): Observable<object> {
-    const url = `${this.urlRoot}/items/${itemId}/attendees/collections`;
+    const url = `${this.urlRoot}/api/items/${itemId}/attendees/collections`;
     return this.http.post(url, attendees, this.httpOptions);
   }
 
   getAllAttendeesLengthForItemId(itemId: string): Observable<number> {
-    const url = `${this.urlRoot}/items/${itemId}/attendees/length`;
+    const url = `${this.urlRoot}/api/items/${itemId}/attendees/length`;
     return this.http.get<number>(url, this.httpOptions);
   }
 
   getAttendeeRandomForItemId(itemId: string): Observable<Attendee> {
-    const url = `${this.urlRoot}/items/${itemId}/attendees/random`;
+    const url = `${this.urlRoot}/api/items/${itemId}/attendees/random`;
     return this.http.get<Attendee>(url, this.httpOptions);
   }
 
   getAttendeesXlsxForItemId(itemId: string): Observable<Blob> {
-    const url = `${this.urlRoot}/items/${itemId}/attendees/file/xlsx`;
+    const url = `${this.urlRoot}/api/items/${itemId}/attendees/file/xlsx`;
     return this.http.get(url, { responseType: 'blob' });
   }
 
   getAttendeesCsvForItemId(itemId: string): Observable<Blob> {
-    const url = `${this.urlRoot}/items/${itemId}/attendees/file/csv`;
+    const url = `${this.urlRoot}/api/items/${itemId}/attendees/file/csv`;
     return this.http.get(url, { responseType: 'blob' });
   }
 
   getAttendeesJsonForItemId(itemId: string): Observable<Blob> {
-    const url = `${this.urlRoot}/items/${itemId}/attendees/file/json`;
+    const url = `${this.urlRoot}/api/items/${itemId}/attendees/file/json`;
     return this.http.get(url, { responseType: 'blob' });
   }
 
