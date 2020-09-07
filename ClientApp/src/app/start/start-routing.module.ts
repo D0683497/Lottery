@@ -1,3 +1,5 @@
+import { HostComponent } from './host/host.component';
+import { ClientComponent } from './client/client.component';
 import { AuthGuard } from '../services/auth/auth.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -10,7 +12,23 @@ const routes: Routes = [
     component: HomeComponent,
     canActivate: [AuthGuard, RoleGuard],
     data: {
+      allowRole: ['Admin']
+    }
+  },
+  {
+    path: 'host',
+    component: HostComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
       allowRole: ['Admin', 'Host']
+    }
+  },
+  {
+    path: 'client',
+    component: ClientComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+      allowRole: ['Admin', 'Client']
     }
   }
 ];
