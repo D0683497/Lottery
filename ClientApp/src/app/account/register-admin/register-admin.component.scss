@@ -3,13 +3,16 @@
 }
 
 mat-card {
-  margin: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .row {
   display: flex;
   flex-direction: row;
-  margin-bottom: 2px;
+  margin-bottom: 1vh;
 }
 
 .col {

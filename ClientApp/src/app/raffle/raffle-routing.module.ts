@@ -1,8 +1,9 @@
+import { RoleGuard } from '../services/auth/role.guard';
+import { AuthGuard } from '../services/auth/auth.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from '../shared/layout/layout.component';
 import { HomeComponent } from './home/home.component';
-import { AddComponent } from './add/add.component';
 import { DetailComponent } from './detail/detail.component';
 
 const routes: Routes = [
@@ -10,8 +11,22 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      { path: '', component: HomeComponent },
-      { path: 'detail/:itemId', component: DetailComponent }
+      {
+        path: '',
+        component: HomeComponent,
+        canActivate: [AuthGuard, RoleGuard],
+        data: {
+          allowRole: ['Admin', 'Host']
+        },
+      },
+      {
+        path: 'detail/:itemId',
+        component: DetailComponent,
+        canActivate: [AuthGuard, RoleGuard],
+        data: {
+          allowRole: ['Admin', 'Host']
+        },
+      }
     ]
   }
 ];

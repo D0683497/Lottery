@@ -41,6 +41,11 @@ export class AttendeeService {
     );
   }
 
+  createAttendeesForItemId(itemId: string, attendees: AttendeeAdd[]): Observable<object> {
+    const url = `${this.urlRoot}/items/${itemId}/attendees/collections`;
+    return this.http.post(url, attendees, this.httpOptions);
+  }
+
   getAllAttendeesLengthForItemId(itemId: string): Observable<number> {
     const url = `${this.urlRoot}/items/${itemId}/attendees/length`;
     return this.http.get<number>(url, this.httpOptions);

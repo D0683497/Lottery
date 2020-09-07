@@ -10,12 +10,14 @@ using Lottery.Entities;
 using Lottery.Helpers;
 using Lottery.Models.Attendee;
 using Lottery.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace Lottery.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/items/{itemId}/attendees")]
     public class AttendeesForItemIdController : ControllerBase
     {
@@ -115,6 +117,26 @@ namespace Lottery.Controllers
             var returnModel = _mapper.Map<AttendeeViewModel>(entity);
             
             return CreatedAtRoute(nameof(GetAttendeeByIdForItemId), new { itemId, attendeeId = returnModel.Id }, returnModel);
+        }
+
+        [HttpPost("collections", Name = nameof(CreateAttendeesForItemId))]
+        public async Task<IActionResult> CreateAttendeesForItemId(string itemId, IEnumerable<AttendeeAddViewModel> models)
+        {
+            if (!await _itemRepository.ExistItemByIdAsync(itemId))
+            {
+                return NotFound();
+            }
+
+            var entities = _mapper.Map<IEnumerable<Attendee>>(models);
+            
+            _attendeeRepository.CreateAttendeesForItemId(itemId, entities);
+            
+            var result = await _attendeeRepository.SaveAsync();
+            if (!result) return BadRequest();
+            
+            // var returnModel = _mapper.Map<IEnumerable<AttendeeViewModel>>(entities);
+
+            return Ok();
         }
         
         [HttpGet("file/xlsx", Name = nameof(GetAttendeesXlsxForItemId))]

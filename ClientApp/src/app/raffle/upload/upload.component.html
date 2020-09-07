@@ -1,0 +1,13 @@
+<div mat-dialog-title>上傳參與者名單</div>
+<mat-dialog-content>
+  <input type="file" (change)="upload($event)" placeholder="上傳檔案" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button type="button" (click)="onSubmit()" color="primary" [disabled]="loading">
+    <mat-icon *ngIf="loading">
+      <mat-spinner color="accent" diameter="20"></mat-spinner>
+    </mat-icon>
+    上傳
+  </button>
+  <button type="button" color="warn" mat-raised-button mat-dialog-close>關閉</button>
+</mat-dialog-actions>
