@@ -1,8 +1,11 @@
 <div class="container">
   <mat-card class="mat-elevation-z1">
-    <img mat-card-image src="assets/images/raffle-background.jpg" alt="Photo of a Background">
     <!-- Content -->
     <ng-container *ngIf="!loading && !fetchDataError">
+      <mat-card-header>
+        <mat-card-title>新鮮人成長營抽獎系統</mat-card-title>
+      </mat-card-header>
+      <img mat-card-image src="assets/images/raffle-background.jpg" alt="Photo of a Background">
       <mat-card-content>
         <button mat-flat-button color="accent" class="start-button"
           *ngFor="let item of items">
@@ -15,7 +18,7 @@
       <mat-card-header>
         <mat-card-title>載入中</mat-card-title>
       </mat-card-header>
-      <mat-divider [inset]="true"></mat-divider>
+      <img mat-card-image src="assets/images/raffle-background.jpg" alt="Photo of a Background">
       <mat-card-content>
         <mat-spinner></mat-spinner>
       </mat-card-content>
@@ -25,7 +28,7 @@
       <mat-card-header>
         <mat-card-title>發生錯誤</mat-card-title>
       </mat-card-header>
-      <mat-divider [inset]="true"></mat-divider>
+      <img mat-card-image src="assets/images/raffle-background.jpg" alt="Photo of a Background">
       <mat-card-content>
         <button mat-stroked-button (click)="reload()" type="button">重新載入</button>
       </mat-card-content>

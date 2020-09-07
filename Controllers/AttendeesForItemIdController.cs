@@ -252,7 +252,7 @@ namespace Lottery.Controllers
             if (!result) return BadRequest();
             
             var model = _mapper.Map<AttendeeViewModel>(entity);
-
+            
             return Ok(model);
         }
     }

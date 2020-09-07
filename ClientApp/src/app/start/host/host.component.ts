@@ -59,6 +59,12 @@ export class HostComponent implements OnInit {
       );
   }
 
+  reload(): void {
+    this.loading = true;
+    this.fetchDataError = false;
+    this.initData();
+  }
+
   startDraw(itemId: string): void {
     this.connection.invoke('SendMessage', itemId)
       .catch((error) => {
