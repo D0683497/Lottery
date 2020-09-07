@@ -195,7 +195,8 @@
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
           "options": {
-            "baseHref": "https://d0683497.github.io/Lottery/"
+            "baseHref": "https://d0683497.github.io/Lottery/",
+            "cname": "fcussc.k139.me"
           }
         }
       }
