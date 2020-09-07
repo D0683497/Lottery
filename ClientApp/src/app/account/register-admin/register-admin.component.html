@@ -36,12 +36,22 @@
         <div class="col">
           <mat-form-field class="full-width">
             <mat-label>密碼</mat-label>
-            <input matInput [type]="hidePassword ? 'password' : 'text'" matInput placeholder="密碼" formControlName="password" required>
-            <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+            <input matInput [type]="hidePassword ? 'password' : 'text'" matInput
+              placeholder="密碼" formControlName="password"
+              minlength="8" maxlength="64" required>
+            <button type="button" mat-icon-button matSuffix
+              (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hidePassword">
               <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
             <mat-error *ngIf="registerForm.controls['password'].hasError('required')">
               密碼是<strong>必填的</strong>
+            </mat-error>
+            <mat-error *ngIf="registerForm.controls['password'].hasError('minlength')">
+              密碼<strong>最少須要八位</strong>
+            </mat-error>
+            <mat-error *ngIf="registerForm.controls['password'].hasError('maxlength')">
+              密碼<strong>最多六十四位</strong>
             </mat-error>
           </mat-form-field>
         </div>
@@ -51,12 +61,20 @@
         <div class="col">
           <mat-form-field class="full-width">
             <mat-label>確認密碼</mat-label>
-            <input [type]="hideConfirmPassword ? 'password' : 'text'" matInput placeholder="確認密碼" formControlName="passwordConfirm" required>
+            <input [type]="hideConfirmPassword ? 'password' : 'text'" matInput
+              placeholder="確認密碼" formControlName="passwordConfirm"
+              minlength="8" maxlength="64" required>
             <button type="button" mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmPassword">
               <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
             <mat-error *ngIf="registerForm.controls['passwordConfirm'].hasError('required')">
               確認密碼是<strong>必填的</strong>
+            </mat-error>
+            <mat-error *ngIf="registerForm.controls['passwordConfirm'].hasError('minlength')">
+              確認密碼<strong>最少須要八位</strong>
+            </mat-error>
+            <mat-error *ngIf="registerForm.controls['passwordConfirm'].hasError('maxlength')">
+              確認密碼<strong>最多六十四位</strong>
             </mat-error>
           </mat-form-field>
         </div>

@@ -20,29 +20,29 @@ export class RaffleService {
   constructor(private http: HttpClient) { }
 
   getAllItems(): Observable<Item[]> {
-    const url = `${this.urlRoot}/api/items/all`;
+    const url = `${this.urlRoot}/items/all`;
     return this.http.get<Item[]>(url, this.httpOptions);
   }
 
   getItems(pageIndex: number, pageSize: number): Observable<Item[]> {
-    const url = `${this.urlRoot}/api/items?pageNumber=${pageIndex}&pageSize=${pageSize}`;
+    const url = `${this.urlRoot}/items?pageNumber=${pageIndex}&pageSize=${pageSize}`;
     return this.http.get<Item[]>(url, this.httpOptions);
   }
 
   getItemById(itemId: string): Observable<Item> {
-    const url = `${this.urlRoot}/api/items/${itemId}`;
+    const url = `${this.urlRoot}/items/${itemId}`;
     return this.http.get<Item>(url, this.httpOptions);
   }
 
   createItem(round: ItemAdd): Observable<Item> {
-    const url = `${this.urlRoot}/api/items`;
+    const url = `${this.urlRoot}/items`;
     return this.http.post(url, round, this.httpOptions).pipe(
       map((newRound: Item) => newRound)
     );
   }
 
   getAllItemsLength(): Observable<number> {
-    const url = `${this.urlRoot}/api/items/length`;
+    const url = `${this.urlRoot}/items/length`;
     return this.http.get<number>(url, this.httpOptions);
   }
 

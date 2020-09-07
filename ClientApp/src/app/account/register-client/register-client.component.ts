@@ -25,8 +25,8 @@ export class RegisterClientComponent implements OnInit {
     this.registerForm = this.fb.group({
       email: [null, [Validators.required, Validators.email]],
       userName: [null, Validators.required],
-      password: [null, Validators.required],
-      passwordConfirm: [null, Validators.required],
+      password: [null, Validators.required, Validators.minLength(8), Validators.maxLength(64)],
+      passwordConfirm: [null, Validators.required, Validators.minLength(8), Validators.maxLength(64)],
       phoneNumber: null
     });
   }
