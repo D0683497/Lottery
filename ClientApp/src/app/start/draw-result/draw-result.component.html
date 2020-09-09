@@ -4,7 +4,7 @@
     <div class="mat-display-2" mat-dialog-title>恭喜以下同學</div>
     <mat-dialog-content>
       <div class="mat-display-1">學號：{{attendee.nid | replace: '^(.{3})(.*)(.{3})$' : '*' : 2}}</div>
-      <div class="mat-display-1">姓名：{{attendee.name | replace: '^(.{1})(.*)(.{1})$' : '*' : 1}}</div>
+      <div class="mat-display-1">姓名：{{attendee.name}}</div>
       <div class="mat-display-1">系級：{{attendee.department}}</div>
     </mat-dialog-content>
   </ng-container>
