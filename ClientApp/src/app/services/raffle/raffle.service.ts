@@ -41,6 +41,11 @@ export class RaffleService {
     );
   }
 
+  deleteItem(itemId: string): Observable<object> {
+    const url = `${this.urlRoot}/items/${itemId}`;
+    return this.http.delete(url, this.httpOptions);
+  }
+
   getAllItemsLength(): Observable<number> {
     const url = `${this.urlRoot}/items/length`;
     return this.http.get<number>(url, this.httpOptions);

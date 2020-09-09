@@ -34,8 +34,8 @@
       </ng-container>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="primary">編輯</button>
-      <button mat-raised-button color="warn">刪除</button>
+      <button type="button" mat-raised-button color="primary">編輯</button>
+      <button type="button" (click)="delete(item.id)" mat-raised-button color="warn">刪除</button>
     </mat-card-actions>
   </ng-container>
   <!-- Loading -->

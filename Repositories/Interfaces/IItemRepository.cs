@@ -34,6 +34,12 @@ namespace Lottery.Repositories.Interfaces
         void CreateItem(Item item);
 
         /// <summary>
+        /// 刪除清單
+        /// </summary>
+        /// <param name="itemId"></param>
+        Task DeleteItem(string itemId);
+
+        /// <summary>
         /// 獲取所有清單數量
         /// </summary>
         /// <returns></returns>
