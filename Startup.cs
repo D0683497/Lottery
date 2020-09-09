@@ -126,11 +126,6 @@ namespace Lottery
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -162,27 +157,6 @@ namespace Lottery
                     ContentTypeProvider = provider
                 });
             }
-            
-
-            FileExtensionContentTypeProvider provider = new FileExtensionContentTypeProvider();
-            provider.Mappings[".webmanifest"] = "application/manifest+json";
-
-            app.Use(async (context, next) =>
-            {
-                await next();
-                if (context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value))
-                {
-                    context.Request.Path = "/index.html";
-                    context.Response.StatusCode = 200;
-                    await next();
-                }
-            });
-
-            app.UseDefaultFiles();
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                ContentTypeProvider = provider
-            });
 
             app.UseRouting();
 
