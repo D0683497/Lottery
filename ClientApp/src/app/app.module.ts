@@ -29,10 +29,10 @@ import { MatListModule } from '@angular/material/list';
         tokenGetter: () => {
           return localStorage.getItem('access_token');
         },
-        allowedDomains: ['localhost:5001'],
+        allowedDomains: ['lottery.k139.me'],
         disallowedRoutes: [
-          'http://localhost:5001/api/auth/login',
-          'http://localhost:5001/api/auth/register'
+          'https://lottery.k139.me/api/auth/login',
+          'https://lottery.k139.me/api/auth/register'
         ],
       }
     }),
