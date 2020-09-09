@@ -45,7 +45,33 @@ namespace Lottery.Repositories
 
         public void CreateItem(Item item)
         {
+            if (item == null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+            
             _applicationDbContext.Add(item);
+        }
+
+        public async Task DeleteItem(string itemId)
+        {
+            if (itemId == null)
+            {
+                throw new ArgumentNullException(nameof(itemId));
+            }
+
+            var winners = await _applicationDbContext.Winners
+                .Where(x => x.ItemId == itemId)
+                .ToListAsync();
+            var attendees = await _applicationDbContext.Attendees
+                .Where(x => x.ItemId == itemId)
+                .ToListAsync();
+            var item = await _applicationDbContext.Items
+                .FirstOrDefaultAsync(x => x.ItemId == itemId);
+            
+            _applicationDbContext.RemoveRange(winners);
+            _applicationDbContext.RemoveRange(attendees);
+            _applicationDbContext.Remove(item);
         }
 
         public async Task<int> GetAllItemsLengthAsync()

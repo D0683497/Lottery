@@ -45,6 +45,17 @@ export class AuthService {
     return this.http.post(url, registerForm, this.httpOptions);
   }
 
+  // 更改密碼
+  changePassword(oldPassword: string, newPassword: string): Observable<object> {
+    const url = `${this.urlRoot}/account/change-password`;
+    const body = {
+      userId: this.getUserId(),
+      oldPassword,
+      newPassword
+    };
+    return this.http.post(url, body, this.httpOptions);
+  }
+
   // 登出
   logout(): void {
     localStorage.clear();
@@ -63,6 +74,13 @@ export class AuthService {
     const token = localStorage.getItem('access_token');
     const decodeToken = this.jwtHelper.decodeToken(token);
     return decodeToken.unique_name;
+  }
+
+  // 獲取用戶 Id
+  getUserId(): string {
+    const token = localStorage.getItem('access_token');
+    const decodeToken = this.jwtHelper.decodeToken(token);
+    return decodeToken.nameid;
   }
 
   // Token 是否過期

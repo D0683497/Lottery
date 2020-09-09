@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace Lottery.Controllers
 {
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {
@@ -198,5 +198,20 @@ namespace Lottery.Controllers
                 }
             }
         }
+
+        [HttpPost("change-password", Name = nameof(ChangePassword))]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            var user = await _userManager.FindByIdAsync(model.UserId);
+
+            var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+        
     }
 }

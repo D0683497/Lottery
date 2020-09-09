@@ -1,7 +1,6 @@
 import { Item } from '../../models/item/item.model';
 import { RaffleService } from '../../services/raffle/raffle.service';
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../environments/environment';
 import * as signalR from '@microsoft/signalr';
@@ -12,17 +11,15 @@ import { AttendeeService } from '../../services/attendee/attendee.service';
   templateUrl: './host.component.html',
   styleUrls: ['./host.component.scss']
 })
-export class HostComponent implements OnInit {
+export class HostComponent implements OnInit, OnDestroy {
 
   urlRoot = environment.apiUrl;
   loading = true;
   fetchDataError = false;
   items: Item[];
   connection: signalR.HubConnection;
-  action: string;
 
   constructor(
-    private dialog: MatDialog,
     private raffleService: RaffleService,
     private snackBar: MatSnackBar,
     private attendeeService: AttendeeService) {
@@ -37,6 +34,10 @@ export class HostComponent implements OnInit {
 
   ngOnInit(): void {
     this.initData();
+  }
+
+  ngOnDestroy(): void {
+    this.connection.onclose(() => {});
   }
 
   initData(): void {
@@ -76,8 +77,6 @@ export class HostComponent implements OnInit {
           this.snackBar.open('抽獎失敗', '關閉', { duration: 5000 });
         }
       );
-
-
   }
 
 }

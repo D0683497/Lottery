@@ -1,7 +1,7 @@
 import { Attendee } from 'src/app/models/attendee/attendee.model';
 import { Item } from '../../models/item/item.model';
 import { RaffleService } from '../../services/raffle/raffle.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../environments/environment';
@@ -13,7 +13,7 @@ import { DrawResultComponent } from '../draw-result/draw-result.component';
   templateUrl: './client.component.html',
   styleUrls: ['./client.component.scss']
 })
-export class ClientComponent implements OnInit {
+export class ClientComponent implements OnInit, OnDestroy {
 
   urlRoot = environment.apiUrl;
   loading = true;
@@ -41,6 +41,10 @@ export class ClientComponent implements OnInit {
 
   ngOnInit(): void {
     this.initData();
+  }
+
+  ngOnDestroy(): void {
+    this.connection.onclose(() => {});
   }
 
   initData(): void {

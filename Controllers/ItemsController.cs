@@ -79,5 +79,20 @@ namespace Lottery.Controllers
             
             return CreatedAtRoute(nameof(GetItemById), new { itemId = returnModel.Id }, returnModel);
         }
+
+        [HttpDelete("{itemId}", Name = nameof(DeleteItem))]
+        public async Task<IActionResult> DeleteItem(string itemId)
+        {
+            if (!await _itemRepository.ExistItemByIdAsync(itemId))
+            {
+                return NotFound();
+            }
+
+            await _itemRepository.DeleteItem(itemId);
+            var result = await _itemRepository.SaveAsync();
+            if (!result) { return BadRequest(); }
+
+            return NoContent();
+        }
     }
 }

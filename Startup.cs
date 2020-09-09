@@ -135,6 +135,34 @@ namespace Lottery
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseForwardedHeaders(new ForwardedHeadersOptions
+                {
+                    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+                });
+                
+                FileExtensionContentTypeProvider provider = new FileExtensionContentTypeProvider();
+                provider.Mappings[".webmanifest"] = "application/manifest+json";
+                
+                app.Use(async (context, next) =>
+                {
+                    await next();
+                    if (context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value))
+                    {
+                        context.Request.Path = "/index.html";
+                        context.Response.StatusCode = 200;
+                        await next();
+                    }
+                });
+                
+                app.UseDefaultFiles();
+                app.UseStaticFiles(new StaticFileOptions()
+                {
+                    ContentTypeProvider = provider
+                });
+            }
+            
 
             FileExtensionContentTypeProvider provider = new FileExtensionContentTypeProvider();
             provider.Mappings[".webmanifest"] = "application/manifest+json";
