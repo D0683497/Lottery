@@ -1,8 +1,9 @@
+import { AttendeeService } from '../../services/attendee/attendee.service';
+import { DrawResultComponent } from '../draw-result/draw-result.component';
 import { Item } from '../../models/item/item.model';
 import { RaffleService } from '../../services/raffle/raffle.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ResultComponent } from '../result/result.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -20,7 +21,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private raffleService: RaffleService,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar,
+    private attendeeService: AttendeeService) { }
 
   ngOnInit(): void {
     this.initData();
@@ -49,14 +51,23 @@ export class HomeComponent implements OnInit {
   }
 
   startDraw(itemId: string): void {
-    this.dialog.open(ResultComponent, {
-      height: 'calc(100% - 50px)',
-      width: 'calc(100% - 50px)',
-      maxWidth: '100%',
-      maxHeight: '100%',
-      disableClose: true,
-      data: itemId
-    });
+    this.snackBar.open('抽獎中', '關閉', { duration: 1000 });
+    this.attendeeService.getAttendeeRandomForItemId(itemId)
+      .subscribe(
+        data => {
+          this.dialog.open(DrawResultComponent, {
+            height: 'calc(100% - 50px)',
+            width: 'calc(100% - 50px)',
+            maxWidth: '100%',
+            maxHeight: '100%',
+            disableClose: true,
+            data
+          });
+        },
+        error => {
+          this.snackBar.open('抽獎失敗', '關閉', { duration: 5000 });
+        }
+      );
   }
 
 }

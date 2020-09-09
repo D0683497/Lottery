@@ -1,11 +1,12 @@
+import { Attendee } from 'src/app/models/attendee/attendee.model';
 import { Item } from '../../models/item/item.model';
 import { RaffleService } from '../../services/raffle/raffle.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ResultComponent } from '../result/result.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../environments/environment';
 import * as signalR from '@microsoft/signalr';
+import { DrawResultComponent } from '../draw-result/draw-result.component';
 
 @Component({
   selector: 'app-client',
@@ -27,14 +28,13 @@ export class ClientComponent implements OnInit {
     private snackBar: MatSnackBar) {
       this.connection = new signalR.HubConnectionBuilder()
         .withUrl(`${this.urlRoot}/lottery`)
-        .withAutomaticReconnect()
         .build();
 
       this.connection.on('messageReceived', (data) => {
         this.startDraw(data);
       });
 
-      this.connection.start().catch(err => {
+      this.connection.start().catch(() => {
         this.snackBar.open('連線錯誤', '關閉', { duration: 5000 });
       });
     }
@@ -65,17 +65,14 @@ export class ClientComponent implements OnInit {
     this.initData();
   }
 
-  startDraw(itemId: string): void {
-    const dialogRef = this.dialog.open(ResultComponent, {
+  startDraw(attendee: Attendee): void {
+    this.dialog.open(DrawResultComponent, {
       height: 'calc(100% - 50px)',
       width: 'calc(100% - 50px)',
       maxWidth: '100%',
       maxHeight: '100%',
       disableClose: true,
-      data: itemId
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      // this.reload();
+      data: attendee
     });
   }
 

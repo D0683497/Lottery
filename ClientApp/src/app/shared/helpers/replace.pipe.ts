@@ -5,8 +5,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ReplacePipe implements PipeTransform {
 
-  transform(value: string, regexValue: string, replaceValue: string, replaceLength: number): any {
-    return value.replace(new RegExp(regexValue, 'gm'), `$1${replaceValue.repeat(replaceLength)}$3`);
+  transform(value: string, regexValue: string, replaceValue: string, replaceLength: number): string {
+    const newValue = value.trim(); // 去掉空白
+    return newValue.replace(new RegExp(regexValue, 'gm'), `$1${replaceValue.repeat(replaceLength)}$3`);
   }
 
 }
