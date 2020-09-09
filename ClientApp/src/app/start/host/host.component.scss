@@ -1,12 +1,10 @@
-.container {
-  max-height: 100vh;
-  max-width: 100vw;
+mat-toolbar {
+  display: flex;
+  justify-content: center;
 }
 
 mat-card {
-  height: 85vh;
-  background-color: #303030;
-  box-shadow: none;
+  border-radius: 0;
 }
 
 mat-card-header {
@@ -15,24 +13,29 @@ mat-card-header {
 }
 
 mat-card-content {
-  height: 70vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
+  justify-content: center;
   margin-top: 1vh;
   margin-bottom: 1vh;
+}
+
+mat-spinner {
+  align-self: center;
 }
 
 mat-card-footer {
   display: flex;
   justify-content: center;
-  margin-top: 3vh;
-  font-size: 1vw;
 }
 
 .start-button {
-  font-size: 2.5vw;
-  height: 10vh;
-  width: 70vw;
+  height: 15vh;
+  margin: 20px;
+  font-size: 2.5rem;
+}
+
+.background {
+  background-color: #424242;
+  height: 100%;
 }

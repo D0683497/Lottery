@@ -1,13 +1,23 @@
-<div class="container">
-  <mat-tab-group mat-align-tabs="center">
-    <mat-tab label="Admin">
-      <app-register-admin></app-register-admin>
-    </mat-tab>
-    <mat-tab label="Host">
-      <app-register-host></app-register-host>
-    </mat-tab>
-    <mat-tab label="Client">
-      <app-register-client></app-register-client>
-    </mat-tab>
-  </mat-tab-group>
-</div>
+<mat-tab-group mat-align-tabs="center">
+  <mat-tab label="Admin">
+    <ng-template mat-tab-label>
+      <mat-icon class="tab-icon">thumb_up</mat-icon>
+      Admin
+    </ng-template>
+    <app-register-admin></app-register-admin>
+  </mat-tab>
+  <mat-tab label="Host">
+    <ng-template mat-tab-label>
+      <mat-icon class="tab-icon">thumb_up</mat-icon>
+      Host
+    </ng-template>
+    <app-register-host></app-register-host>
+  </mat-tab>
+  <mat-tab label="Client">
+    <ng-template mat-tab-label>
+      <mat-icon class="tab-icon">thumb_up</mat-icon>
+      Client
+    </ng-template>
+    <app-register-client></app-register-client>
+  </mat-tab>
+</mat-tab-group>

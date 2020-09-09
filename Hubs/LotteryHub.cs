@@ -1,13 +1,14 @@
 ﻿using System.Threading.Tasks;
+using Lottery.Models.Attendee;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Lottery.Hubs
 {
     public class LotteryHub : Hub
     {
-        public async Task SendMessage(string message)
+        public async Task SendMessage(AttendeeViewModel attendee)
         {
-            await Clients.All.SendAsync("messageReceived", message);
+            await Clients.All.SendAsync("messageReceived", attendee);
         }
     }
 }

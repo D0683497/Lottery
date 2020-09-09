@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../environments/environment';
 import * as signalR from '@microsoft/signalr';
+import { AttendeeService } from '../../services/attendee/attendee.service';
 
 @Component({
   selector: 'app-host',
@@ -17,22 +18,17 @@ export class HostComponent implements OnInit {
   loading = true;
   fetchDataError = false;
   items: Item[];
-  starting = false;
   connection: signalR.HubConnection;
   action: string;
 
   constructor(
     private dialog: MatDialog,
     private raffleService: RaffleService,
-    private snackBar: MatSnackBar) {
+    private snackBar: MatSnackBar,
+    private attendeeService: AttendeeService) {
       this.connection = new signalR.HubConnectionBuilder()
         .withUrl(`${this.urlRoot}/lottery`)
-        .withAutomaticReconnect()
         .build();
-
-      this.connection.on('messageReceived', (data) => {
-        // this.snackBar.open('連線錯誤', '關閉', { duration: 5000 });
-      });
 
       this.connection.start().catch(err => {
         this.snackBar.open('連線錯誤', '關閉', { duration: 5000 });
@@ -66,10 +62,22 @@ export class HostComponent implements OnInit {
   }
 
   startDraw(itemId: string): void {
-    this.connection.invoke('SendMessage', itemId)
-      .catch((error) => {
-        this.snackBar.open('連線錯誤', '關閉', { duration: 5000 });
-      });
+    this.snackBar.open('抽獎中', '關閉', { duration: 1500, verticalPosition: 'top' });
+
+    this.attendeeService.getAttendeeRandomForItemId(itemId)
+      .subscribe(
+        data => {
+          this.connection.invoke('SendMessage', data)
+            .catch((error) => {
+              this.snackBar.open('連線錯誤', '關閉', { duration: 5000 });
+            });
+        },
+        error => {
+          this.snackBar.open('抽獎失敗', '關閉', { duration: 5000 });
+        }
+      );
+
+
   }
 
 }

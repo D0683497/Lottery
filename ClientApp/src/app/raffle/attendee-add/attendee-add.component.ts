@@ -1,17 +1,17 @@
-import { AttendeeAdd } from '../../models/attendee/attendee-add.model';
-import { AttendeeService } from '../../services/attendee/attendee.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { AttendeeService } from '../../services/attendee/attendee.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AttendeeAdd } from '../../models/attendee/attendee-add.model';
 
 @Component({
-  selector: 'app-add',
-  templateUrl: './add.component.html',
-  styleUrls: ['./add.component.scss']
+  selector: 'app-attendee-add',
+  templateUrl: './attendee-add.component.html',
+  styleUrls: ['./attendee-add.component.scss']
 })
-export class AddComponent implements OnInit {
+export class AttendeeAddComponent implements OnInit {
 
   itemId: string;
   loading = false;
@@ -22,7 +22,7 @@ export class AddComponent implements OnInit {
     private fb: FormBuilder,
     private attendeeService: AttendeeService,
     private snackBar: MatSnackBar,
-    private dialogRef: MatDialogRef<AddComponent>,
+    private dialogRef: MatDialogRef<AttendeeAddComponent>,
     @Inject(MAT_DIALOG_DATA) private data: string) {
       this.itemId = data;
     }

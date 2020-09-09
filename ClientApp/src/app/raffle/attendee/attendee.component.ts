@@ -1,20 +1,20 @@
-import { RaffleService } from '../../services/raffle/raffle.service';
-import { AttendeeService } from '../../services/attendee/attendee.service';
-import { Attendee } from '../../models/attendee/attendee.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Attendee } from '../../models/attendee/attendee.model';
+import { Item } from '../../models/item/item.model';
+import { AttendeeService } from '../../services/attendee/attendee.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { RaffleService } from '../../services/raffle/raffle.service';
 import { saveAs } from 'file-saver';
-import { Item } from '../../models/item/item.model';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-attendee',
+  templateUrl: './attendee.component.html',
+  styleUrls: ['./attendee.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class AttendeeComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
