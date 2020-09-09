@@ -1,4 +1,4 @@
-import { AddComponent } from '../add/add.component';
+import { ItemAddComponent } from '../item-add/item-add.component';
 import { RaffleService } from '../../services/raffle/raffle.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent, MatPaginatorIntl } from '@angular/material/paginator';
@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
   }
 
   showAddFormDialog(): void {
-    const dialogRef = this.dialog.open(AddComponent);
+    const dialogRef = this.dialog.open(ItemAddComponent);
     dialogRef.afterClosed().subscribe(() => {
       this.reload();
     });

@@ -33,7 +33,12 @@ import { MatListModule } from '@angular/material/list';
         disallowedRoutes: [
           'http://localhost:5001/api/auth/login',
           'http://localhost:5001/api/auth/register'
-        ],
+        ]
+        // allowedDomains: ['fcussc.k139.me'],
+        // disallowedRoutes: [
+        //   'https://fcussc.k139.me/api/auth/login',
+        //   'https://fcussc.k139.me/api/auth/register'
+        // ]
       }
     }),
     LayoutModule,

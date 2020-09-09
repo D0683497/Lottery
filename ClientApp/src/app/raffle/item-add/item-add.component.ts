@@ -1,16 +1,16 @@
-import { ItemAdd } from '../../models/item/item-add.model';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroupDirective, FormGroup } from '@angular/forms';
-import { RaffleService } from '../../services/raffle/raffle.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormGroup, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { RaffleService } from '../../services/raffle/raffle.service';
+import { ItemAdd } from '../../models/item/item-add.model';
 
 @Component({
-  selector: 'app-add',
-  templateUrl: './add.component.html',
-  styleUrls: ['./add.component.scss']
+  selector: 'app-item-add',
+  templateUrl: './item-add.component.html',
+  styleUrls: ['./item-add.component.scss']
 })
-export class AddComponent implements OnInit {
+export class ItemAddComponent implements OnInit {
 
   loading = false;
   addRaffleForm: FormGroup;
@@ -19,7 +19,7 @@ export class AddComponent implements OnInit {
     private fb: FormBuilder,
     private raffleService: RaffleService,
     private snackBar: MatSnackBar,
-    private dialogRef: MatDialogRef<AddComponent>) {}
+    private dialogRef: MatDialogRef<ItemAddComponent>) {}
 
   ngOnInit(): void {
     this.addRaffleForm = this.fb.group({
@@ -44,4 +44,5 @@ export class AddComponent implements OnInit {
         }
       );
   }
+
 }

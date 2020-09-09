@@ -176,7 +176,8 @@
               "e2e/tsconfig.json"
             ],
             "exclude": [
-              "**/node_modules/**"
+              "**/node_modules/**",
+              "src/assets/files/favicon_package_v0.16.zip"
             ]
           }
         },
@@ -194,10 +195,7 @@
         },
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
-          "options": {
-            "baseHref": "https://d0683497.github.io/Lottery/",
-            "cname": "fcussc.k139.me"
-          }
+          "options": {}
         }
       }
     }
