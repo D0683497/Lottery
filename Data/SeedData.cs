@@ -262,7 +262,7 @@ namespace Lottery.Data
                     UserName = configuration["UserSettings:Teacher:UserName"]
                 };
 
-                result = userManager.CreateAsync(admin, configuration["UserSettings:Teacher:Password"]).Result;
+                result = userManager.CreateAsync(teacher, configuration["UserSettings:Teacher:Password"]).Result;
                 if (result.Succeeded)
                 {
                     logger.LogInformation("建立Teacher使用者成功");
