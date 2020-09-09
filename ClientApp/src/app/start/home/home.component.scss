@@ -1,6 +1,6 @@
 mat-toolbar {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 mat-card {
@@ -27,6 +27,11 @@ mat-card-footer {
 mat-card-actions {
   display: flex;
   justify-content: space-around;
+}
+
+.title {
+  text-decoration: none;
+  color: white;
 }
 
 .start-button {

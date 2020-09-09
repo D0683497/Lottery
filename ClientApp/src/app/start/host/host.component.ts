@@ -1,7 +1,6 @@
 import { Item } from '../../models/item/item.model';
 import { RaffleService } from '../../services/raffle/raffle.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../environments/environment';
 import * as signalR from '@microsoft/signalr';
@@ -19,10 +18,8 @@ export class HostComponent implements OnInit, OnDestroy {
   fetchDataError = false;
   items: Item[];
   connection: signalR.HubConnection;
-  action: string;
 
   constructor(
-    private dialog: MatDialog,
     private raffleService: RaffleService,
     private snackBar: MatSnackBar,
     private attendeeService: AttendeeService) {

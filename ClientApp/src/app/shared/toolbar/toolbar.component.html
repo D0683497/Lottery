@@ -4,6 +4,10 @@
     <span>{{this.authService.getUniqueName()}}</span>
   </button>
   <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/account/change-password">
+      <mat-icon>vpn_key</mat-icon>
+      <span>修改密碼</span>
+    </button>
     <button mat-menu-item (click)="this.authService.logout()">
       <mat-icon>exit_to_app</mat-icon>
       <span>登出</span>
