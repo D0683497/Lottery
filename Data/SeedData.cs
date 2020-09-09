@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using Lottery.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,6 +19,14 @@ namespace Lottery.Data
             {
                 var services = scope.ServiceProvider;
                 var logger = services.GetRequiredService<ILogger<SeedData>>();
+                
+                #region Database
+
+                // logger.LogInformation("開始創建資料庫");
+                // CreateDatabase(services, logger);
+                // logger.LogInformation("創建資料庫完成");
+
+                #endregion
 
                 #region Role
 
@@ -43,6 +52,20 @@ namespace Lottery.Data
 
                 #endregion
 
+            }
+        }
+        
+        private static void CreateDatabase(IServiceProvider services, ILogger<SeedData> logger)
+        {
+            try
+            {
+                var dbContext = services.GetRequiredService<ApplicationDbContext>();
+                dbContext.Database.Migrate();
+            }
+            catch (Exception e)
+            {
+                logger.LogError($"發生未知錯誤\n{e.ToString()}");
+                throw;
             }
         }
 
