@@ -14,6 +14,10 @@
         <mat-icon mat-list-icon>account_box</mat-icon>
         <p mat-line>Register</p>
       </a>
+      <a mat-list-item routerLink="/account/change-password" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <mat-icon mat-list-icon>vpn_key</mat-icon>
+        <p mat-line>ChangePassword</p>
+      </a>
       <!-- Raffle -->
       <h3 mat-subheader>Raffle</h3>
       <a mat-list-item routerLink="/raffle" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
