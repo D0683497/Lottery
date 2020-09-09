@@ -1,20 +1,20 @@
-import { WinnerService } from '../../services/winner/winner.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
 import { Attendee } from '../../models/attendee/attendee.model';
+import { MatTableDataSource } from '@angular/material/table';
+import { Item } from '../../models/item/item.model';
+import { WinnerService } from '../../services/winner/winner.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { Item } from '../../models/item/item.model';
 import { RaffleService } from '../../services/raffle/raffle.service';
 import { saveAs } from 'file-saver';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-winner',
+  templateUrl: './winner.component.html',
+  styleUrls: ['./winner.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class WinnerComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 

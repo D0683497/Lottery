@@ -1,3 +1,4 @@
+import { AttendeeAddComponent } from '../attendee-add/attendee-add.component';
 import { AuthService } from '../../services/auth/auth.service';
 import { UploadComponent } from '../upload/upload.component';
 import { Component, OnInit } from '@angular/core';
@@ -6,7 +7,6 @@ import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Item } from '../../models/item/item.model';
 import { MatDialog } from '@angular/material/dialog';
-import { AddComponent } from '../../attendee/add/add.component';
 
 @Component({
   selector: 'app-detail',
@@ -33,7 +33,7 @@ export class DetailComponent implements OnInit {
   }
 
   showAddFormDialog(): void {
-    this.dialog.open(AddComponent, {
+    this.dialog.open(AttendeeAddComponent, {
       data: this.itemId
     });
   }

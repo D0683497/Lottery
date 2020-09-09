@@ -11,7 +11,7 @@
         <mat-list>
           <mat-list-item>清單名稱：{{item.name}}</mat-list-item>
           <mat-list-item>
-            <button mat-stroked-button type="button" [routerLink]="['/attendee']" [queryParams]="{ id: item.id }">查看參與者名單</button>
+            <button mat-stroked-button type="button" [routerLink]="['/raffle/attendee']" [queryParams]="{ id: item.id }">查看參與者名單</button>
           </mat-list-item>
           <mat-list-item>
             <button mat-stroked-button type="button" (click)="showAddFormDialog()">新增參與者名單</button>
@@ -20,7 +20,7 @@
             <button mat-stroked-button type="button" (click)="showUploadFormDialog()">上傳參與者名單</button>
           </mat-list-item>
           <mat-list-item>
-            <button mat-stroked-button type="button" [routerLink]="['/winner']" [queryParams]="{ id: item.id }">查看得獎者名單</button>
+            <button mat-stroked-button type="button" [routerLink]="['/raffle/winner']" [queryParams]="{ id: item.id }">查看得獎者名單</button>
           </mat-list-item>
         </mat-list>
       </ng-container>
@@ -28,7 +28,7 @@
         <mat-list>
           <mat-list-item>清單名稱：{{item.name}}</mat-list-item>
           <mat-list-item>
-            <button mat-stroked-button type="button" [routerLink]="['/winner']" [queryParams]="{ id: item.id }">查看得獎者名單</button>
+            <button mat-stroked-button type="button" [routerLink]="['/raffle/winner']" [queryParams]="{ id: item.id }">查看得獎者名單</button>
           </mat-list-item>
         </mat-list>
       </ng-container>

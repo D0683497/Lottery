@@ -1,3 +1,5 @@
+import { WinnerComponent } from './winner/winner.component';
+import { AttendeeComponent } from './attendee/attendee.component';
 import { RoleGuard } from '../services/auth/role.guard';
 import { AuthGuard } from '../services/auth/auth.guard';
 import { NgModule } from '@angular/core';
@@ -26,6 +28,22 @@ const routes: Routes = [
         data: {
           allowRole: ['Admin', 'Host']
         },
+      },
+      {
+        path: 'attendee',
+        component: AttendeeComponent,
+        canActivate: [AuthGuard, RoleGuard],
+        data: {
+          allowRole: ['Admin', 'Host']
+        }
+      },
+      {
+        path: 'winner',
+        component: WinnerComponent,
+        canActivate: [AuthGuard, RoleGuard],
+        data: {
+          allowRole: ['Admin', 'Host']
+        }
       }
     ]
   }
