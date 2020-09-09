@@ -1,4 +1,3 @@
-import { ChangePassword } from '../../models/change-password/change-password.model';
 import { Register } from '../../models/register/register.model';
 import { LoginResponse } from '../../models/login/login-response';
 import { map } from 'rxjs/operators';

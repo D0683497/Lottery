@@ -3,6 +3,7 @@ import { FormGroup, Validators, FormBuilder, FormGroupDirective } from '@angular
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Register } from '../../models/register/register.model';
+import { MustMatch } from '../../shared/helpers/must-match.validator';
 
 @Component({
   selector: 'app-register-client',
@@ -29,7 +30,7 @@ export class RegisterClientComponent implements OnInit {
       password: [null, [Validators.required, Validators.minLength(8), Validators.maxLength(64)]],
       passwordConfirm: [null, [Validators.required, Validators.minLength(8), Validators.maxLength(64)]],
       phoneNumber: null
-    });
+    }, { validators: MustMatch('password', 'passwordConfirm') });
   }
 
   onSubmit(registerForm: Register, formDirective: FormGroupDirective): void {

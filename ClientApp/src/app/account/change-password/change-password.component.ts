@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { MustMatch } from '../../shared/helpers/must-match.validator';
 
 @Component({
   selector: 'app-change-password',
@@ -26,7 +27,7 @@ export class ChangePasswordComponent implements OnInit {
       passwordOld: [null, [Validators.required, Validators.minLength(8), Validators.maxLength(64)]],
       passwordNew: [null, [Validators.required, Validators.minLength(8), Validators.maxLength(64)]],
       passwordConfirm: [null, [Validators.required, Validators.minLength(8), Validators.maxLength(64)]]
-    });
+    }, { validators: MustMatch('passwordNew', 'passwordConfirm') });
   }
 
   onSubmit(changePasswordForm: any, formDirective: FormGroupDirective): void {
