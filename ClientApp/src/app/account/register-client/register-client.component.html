@@ -1,4 +1,4 @@
-<form [formGroup]="registerForm" #formDirective="ngForm" novalidate (ngSubmit)="onSubmit(registerForm.value, formDirective)" method="POST">
+<form [formGroup]="registerForm" #formDirective="ngForm" novalidate (ngSubmit)="onSubmit(registerForm.value, formDirective)">
   <mat-card>
     <mat-card-header>
       <mat-card-title>Client 註冊</mat-card-title>
@@ -9,7 +9,7 @@
         <div class="col">
           <mat-form-field class="full-width">
             <mat-label>電子郵件</mat-label>
-            <input type="email" matInput placeholder="電子郵件" formControlName="email" required>
+            <input type="email" matInput formControlName="email" required>
             <mat-error *ngIf="registerForm.controls['email'].hasError('required')">
               電子郵件是<strong>必填的</strong>
             </mat-error>
@@ -24,7 +24,7 @@
         <div class="col">
           <mat-form-field class="full-width">
             <mat-label>使用者名稱</mat-label>
-            <input type="text" matInput placeholder="使用者名稱" formControlName="userName" required>
+            <input type="text" matInput formControlName="userName" required>
             <mat-error *ngIf="registerForm.controls['userName'].hasError('required')">
               使用者名稱是<strong>必填的</strong>
             </mat-error>
@@ -39,12 +39,8 @@
         <div class="col">
           <mat-form-field class="full-width">
             <mat-label>密碼</mat-label>
-            <input matInput [type]="hidePassword ? 'password' : 'text'" matInput
-              placeholder="密碼" formControlName="password"
-              minlength="8" maxlength="64" required>
-            <button type="button" mat-icon-button matSuffix
-              (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
-              [attr.aria-pressed]="hidePassword">
+            <input matInput [type]="hidePassword ? 'password' : 'text'" matInput formControlName="password" required>
+            <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
               <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
             <mat-error *ngIf="registerForm.controls['password'].hasError('required')">
@@ -64,9 +60,7 @@
         <div class="col">
           <mat-form-field class="full-width">
             <mat-label>確認密碼</mat-label>
-            <input [type]="hideConfirmPassword ? 'password' : 'text'" matInput
-              placeholder="確認密碼" formControlName="passwordConfirm"
-              minlength="8" maxlength="64" required>
+            <input [type]="hideConfirmPassword ? 'password' : 'text'" matInput formControlName="passwordConfirm" required>
             <button type="button" mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmPassword">
               <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
@@ -87,7 +81,7 @@
         <div class="col">
           <mat-form-field class="full-width">
             <mat-label>手機號碼</mat-label>
-            <input matInput type="tel" placeholder="手機號碼" formControlName="phoneNumber">
+            <input matInput type="tel" formControlName="phoneNumber">
           </mat-form-field>
         </div>
       </div>

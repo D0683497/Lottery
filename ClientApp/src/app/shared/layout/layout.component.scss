@@ -1,18 +1,24 @@
-.sidenav {
-  width: 200px;
-}
-
 .sidenav-container {
   height: 100%;
 }
 
-.sidenav-list {
-  padding-top: 25px;
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
 }
 
 .mat-toolbar.mat-primary {
-  position: fixed;
-  z-index: 2;
+  position: sticky;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top: 0; /* Sets the sticky toolbar to be on top */
+  z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
+}
+
+.text-center {
+  text-align: center;
 }
 
 .toolbar-title {
@@ -21,32 +27,6 @@
   margin-left: 8px;
 }
 
-a.mat-list-item.active {
-  background: #666;
-}
-
-.sidenav-content-computer {
-  padding-top: 64px;
-}
-
-.sidenav-content-mobile {
-  padding-top: 56px;
-}
-
-mat-sidenav-content > p {
-  text-align: center;
-  font-size: 1vw;
-}
-
 .toolbar-spacer {
   flex: 1 1 auto;
-}
-
-.login-button {
-  padding-top: 1px;
-  padding-bottom: 1px;
-}
-
-.login-button span {
-  margin-left: 8px;
 }

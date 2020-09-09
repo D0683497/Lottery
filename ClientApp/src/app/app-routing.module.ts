@@ -1,10 +1,15 @@
+import { HomeComponent } from './shared/home/home.component';
+import { LayoutComponent } from './shared/layout/layout.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+    component: LayoutComponent,
+    children: [
+      { path: '', component: HomeComponent }
+    ]
   },
   {
     path: 'account',
