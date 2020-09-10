@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using Lottery.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,53 +18,47 @@ namespace Lottery.Data
             {
                 var services = scope.ServiceProvider;
                 var logger = services.GetRequiredService<ILogger<SeedData>>();
-                
+
                 #region Database
 
-                // logger.LogInformation("開始創建資料庫");
-                // CreateDatabase(services, logger);
-                // logger.LogInformation("創建資料庫完成");
-
-                #endregion
-
-                #region Role
-
-                logger.LogInformation("開始創建角色及角色聲明");
-                CreateRole(services, logger);
-                logger.LogInformation("創建角色及角色聲明完成");
-
-                #endregion
-                
-                #region User
-
-                logger.LogInformation("開始創建使用者");
-                CreateUser(services, logger);
-                logger.LogInformation("創建使用者完成");
-
-                #endregion
-
-                #region Data
-
-                logger.LogInformation("開始創建資料");
-                InsertData(services, logger);
-                logger.LogInformation("創建資料完成");
-
-                #endregion
-
-            }
-        }
-        
-        private static void CreateDatabase(IServiceProvider services, ILogger<SeedData> logger)
-        {
-            try
-            {
+                logger.LogInformation("開始創建資料庫");
                 var dbContext = services.GetRequiredService<ApplicationDbContext>();
-                dbContext.Database.Migrate();
-            }
-            catch (Exception e)
-            {
-                logger.LogError($"發生未知錯誤\n{e.ToString()}");
-                throw;
+                if (dbContext.Database.EnsureCreated())
+                {
+                    logger.LogInformation("資料庫已經創建");
+                }
+                else
+                {
+                    logger.LogInformation("創資料庫完成");
+
+                    #region Role
+
+                    logger.LogInformation("開始創建角色及角色聲明");
+                    CreateRole(services, logger);
+                    logger.LogInformation("創建角色及角色聲明完成");
+
+                    #endregion
+
+                    #region User
+
+                    logger.LogInformation("開始創建使用者");
+                    CreateUser(services, logger);
+                    logger.LogInformation("創建使用者完成");
+
+                    #endregion
+
+                    #region Data
+
+                    logger.LogInformation("開始創建資料");
+                    InsertData(services, logger);
+                    logger.LogInformation("創建資料完成");
+
+                    #endregion
+
+                }
+
+                #endregion
+
             }
         }
 
