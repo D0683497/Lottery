@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using Lottery.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,42 +24,34 @@ namespace Lottery.Data
 
                 logger.LogInformation("開始創建資料庫");
                 var dbContext = services.GetRequiredService<ApplicationDbContext>();
-                if (dbContext.Database.EnsureCreated())
-                {
-                    logger.LogInformation("資料庫已經創建");
-                }
-                else
-                {
-                    logger.LogInformation("創資料庫完成");
-
-                    #region Role
-
-                    logger.LogInformation("開始創建角色及角色聲明");
-                    CreateRole(services, logger);
-                    logger.LogInformation("創建角色及角色聲明完成");
-
-                    #endregion
-
-                    #region User
-
-                    logger.LogInformation("開始創建使用者");
-                    CreateUser(services, logger);
-                    logger.LogInformation("創建使用者完成");
-
-                    #endregion
-
-                    #region Data
-
-                    logger.LogInformation("開始創建資料");
-                    InsertData(services, logger);
-                    logger.LogInformation("創建資料完成");
-
-                    #endregion
-
-                }
+                dbContext.Database.EnsureCreated();
+                logger.LogInformation("創資料庫完成");
 
                 #endregion
 
+                #region Role
+
+                logger.LogInformation("開始創建角色及角色聲明");
+                CreateRole(services, logger);
+                logger.LogInformation("創建角色及角色聲明完成");
+
+                #endregion
+
+                #region User
+
+                logger.LogInformation("開始創建使用者");
+                CreateUser(services, logger);
+                logger.LogInformation("創建使用者完成");
+
+                #endregion
+
+                #region Data
+
+                logger.LogInformation("開始創建資料");
+                InsertData(services, logger);
+                logger.LogInformation("創建資料完成");
+
+                #endregion
             }
         }
 
@@ -68,26 +61,32 @@ namespace Lottery.Data
             {
                 var dbContext = services.GetRequiredService<ApplicationDbContext>();
 
-                #region Student
-                
-                var student = new Item { ItemName = "新生" };
-                
-                dbContext.Items.Add(student);
-                dbContext.SaveChanges();
-                logger.LogInformation("建立 Student 資料");
+                if (!dbContext.Items.Any())
+                {
+                    #region Student
 
-                #endregion
+                    var student = new Item { ItemName = "新生" };
 
-                #region Staff
+                    dbContext.Items.Add(student);
+                    dbContext.SaveChanges();
+                    logger.LogInformation("建立 Student 資料");
 
-                var staff = new Item { ItemName = "學生工作人員" };
+                    #endregion
 
-                dbContext.Items.Add(staff);
-                dbContext.SaveChanges();
-                logger.LogInformation("建立 Staff 資料");
+                    #region Staff
 
-                #endregion
+                    var staff = new Item { ItemName = "學生工作人員" };
 
+                    dbContext.Items.Add(staff);
+                    dbContext.SaveChanges();
+                    logger.LogInformation("建立 Staff 資料");
+
+                    #endregion
+                }
+                else
+                {
+                    logger.LogInformation("已經有 Student、Staff 資料");
+                }
             }
             catch (Exception e)
             {
@@ -182,7 +181,6 @@ namespace Lottery.Data
                 }
 
                 #endregion
-
             }
             catch (Exception e)
             {
@@ -293,7 +291,6 @@ namespace Lottery.Data
                 }
 
                 #endregion
-
             }
             catch (Exception e)
             {
