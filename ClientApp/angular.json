@@ -59,7 +59,7 @@
               "src/safari-pinned-tab.svg",
               "src/browserconfig.xml",
               "src/site.webmanifest",
-              "src/assets"
+              "src/assets/images"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/purple-green.css",
@@ -176,8 +176,7 @@
               "e2e/tsconfig.json"
             ],
             "exclude": [
-              "**/node_modules/**",
-              "src/assets/files/favicon_package_v0.16.zip"
+              "**/node_modules/**"
             ]
           }
         },
