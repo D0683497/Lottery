@@ -157,7 +157,6 @@ namespace Lottery
                     ContentTypeProvider = provider
                 });
             }
-            
 
             app.UseRouting();
 
