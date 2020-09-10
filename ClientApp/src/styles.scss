@@ -6,3 +6,20 @@ $custom-typography: mat-typography-config($font-family: '"Noto Sans TC", "Roboto
 
 html, body { height: 100%; }
 body { margin: 0; font-family: 'Noto Sans TC', 'Roboto', sans-serif; }
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #424242;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #424242;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #424242;
+}
+
+.backdropBackground {
+  background: rgba(255, 255, 255, 1)
+}

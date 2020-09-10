@@ -56,11 +56,8 @@ export class HomeComponent implements OnInit {
       .subscribe(
         data => {
           this.dialog.open(DrawResultComponent, {
-            height: 'calc(100% - 50px)',
-            width: 'calc(100% - 50px)',
-            maxWidth: '100%',
-            maxHeight: '100%',
             disableClose: true,
+            backdropClass: 'backdropBackground',
             data
           });
         },

@@ -71,10 +71,7 @@ export class ClientComponent implements OnInit, OnDestroy {
 
   startDraw(attendee: Attendee): void {
     this.dialog.open(DrawResultComponent, {
-      height: 'calc(100% - 50px)',
-      width: 'calc(100% - 50px)',
-      maxWidth: '100%',
-      maxHeight: '100%',
+      backdropClass: 'backdropBackground',
       disableClose: true,
       data: attendee
     });
