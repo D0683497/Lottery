@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.30406.217
+VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lottery", "Lottery.csproj", "{A4FC72D3-8E0F-4063-873F-07D0A4637C1A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lottery", "Lottery\Lottery.csproj", "{78646033-E4C9-4B36-B35B-D5DCD0DE54DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A4FC72D3-8E0F-4063-873F-07D0A4637C1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4FC72D3-8E0F-4063-873F-07D0A4637C1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A4FC72D3-8E0F-4063-873F-07D0A4637C1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4FC72D3-8E0F-4063-873F-07D0A4637C1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78646033-E4C9-4B36-B35B-D5DCD0DE54DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78646033-E4C9-4B36-B35B-D5DCD0DE54DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78646033-E4C9-4B36-B35B-D5DCD0DE54DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78646033-E4C9-4B36-B35B-D5DCD0DE54DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {877A6F63-09F9-4C24-9024-5EAA6AF2C5FD}
+		SolutionGuid = {407479BC-F953-499E-83D7-F03A8A9AF288}
 	EndGlobalSection
 EndGlobal
