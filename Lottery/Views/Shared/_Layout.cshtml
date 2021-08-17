@@ -11,12 +11,11 @@
     <link rel="stylesheet" type="text/css" href="~/css/site.css" />
 </head>
 <body>
-<section class="hero is-success is-fullheight">
+<section class="hero is-primary is-fullheight">
     <header class="hero-head">
         <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="container">
                 <div class="navbar-brand">
-                    <a class="navbar-item" asp-area="" asp-controller="Home" asp-action="Index">Lottery</a>
                     <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
                       <span aria-hidden="true"></span>
                       <span aria-hidden="true"></span>
@@ -30,7 +29,7 @@
                                 <span class="icon">
                                     <i class="fa fa-home"></i>
                                 </span>
-                                <span>Home</span>
+                                <span>首頁</span>
                             </a>
                         </span>
                         <span class="navbar-item">
@@ -66,9 +65,14 @@
         @RenderBody()
     </main>
     <footer class="hero-foot">
-        <div class="container">
-            &copy; 2021 - Lottery - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+        <nav class="tabs is-centered is-toggle is-toggle-rounded">
+            <div class="container">
+                <ul>
+                    <li><a>管理活動</a></li>
+                    <li><a>管理講池</a></li>
+                </ul>
+            </div>
+        </nav>
     </footer>
 </section>
 
