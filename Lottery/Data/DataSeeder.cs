@@ -47,7 +47,7 @@ namespace Lottery.Data
             var dbContext = services.GetRequiredService<LotteryDbContext>();
             await dbContext.Roles.AddRangeAsync(new List<ApplicationRole>
             {
-                new ApplicationRole { Name = "Administrator" }
+                new ApplicationRole { Name = "Administrator", NormalizedName = "Administrator".ToUpperInvariant() }
             });
             await dbContext.SaveChangesAsync();
         }
