@@ -58,6 +58,12 @@ namespace Lottery.Entities
         /// 使用者
         /// </summary>
         public ApplicationUser User { get; set; }
+        
+        /// <summary>
+        /// 活動識別碼
+        /// </summary>
+        [MaxLength(36)]
+        public string EventId { get; set; }
 
         /// <summary>
         /// 活動

@@ -153,5 +153,10 @@ namespace Lottery.Entities.Identity
         /// 申請表
         /// </summary>
         public ICollection<ApplyForm> ApplyForms { get; set; }
+
+        /// <summary>
+        /// 活動使用者
+        /// </summary>
+        public ICollection<EventUser> Events { get; set; }
     }
 }

@@ -9,6 +9,9 @@ namespace Lottery.Entities.Activity
     /// </summary>
     public class Participant
     {
+        /// <summary>
+        /// 參與者識別碼
+        /// </summary>
         [Key]
         [MaxLength(36)]
         public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -29,5 +32,10 @@ namespace Lottery.Entities.Activity
         /// 獲得獎品
         /// </summary>
         public ICollection<Prize> Prizes { get; set; }
+        
+        /// <summary>
+        /// 參與者聲明
+        /// </summary>
+        public ICollection<ParticipantClaim> Claims { get; set; }
     }
 }

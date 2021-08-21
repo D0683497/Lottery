@@ -8,6 +8,9 @@ namespace Lottery.Entities.Activity
     /// </summary>
     public class PoolImage : Document
     {
+        /// <summary>
+        /// 講池圖片識別碼
+        /// </summary>
         [Key]
         [MaxLength(36)]
         public string Id { get; set; } = Guid.NewGuid().ToString();

@@ -8,6 +8,9 @@ namespace Lottery.Entities.Activity
     /// </summary>
     public class PrizeImage : Document
     {
+        /// <summary>
+        /// 獎品圖片識別碼
+        /// </summary>
         [Key]
         [MaxLength(36)]
         public string Id { get; set; } = Guid.NewGuid().ToString();

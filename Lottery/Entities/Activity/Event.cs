@@ -43,6 +43,11 @@ namespace Lottery.Entities.Activity
         public string Url { get; set; }
 
         /// <summary>
+        /// 活動聲明
+        /// </summary>
+        public ICollection<EventClaim> Claims { get; set; }
+
+        /// <summary>
         /// 活動圖片
         /// </summary>
         public EventImage Image { get; set; }
@@ -53,14 +58,13 @@ namespace Lottery.Entities.Activity
         public ICollection<Pool> Pools { get; set; }
 
         /// <summary>
-        /// 申請表識別碼
-        /// </summary>
-        [MaxLength(36)]
-        public string ApplyFormId { get; set; }
-        
-        /// <summary>
         /// 申請表
         /// </summary>
         public ApplyForm ApplyForm { get; set; }
+
+        /// <summary>
+        /// 活動使用者
+        /// </summary>
+        public ICollection<EventUser> Users { get; set; }
     }
 }
