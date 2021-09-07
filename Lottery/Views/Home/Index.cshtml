@@ -42,7 +42,7 @@
                             </a>
                         </span>
                         <span class="navbar-item">
-                            <a class="button is-white is-outlined" asp-area="" asp-controller="Home" asp-action="Credits">
+                            <a class="button is-white is-outlined" asp-area="" asp-controller="Home" asp-action="Credits" target="_blank">
                                 <span class="icon">
                                     <i class="fas fa-balance-scale"></i>
                                 </span>
@@ -63,9 +63,9 @@
         </nav>
     </header>
     <main class="hero-body">
-        <div class="column is-8 is-offset-2 is-6-widescreen is-offset-3-widescreen has-text-centered">
-            <h1 class="title is-1">抽獎系統</h1>
-            <div class="buttons is-centered my-4">
+        <div class="container is-max-desktop">
+            <h1 class="title is-1 has-text-centered">抽獎系統</h1>
+            <div class="buttons is-centered my-6">
                 <a asp-area="" asp-controller="Home" asp-action="Facebook" target="_blank" class="button is-medium is-facebook">
                     <span class="icon">
                         <i class="fab fa-facebook-f fa-lg"></i>
@@ -87,16 +87,10 @@
                     </span>
                 </a>
             </div>
-            <nav class="level">
-                <div class="level-item">
-                    <a asp-area="" asp-controller="Event" asp-action="List" class="button is-white is-outlined is-rounded has-background-grey is-large">活動列表</a>
-                </div>
-                <div class="level-item">
-                    <a asp-area="" asp-controller="Event" asp-action="Index" class="button is-white is-outlined is-rounded has-background-grey is-large">目前活動</a>
-                </div>
-                <div class="level-item">
-                    <a asp-area="" asp-controller="Home" asp-action="Apply" class="button is-white is-outlined is-rounded has-background-grey is-large">申請使用</a>
-                </div>
+            <nav class="buttons is-centered">
+                <a asp-area="" asp-controller="Event" asp-action="List" class="button is-black is-outlined has-background-grey-light is-rounded is-large is-underlined">活動列表</a>
+                <a asp-area="" asp-controller="Event" asp-action="Index" class="button is-black is-outlined has-background-grey-light is-rounded is-large is-underlined">目前活動</a>
+                <a asp-area="" asp-controller="Home" asp-action="Apply" class="button is-black is-outlined has-background-grey-light is-rounded is-large is-underlined">申請使用</a>
             </nav>
         </div>
     </main>

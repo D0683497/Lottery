@@ -1,10 +1,13 @@
 using System.ComponentModel.DataAnnotations;
+using System.Security.Policy;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lottery.Entities
 {
     /// <summary>
     /// 網站設定
     /// </summary>
+    [Index(nameof(Name), Name = "NameIndex", IsUnique = true)]
     public class Setting
     {
         /// <summary>

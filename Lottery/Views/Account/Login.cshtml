@@ -61,42 +61,42 @@
         </nav>
     </header>
     <main class="hero-body">
-        <div class="container has-text-centered">
-            <div class="columns is-multiline">
-                <div class="column is-8 is-offset-2">
-                    <h3 class="title">@ViewData["Title"]</h3>
-                    <hr>
-                    <div class="box">
-                        <figure class="avatar mb-3">
-                            <img src="~/images/fcu-logo.png" width="128" height="128" alt="">
-                        </figure>
-                        <form>
-                            <div class="field">
-                                <div class="control">
-                                    <input class="input" type="email" placeholder="Your Email" autofocus="">
-                                </div>
-                            </div>
-                            <div class="field">
-                                <div class="control">
-                                    <input class="input" type="password" placeholder="Your Password">
-                                </div>
-                            </div>
-                            <div class="field has-text-left">
-                                <div class="control">
-                                    <label class="checkbox">
-                                        <input type="checkbox">
-                                        I agree to the <a href="#">terms and conditions</a>
-                                    </label>
-                                </div>
-                            </div>
-                            <button class="button is-info is-fullwidth">登入</button>
-                        </form>
+        <div class="container is-max-desktop">
+            <h1 class="title is-3 has-text-centered">@ViewData["Title"]</h1>
+            <hr>
+            <div class="box">
+                <figure class="avatar mb-6 is-flex is-justify-content-center">
+                    <img src="~/images/fcu-logo.png" width="128" height="128" alt="">
+                </figure>
+                <form>
+                    <div class="field mb-5">
+                        <label class="label">帳號</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" placeholder="請輸入帳號" />
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-user"></i>
+                            </span>
+                        </div>
                     </div>
-                    <div class="buttons is-centered">
-                        <a class="button is-text">忘記密碼</a>
-                        <a class="button is-text">申請使用</a>
+                    <div class="field mb-5">
+                        <label class="label">密碼</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="password" placeholder="請輸入密碼" />
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                        </div>
                     </div>
-                </div>
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-info is-fullwidth" type="submit">登入</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="buttons is-centered">
+                <a class="button is-text">忘記密碼</a>
+                <a asp-area="" asp-controller="Home" asp-action="Apply" class="button is-text">申請使用</a>
             </div>
         </div>
     </main>

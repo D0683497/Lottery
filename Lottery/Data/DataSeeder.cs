@@ -57,12 +57,13 @@ namespace Lottery.Data
             var dbContext = services.GetRequiredService<LotteryDbContext>();
             await dbContext.Settings.AddRangeAsync(new List<Setting>
             {
-                new Setting { Name = "event", Value = null },
+                new Setting { Name = "event", Value = "https://sscurl.fcu.edu.tw/" },
                 new Setting { Name = "privacy", Value = "https://www.fcu.edu.tw/privacy/" },
                 new Setting { Name = "facebook", Value = "https://www.facebook.com/fcussc/" },
                 new Setting { Name = "instagram", Value = "https://www.instagram.com/fcu.cdc/" },
                 new Setting { Name = "website", Value = "https://ssc.fcu.edu.tw/" },
-                new Setting { Name = "github", Value = "https://github.com/fcu-ssc/" }
+                new Setting { Name = "github", Value = "https://github.com/fcu-ssc/" },
+                new Setting { Name = "credits", Value = "https://github.com/D0683497/Lottery" }
             });
             await dbContext.SaveChangesAsync();
         }

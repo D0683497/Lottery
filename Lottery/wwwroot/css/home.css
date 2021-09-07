@@ -1,5 +1,5 @@
 section {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('http://localhost:5000/background') no-repeat center center fixed;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('http://localhost:5000/images/home.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -8,9 +8,4 @@ section {
 
 .hero.is-primary .navbar-menu {
     background-color: transparent;
-}
-
-.hero .subtitle {
-    padding: 3rem 0;
-    line-height: 1.5;
 }

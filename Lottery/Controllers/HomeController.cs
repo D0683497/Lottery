@@ -1,6 +1,9 @@
 ﻿using System.Diagnostics;
+using System.Threading.Tasks;
+using Lottery.Data;
 using Lottery.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Lottery.Controllers
@@ -9,10 +12,12 @@ namespace Lottery.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        
-        public HomeController(ILogger<HomeController> logger)
+        private readonly LotteryDbContext _dbContext;
+
+        public HomeController(ILogger<HomeController> logger, LotteryDbContext dbContext)
         {
             _logger = logger;
+            _dbContext = dbContext;
         }
 
         [HttpGet("")]
@@ -20,47 +25,59 @@ namespace Lottery.Controllers
         {
             return View();
         }
-        
-        [HttpGet("background")]
-        public IActionResult Background()
-        {
-            return File(System.IO.File.OpenRead("wwwroot/images/home.jpg"), "image/jpeg", $"home.jpg");
-        }
 
         [HttpGet("privacy")]
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy()
         {
-            return Redirect("https://www.fcu.edu.tw/privacy/");
+            var url = await _dbContext.Settings
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.Name == "privacy");
+            return Redirect(url.Value);
         }
         
         [HttpGet("facebook")]
-        public IActionResult Facebook()
+        public async Task<IActionResult> Facebook()
         {
-            return Redirect("https://www.facebook.com/fcussc/");
+            var url = await _dbContext.Settings
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.Name == "facebook");
+            return Redirect(url.Value);
         }
         
         [HttpGet("instagram")]
-        public IActionResult Instagram()
+        public async Task<IActionResult> Instagram()
         {
-            return Redirect("https://www.instagram.com/fcu.cdc/");
-        }
-        
-        [HttpGet("github")]
-        public IActionResult GitHub()
-        {
-            return Redirect("https://github.com/fcu-ssc/");
+            var url = await _dbContext.Settings
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.Name == "instagram");
+            return Redirect(url.Value);
         }
         
         [HttpGet("site")]
-        public IActionResult Site()
+        public async Task<IActionResult> Site()
         {
-            return Redirect("https://ssc.fcu.edu.tw/");
+            var url = await _dbContext.Settings
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.Name == "website");
+            return Redirect(url.Value);
+        }
+        
+        [HttpGet("github")]
+        public async Task<IActionResult> GitHub()
+        {
+            var url = await _dbContext.Settings
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.Name == "github");
+            return Redirect(url.Value);
         }
 
         [HttpGet("credits")]
-        public IActionResult Credits()
+        public async Task<IActionResult> Credits()
         {
-            return View();
+            var url = await _dbContext.Settings
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.Name == "credits");
+            return Redirect(url.Value);
         }
         
         [HttpGet("apply")]

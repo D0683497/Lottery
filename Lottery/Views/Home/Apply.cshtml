@@ -61,44 +61,41 @@
         </nav>
     </header>
     <main class="hero-body">
-        <div class="container">
-            <div class="columns is-multiline">
-                <div class="column is-12">
-                    <h1 class="title has-text-centered">@ViewData["Title"]</h1>
-                </div>
-                <div class="column is-8 is-offset-2">
-                    <form>
-                        <div class="field">
-                            <label class="label">Name</label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="text" placeholder="Ex. Jane Smith" name="Name" />
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-user"></i>
-                                </span>
-                            </div>
+        <div class="container is-max-desktop">
+            <h1 class="title is-3 has-text-centered">@ViewData["Title"]</h1>
+            <hr />
+            <div class="box">
+                <form>
+                    <div class="field mb-5">
+                        <label class="label">Name</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" placeholder="Ex. Jane Smith" name="Name" />
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-user"></i>
+                            </span>
                         </div>
-                        <div class="field">
-                            <label class="label">Email</label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="email" placeholder="Ex. hello@arctheme.com" name="Email" />
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-envelope"></i>
-                                </span>
-                            </div>
+                    </div>
+                    <div class="field mb-5">
+                        <label class="label">Email</label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="email" placeholder="Ex. hello@arctheme.com" name="Email" />
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-envelope"></i>
+                            </span>
                         </div>
-                        <div class="field">
-                            <label class="label">Message</label>
-                            <div class="control">
-                                <textarea class="textarea" placeholder="Textarea" name="Message"></textarea>
-                            </div>
+                    </div>
+                    <div class="field mb-5">
+                        <label class="label">Message</label>
+                        <div class="control">
+                            <textarea class="textarea" placeholder="Textarea" name="Message"></textarea>
                         </div>
-                        <div class="field">
-                            <div class="control">
-                                <button class="button is-info is-fullwidth">申請</button>
-                            </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-info is-fullwidth">申請</button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </main>

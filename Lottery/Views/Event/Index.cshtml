@@ -11,6 +11,11 @@
         <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="container">
                 <div class="navbar-brand">
+                    <span class="navbar-item py-0">
+                        <a class="title" asp-area="" asp-controller="Home" asp-action="Index">
+                            <img src="~/images/ssc-logo-light.svg" alt="" height="28" />
+                        </a>
+                    </span>
                     <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
@@ -49,41 +54,38 @@
         </nav>
     </header>
     <main class="hero-body">
-        <div class="container has-text-centered">
-            <div class="column is-6 is-offset-3">
-                <h1 class="title mb-6">2021 新鮮人成長營</h1>
-                <h2 class="subtitle my-6">這邊可以打字</h2>
-                <form class="mt-6">
-                    <div class="field has-addons">
-                        <div class="control has-icons-left is-expanded">
-                            <input class="input" type="text" placeholder="請輸入學號">
-                            <span class="icon is-left">
-                                <i class="fas fa-user"></i>
-                            </span>
-                        </div>
-                        <div class="control">
-                            <button class="button is-primary" asp-area="" asp-controller="Event" asp-action="Participant">
-                                <span class="icon">
-                                    <i class="fas fa-search"></i>
-                                </span>
-                                <span>查詢</span>
-                            </button>
-                        </div>
+        <div class="container is-max-desktop">
+            <h1 class="title mb-6 has-text-centered">2021 新鮮人成長營</h1>
+            <h2 class="subtitle my-6 has-text-centered">這邊可以打字</h2>
+            <form class="my-6">
+                <div class="field has-addons">
+                    <div class="control has-icons-left is-expanded">
+                        <input class="input" type="text" placeholder="請輸入學號">
+                        <span class="icon is-left">
+                            <i class="fas fa-user"></i>
+                        </span>
                     </div>
-                </form>
-            </div>
+                    <div class="control">
+                        <button class="button is-primary" asp-area="" asp-controller="Event" asp-action="Participant">
+                            <span class="icon">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <span>查詢</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <nav class="buttons is-centered">
+                <a class="button is-black is-outlined has-background-grey-lighter is-large is-underlined">管理活動</a>
+                <a class="button is-black is-outlined has-background-grey-lighter is-large is-underlined">開始抽獎</a>
+                <a class="button is-black is-outlined has-background-grey-lighter is-large is-underlined">管理講池</a>
+            </nav>
         </div>
     </main>
     <footer class="hero-foot">
-        <nav class="tabs is-centered is-toggle is-toggle-rounded">
-            <div class="container">
-                <ul>
-                    <li><a class="has-background-grey">管理活動</a></li>
-                    <li><a class="has-background-primary has-text-black">開始抽獎</a></li>
-                    <li><a class="has-background-grey">管理講池</a></li>
-                </ul>
-            </div>
-        </nav>
+        <div class="content has-text-centered">
+            <p>Copyright &copy; 2021 成就學生中心</p>
+        </div>
     </footer>
 </section>
 
