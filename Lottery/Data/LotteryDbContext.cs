@@ -87,11 +87,6 @@ namespace Lottery.Data
         public DbSet<EventImage> EventImages { get; set; }
 
         /// <summary>
-        /// 講池圖片
-        /// </summary>
-        public DbSet<PoolImage> PoolImages { get; set; }
-
-        /// <summary>
         /// 獎品圖片
         /// </summary>
         public DbSet<PrizeImage> PrizeImages { get; set; }

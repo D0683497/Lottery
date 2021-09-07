@@ -24,11 +24,6 @@ namespace Lottery.Entities.Activity
         public string Name { get; set; }
 
         /// <summary>
-        /// 講池圖片
-        /// </summary>
-        public PoolImage Image { get; set; }
-        
-        /// <summary>
         /// 獎品
         /// </summary>
         public ICollection<Prize> Prizes { get; set; }

@@ -42,9 +42,6 @@ namespace Lottery.Data.EntityConfigurations
                 b.HasMany(e => e.Participants)
                     .WithOne(participant => participant.Pool)
                     .HasForeignKey(participant => participant.PoolId);
-                b.HasOne(e => e.Image)
-                    .WithOne(i => i.Pool)
-                    .HasForeignKey<PoolImage>(i => i.PoolId);
             });
 
             builder.Entity<Prize>(b =>
@@ -67,8 +64,6 @@ namespace Lottery.Data.EntityConfigurations
             builder.Entity<ParticipantClaim>();
 
             builder.Entity<EventImage>();
-
-            builder.Entity<PoolImage>();
 
             builder.Entity<PrizeImage>();
         }
