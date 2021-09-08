@@ -19,7 +19,7 @@ namespace Lottery.Entities.Activity
         public string Id { get; set; } = new SequentialGuidValueGenerator().Next(null!).ToString();
 
         /// <summary>
-        /// 活動結束
+        /// 活動狀態
         /// </summary>
         public bool End { get; set; } = false;
 

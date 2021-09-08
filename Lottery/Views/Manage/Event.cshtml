@@ -1,4 +1,5 @@
-﻿@{
+﻿@model PaginatedList<EventViewModel>
+@{
     ViewData["Title"] = "管理活動";
 }
 
@@ -15,11 +16,15 @@
         <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="Event" aria-current="page">@ViewData["Title"]</a></li>
     </ul>
 </nav>
+<div class="notification">
+    <button class="delete"></button>
+    只能搜尋活動標題
+</div>
 <div class="is-flex is-justify-content-space-between">
     <h1 class="title is-3">@ViewData["Title"]</h1>
     <div class="field has-addons is-hidden-tablet">
         <p class="control">
-            <a asp-area="" asp-controller="Manage" asp-action="EventAdd" class="button">
+            <a asp-area="" asp-controller="Manage" asp-action="EventAdd" class="button is-info is-outlined">
                 <span class="icon is-small">
                     <i class="fas fa-plus"></i>
                 </span>
@@ -28,7 +33,7 @@
     </div>
     <div class="field has-addons is-hidden-mobile">
         <p class="control">
-            <a asp-area="" asp-controller="Manage" asp-action="EventAdd" class="button">
+            <a asp-area="" asp-controller="Manage" asp-action="EventAdd" class="button is-info is-outlined">
                 <span class="icon is-small">
                     <i class="fas fa-plus"></i>
                 </span>
@@ -37,6 +42,86 @@
         </p>
     </div>
 </div>
+<form asp-area="" asp-controller="Manage" asp-action="Event" class="field has-addons" method="get">
+    <div class="control has-icons-left is-expanded">
+        <input class="input" type="text" name="search" placeholder="搜尋" value="@Context.Request.Query["search"]" />
+        <span class="icon is-left">
+            <i class="fas fa-search" aria-hidden="true"></i>
+        </span>
+    </div>
+    <div class="control">
+        <button type="submit" class="button is-primary">搜尋</button>
+    </div>
+</form>
 <hr />
-<div class="box">
+<div class="b-table">
+    <div class="table-wrapper has-mobile-cards">
+        <table class="table is-fullwidth is-striped is-fullwidth">
+            <thead>
+            <tr>
+                <th>識別碼</th>
+                <th>狀態</th>
+                <th>標題</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (!Model.Any())
+            {
+                <tr class="is-empty">
+                    <td colspan="4">
+                        <section class="section">
+                            <div class="content has-text-grey has-text-centered">
+                                <figure class="image">
+                                    <i class="fas fa-inbox fa-5x"></i>
+                                </figure>
+                                <p>沒有資料</p>
+                            </div>
+                        </section>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td data-label="識別碼">@item.Id</td>
+                        <td data-label="狀態">
+                            @if (item.End)
+                            {
+                                <span class="tag is-danger">已結束</span>
+                            }
+                            else
+                            {
+                                <span class="tag is-success">進行中</span>
+                            }
+                        </td>
+                        <td data-label="標題">@item.Title</td>
+                        <td class="is-actions-cell">
+                            <div class="buttons">
+                                <a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@item.Id" class="button is-link is-inverted is-underlined">
+                                    <span class="icon is-small">
+                                        <i class="far fa-newspaper"></i>
+                                    </span>
+                                    <span>詳情</span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+    @if (Model.Any())
+    {
+        <nav class="pagination is-centered is-rounded" role="navigation" aria-label="pagination">
+            <a asp-area="" asp-controller="Manage" asp-action="Event" asp-route-page="@(Model.PageIndex-1)" disabled="@(Model.HasPreviousPage == false)" class="pagination-previous">上一頁</a>
+            <a asp-area="" asp-controller="Manage" asp-action="Event" asp-route-page="@(Model.PageIndex+1)" disabled="@(Model.HasNextPage == false)" class="pagination-next">下一頁</a>
+            <ul class="pagination-list">
+                <li><a asp-area="" asp-controller="Manage" asp-action="Index" asp-route-page="@Model.PageIndex" class="pagination-link is-current" aria-current="page">@Model.PageIndex / @Model.TotalPages</a></li>
+            </ul>
+        </nav>
+    }
 </div>

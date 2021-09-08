@@ -1,19 +1,32 @@
-﻿@model EventAddViewModel
+﻿@model EventEditViewModel
 @{
-    ViewData["Title"] = "新增活動";
+    ViewData["Title"] = "編輯活動";
 }
 
 <nav class="breadcrumb" aria-label="breadcrumbs">
     <ul>
         <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
         <li><a asp-area="" asp-controller="Manage" asp-action="Event">管理活動</a></li>
-        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="EventAdd" aria-current="page">@ViewData["Title"]</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@Context.Request.RouteValues["eventId"]">活動詳情</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="EventEdit" asp-route-eventId="@Context.Request.RouteValues["eventId"]" aria-current="page">@ViewData["Title"]</a></li>
     </ul>
 </nav>
 <h1 class="title is-3">@ViewData["Title"]</h1>
 <hr />
 <div class="box">
-    <form asp-area="" asp-controller="Manage" asp-action="EventAdd" method="post" role="form">
+    <form asp-area="" asp-controller="Manage" asp-action="EventEdit" asp-route-eventId="@Context.Request.RouteValues["eventId"]" method="post" role="form">
+        <div class="field mb-5">
+            <label asp-for="End" class="label">狀態</label>
+            <div class="control">
+                <div class="select is-fullwidth">
+                    <select asp-for="End">
+                        <option value="false">進行中</option>
+                        <option value="true">已結束</option>
+                    </select>
+                </div>
+            </div>
+            <span asp-validation-for="End" class="help is-danger"></span>
+        </div>
         <div class="field mb-5">
             <label asp-for="Title" class="label">標題</label>
             <div class="control">
@@ -38,8 +51,12 @@
         </div>
         <div class="field">
             <div class="control">
-                <button class="button is-info is-fullwidth" type="submit">新增</button>
+                <button class="button is-link" type="submit">修改</button>
             </div>
         </div>
     </form>
 </div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

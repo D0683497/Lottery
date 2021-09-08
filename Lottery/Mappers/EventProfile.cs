@@ -35,6 +35,34 @@ namespace Lottery.Mappers
                     opt => opt.MapFrom(src => src.Url));
 
             #endregion
+
+            #region Event 轉換成 EventEditViewModel
+
+            CreateMap<Event, EventEditViewModel>()
+                .ForMember(dest => dest.End,
+                    opt => opt.MapFrom(src => src.End))
+                .ForMember(dest => dest.Title,
+                    opt => opt.MapFrom(src => src.Title))
+                .ForMember(dest => dest.SubTitle,
+                    opt => opt.MapFrom(src => src.SubTitle))
+                .ForMember(dest => dest.Url,
+                    opt => opt.MapFrom(src => src.Url));
+
+            #endregion
+            
+            #region EventEditViewModel 轉換成 Event
+
+            CreateMap<EventEditViewModel, Event>()
+                .ForMember(dest => dest.End,
+                    opt => opt.MapFrom(src => src.End))
+                .ForMember(dest => dest.Title,
+                    opt => opt.MapFrom(src => src.Title))
+                .ForMember(dest => dest.SubTitle,
+                    opt => opt.MapFrom(src => src.SubTitle))
+                .ForMember(dest => dest.Url,
+                    opt => opt.MapFrom(src => src.Url));
+
+            #endregion
         }
     }
 }

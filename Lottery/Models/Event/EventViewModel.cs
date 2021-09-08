@@ -10,7 +10,7 @@ namespace Lottery.Models.Event
         public string Id { get; set; }
 
         [JsonPropertyName("End")]
-        [Display(Name = "活動結束")]
+        [Display(Name = "活動狀態")]
         public bool End { get; set; }
 
         [JsonPropertyName("Title")]

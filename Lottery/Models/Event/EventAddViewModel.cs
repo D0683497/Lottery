@@ -19,7 +19,7 @@ namespace Lottery.Models.Event
         public string SubTitle { get; set; }
         
         [MaxLength(100, ErrorMessage = "{0}最多{1}位")]
-        [RegularExpression(@"^[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_]*$", ErrorMessage = "{0}只能是英文、數字、底線、連字號")]
+        [RegularExpression(@"^[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\-_]*$", ErrorMessage = "{0}只能是英文、數字、底線、連字號")]
         [DataType(DataType.Text)]
         [JsonPropertyName("Url")]
         [Display(Name = "網址")]
