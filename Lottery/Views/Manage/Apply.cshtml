@@ -2,6 +2,13 @@
     ViewData["Title"] = "管理申請表";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-responsive-tables@1.2.3/css/main.min.css"
+          asp-fallback-href="~/lib/bulma-responsive-tables/css/main.min.css"
+          asp-fallback-test-class="b-table"
+          integrity="sha256-qqSeWOTrQzPLIhRfuz3KWtWjWqI9X60r0piSbhCdNKY=" crossorigin="anonymous">
+}
+
 <nav class="breadcrumb" aria-label="breadcrumbs">
     <ul>
         <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
