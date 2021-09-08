@@ -1,5 +1,3 @@
-using System.Threading;
-using System.Threading.Tasks;
 using Lottery.Data.EntityConfigurations;
 using Lottery.Entities;
 using Lottery.Entities.Activity;
@@ -109,9 +107,7 @@ namespace Lottery.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            
-            builder.EnableAutoHistory();
-            
+
             UserConfigurations.UserRelation(builder);
             
             ActivityConfigurations.ActivityRelation(builder);
@@ -124,18 +120,6 @@ namespace Lottery.Data
             });
             
             builder.Entity<Setting>();
-        }
-        
-        public override int SaveChanges()
-        {
-            this.EnsureAutoHistory();
-            return base.SaveChanges();
-        }
-    
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
-        {
-            this.EnsureAutoHistory();
-            return base.SaveChangesAsync(cancellationToken);
         }
     }
 }

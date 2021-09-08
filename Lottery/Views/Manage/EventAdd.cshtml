@@ -1,0 +1,45 @@
+﻿@model EventAddViewModel
+@{
+    ViewData["Title"] = "新增活動";
+}
+
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Event">管理活動</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="EventAdd" aria-current="page">@ViewData["Title"]</a></li>
+    </ul>
+</nav>
+<h1 class="title is-3">@ViewData["Title"]</h1>
+<hr />
+<div class="box">
+    <form asp-area="" asp-controller="Manage" asp-action="EventAdd" method="post" role="form">
+        <div class="field mb-5">
+            <label asp-for="Title" class="label">標題</label>
+            <div class="control">
+                <input asp-for="Title" class="input" type="text" placeholder="請輸入標題" />
+            </div>
+            <span asp-validation-for="Title" class="help is-danger"></span>
+        </div>
+        <div class="field mb-5">
+            <label asp-for="SubTitle" class="label">副標題</label>
+            <div class="control">
+                <textarea asp-for="SubTitle" class="textarea" placeholder="請輸入副標題"></textarea>
+            </div>
+            <span asp-validation-for="SubTitle" class="help is-danger"></span>
+        </div>
+        <div class="field mb-5">
+            <label asp-for="Url" class="label">網址</label>
+            <div class="control">
+                <input asp-for="Url" class="input" type="text" placeholder="請輸入網址" />
+            </div>
+            <p class="help">活動網址為 https://sscurl.fcu.edu.tw/event/ + 上面所輸入網址</p>
+            <span asp-validation-for="Url" class="help is-danger"></span>
+        </div>
+        <div class="field">
+            <div class="control">
+                <button class="button is-info is-fullwidth" type="submit">新增</button>
+            </div>
+        </div>
+    </form>
+</div>

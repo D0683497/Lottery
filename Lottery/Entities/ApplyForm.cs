@@ -21,12 +21,14 @@ namespace Lottery.Entities
         /// <summary>
         /// 申請人姓名
         /// </summary>
+        [Required]
         [MaxLength(50)]
         public string Name { get; set; }
         
         /// <summary>
-        /// 申請人姓名
+        /// 申請人電子郵件
         /// </summary>
+        [Required]
         [MaxLength(256)]
         public string Email { get; set; }
 

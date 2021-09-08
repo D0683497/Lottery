@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "管理活動";
+}
+
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="Event" aria-current="page">@ViewData["Title"]</a></li>
+    </ul>
+</nav>
+<div class="is-flex is-justify-content-space-between">
+    <h1 class="title is-3">@ViewData["Title"]</h1>
+    <div class="field has-addons is-hidden-tablet">
+        <p class="control">
+            <a asp-area="" asp-controller="Manage" asp-action="EventAdd" class="button">
+                <span class="icon is-small">
+                    <i class="fas fa-plus"></i>
+                </span>
+            </a>
+        </p>
+    </div>
+    <div class="field has-addons is-hidden-mobile">
+        <p class="control">
+            <a asp-area="" asp-controller="Manage" asp-action="EventAdd" class="button">
+                <span class="icon is-small">
+                    <i class="fas fa-plus"></i>
+                </span>
+                <span>新增</span>
+            </a>
+        </p>
+    </div>
+</div>
+<hr />
+<div class="box">
+</div>

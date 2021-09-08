@@ -1,110 +1,63 @@
+@model ApplyViewModel
 @{
     ViewData["Title"] = "申請使用";
+    var isLogin = User.Claims.Any(x => x.Type == Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames.Jti);
 }
 
-@section Styles {
+<article class="message is-warning">
+    <div class="message-body">
+        若您曾經申請過請<strong>登入後</strong>在填寫此申請單
+    </div>
+</article>
+<h1 class="title is-3 has-text-centered">@ViewData["Title"]</h1>
+<hr />
+@if (!ViewData.ModelState.IsValid)
+{
+    @foreach (var modelError in ViewData.ModelState.SelectMany(keyValuePair => keyValuePair.Value.Errors))
+    {
+        <div class="notification is-danger">
+            <button class="delete"></button>
+            @modelError.ErrorMessage
+        </div>
+    }
 }
-
-<section class="hero">
-    <header class="hero-head">
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-            <div class="container">
-                <div class="navbar-brand">
-                    <span class="navbar-item py-0">
-                        <a class="title" asp-area="" asp-controller="Home" asp-action="Index">
-                            <img src="~/images/ssc-logo-dark.svg" alt="" height="28" />
-                        </a>
-                    </span>
-                    <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                    </a>
-                </div>
-                <div id="navMenu" class="navbar-menu">
-                    <div class="navbar-end">
-                        <span class="navbar-item">
-                            <a class="button is-outlined" asp-area="" asp-controller="Home" asp-action="Index">
-                                <span class="icon">
-                                    <i class="fas fa-home"></i>
-                                </span>
-                                <span>首頁</span>
-                            </a>
-                        </span>
-                        <span class="navbar-item">
-                            <a class="button is-outlined" asp-area="" asp-controller="Home" asp-action="Privacy" target="_blank">
-                                <span class="icon">
-                                    <i class="fas fa-shield-alt"></i>
-                                </span>
-                                <span>隱私權</span>
-                            </a>
-                        </span>
-                        <span class="navbar-item">
-                            <a class="button is-outlined" asp-area="" asp-controller="Home" asp-action="Credits">
-                                <span class="icon">
-                                    <i class="fas fa-balance-scale"></i>
-                                </span>
-                                <span>原始碼</span>
-                            </a>
-                        </span>
-                        <span class="navbar-item">
-                            <a class="button is-primary" asp-area="" asp-controller="Account" asp-action="Login">
-                                <span class="icon">
-                                    <i class="fas fa-sign-in-alt"></i>
-                                </span>
-                                <span>登入</span>
-                            </a>
-                        </span>
-                    </div>
-                </div>
+<div class="box">
+    <form asp-area="" asp-controller="Home" asp-action="Apply" method="post" role="form">
+        <div class="field mb-5">
+            <label asp-for="Name" class="label">姓名</label>
+            <div class="control has-icons-left">
+                <input asp-for="Name" class="input" type="text" placeholder="請輸入姓名" disabled="@isLogin" />
+                <span class="icon is-small is-left">
+                    <i class="fas fa-user"></i>
+                </span>
             </div>
-        </nav>
-    </header>
-    <main class="hero-body">
-        <div class="container is-max-desktop">
-            <h1 class="title is-3 has-text-centered">@ViewData["Title"]</h1>
-            <hr />
-            <div class="box">
-                <form>
-                    <div class="field mb-5">
-                        <label class="label">Name</label>
-                        <div class="control has-icons-left">
-                            <input class="input" type="text" placeholder="Ex. Jane Smith" name="Name" />
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-user"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="field mb-5">
-                        <label class="label">Email</label>
-                        <div class="control has-icons-left">
-                            <input class="input" type="email" placeholder="Ex. hello@arctheme.com" name="Email" />
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-envelope"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="field mb-5">
-                        <label class="label">Message</label>
-                        <div class="control">
-                            <textarea class="textarea" placeholder="Textarea" name="Message"></textarea>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="control">
-                            <button class="button is-info is-fullwidth">申請</button>
-                        </div>
-                    </div>
-                </form>
+            <span asp-validation-for="Name" class="help is-danger"></span>
+        </div>
+        <div class="field mb-5">
+            <label asp-for="Email" class="label">電子郵件</label>
+            <div class="control has-icons-left">
+                <input asp-for="Email" class="input" type="email" placeholder="請輸入電子郵件" disabled="@isLogin" />
+                <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                </span>
+            </div>
+            <span asp-validation-for="Email" class="help is-danger"></span>
+        </div>
+        <div class="field mb-5">
+            <label asp-for="Purpose" class="label">用途</label>
+            <div class="control">
+                <textarea asp-for="Purpose" class="textarea" placeholder="請輸入用途"></textarea>
+            </div>
+            <span asp-validation-for="Purpose" class="help is-danger"></span>
+        </div>
+        <div class="field">
+            <div class="control">
+                <button class="button is-info is-fullwidth" type="submit">申請</button>
             </div>
         </div>
-    </main>
-    <footer class="hero-foot">
-        <div class="content has-text-centered">
-            <p>Copyright &copy; 2021 成就學生中心</p>
-        </div>
-    </footer>
-</section>
+    </form>
+</div>
 
 @section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }

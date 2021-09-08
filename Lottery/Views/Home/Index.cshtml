@@ -4,102 +4,36 @@
 
 @section Styles {
     <link rel="stylesheet" type="text/css" href="~/lib/bulma-social/css/all.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/css/home.css" asp-append-version="true" />
 }
 
-<section class="hero is-primary is-fullheight">
-    <header class="hero-head">
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-            <div class="container">
-                <div class="navbar-brand">
-                    <span class="navbar-item py-0">
-                        <a class="title" asp-area="" asp-controller="Home" asp-action="Index">
-                            <img src="~/images/ssc-logo-light.svg" alt="" height="28" />
-                        </a>
-                    </span>
-                    <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                    </a>
-                </div>
-                <div id="navMenu" class="navbar-menu">
-                    <div class="navbar-end">
-                        <span class="navbar-item">
-                            <a class="button is-white is-outlined" asp-area="" asp-controller="Home" asp-action="Index">
-                                <span class="icon">
-                                    <i class="fas fa-home"></i>
-                                </span>
-                                <span>首頁</span>
-                            </a>
-                        </span>
-                        <span class="navbar-item">
-                            <a class="button is-white is-outlined" asp-area="" asp-controller="Home" asp-action="Privacy" target="_blank">
-                                <span class="icon">
-                                    <i class="fas fa-shield-alt"></i>
-                                </span>
-                                <span>隱私權</span>
-                            </a>
-                        </span>
-                        <span class="navbar-item">
-                            <a class="button is-white is-outlined" asp-area="" asp-controller="Home" asp-action="Credits" target="_blank">
-                                <span class="icon">
-                                    <i class="fas fa-balance-scale"></i>
-                                </span>
-                                <span>原始碼</span>
-                            </a>
-                        </span>
-                        <span class="navbar-item">
-                            <a class="button is-primary is-outlined" asp-area="" asp-controller="Account" asp-action="Login">
-                                <span class="icon">
-                                    <i class="fas fa-sign-in-alt"></i>
-                                </span>
-                                <span>登入</span>
-                            </a>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <main class="hero-body">
-        <div class="container is-max-desktop">
-            <h1 class="title is-1 has-text-centered">抽獎系統</h1>
-            <div class="buttons is-centered my-6">
-                <a asp-area="" asp-controller="Home" asp-action="Facebook" target="_blank" class="button is-medium is-facebook">
-                    <span class="icon">
-                        <i class="fab fa-facebook-f fa-lg"></i>
-                    </span>
-                </a>
-                <a asp-area="" asp-controller="Home" asp-action="Instagram" target="_blank" class="button is-medium is-instagram">
-                    <span class="icon">
-                        <i class="fab fa-instagram fa-lg"></i>
-                    </span>
-                </a>
-                <a asp-area="" asp-controller="Home" asp-action="Site" target="_blank" class="button is-medium">
-                    <span class="icon">
-                        <i class="fas fa-link fa-lg"></i>
-                    </span>
-                </a>
-                <a asp-area="" asp-controller="Home" asp-action="GitHub" target="_blank" class="button is-medium is-github">
-                    <span class="icon">
-                        <i class="fab fa-github fa-lg"></i>
-                    </span>
-                </a>
-            </div>
-            <nav class="buttons is-centered">
-                <a asp-area="" asp-controller="Event" asp-action="List" class="button is-black is-outlined has-background-grey-light is-rounded is-large is-underlined">活動列表</a>
-                <a asp-area="" asp-controller="Event" asp-action="Index" class="button is-black is-outlined has-background-grey-light is-rounded is-large is-underlined">目前活動</a>
-                <a asp-area="" asp-controller="Home" asp-action="Apply" class="button is-black is-outlined has-background-grey-light is-rounded is-large is-underlined">申請使用</a>
-            </nav>
-        </div>
-    </main>
-    <footer class="hero-foot">
-        <div class="content has-text-centered">
-            <p>Copyright &copy; 2021 成就學生中心</p>
-        </div>
-    </footer>
-</section>
+<h1 class="title is-1 has-text-centered">逢甲大學 - 抽獎系統</h1>
+<div class="buttons is-centered my-6">
+    <a asp-area="" asp-controller="Home" asp-action="Facebook" target="_blank" class="button is-medium is-facebook">
+        <span class="icon">
+            <i class="fab fa-facebook-f fa-lg"></i>
+        </span>
+    </a>
+    <a asp-area="" asp-controller="Home" asp-action="Instagram" target="_blank" class="button is-medium is-instagram">
+        <span class="icon">
+            <i class="fab fa-instagram fa-lg"></i>
+        </span>
+    </a>
+    <a asp-area="" asp-controller="Home" asp-action="Site" target="_blank" class="button is-medium">
+        <span class="icon">
+            <i class="fas fa-link fa-lg"></i>
+        </span>
+    </a>
+    <a asp-area="" asp-controller="Home" asp-action="GitHub" target="_blank" class="button is-medium is-github">
+        <span class="icon">
+            <i class="fab fa-github fa-lg"></i>
+        </span>
+    </a>
+</div>
+<nav class="buttons is-centered">
+    <a asp-area="" asp-controller="Event" asp-action="List" class="button is-black is-outlined is-rounded is-large is-underlined">活動列表</a>
+    <a asp-area="" asp-controller="Event" asp-action="Index" class="button is-black is-outlined is-rounded is-large is-underlined">目前活動</a>
+    <a asp-area="" asp-controller="Home" asp-action="Apply" class="button is-black is-outlined is-rounded is-large is-underlined">申請使用</a>
+</nav>
 
 @section Scripts {
 }

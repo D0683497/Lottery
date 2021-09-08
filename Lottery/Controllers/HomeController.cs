@@ -1,5 +1,8 @@
 ﻿using System.Diagnostics;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using Lottery.Data;
 using Lottery.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -13,17 +16,39 @@ namespace Lottery.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly LotteryDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public HomeController(ILogger<HomeController> logger, LotteryDbContext dbContext)
+        public HomeController(ILogger<HomeController> logger, LotteryDbContext dbContext, IMapper mapper)
         {
             _logger = logger;
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
+        /// <summary>
+        /// 首頁
+        /// </summary>
         [HttpGet("")]
-        public IActionResult Index()
+        public IActionResult Index() => View();
+
+        /// <summary>
+        /// 申請使用頁面
+        /// </summary>
+        [HttpGet("apply")]
+        public async Task<IActionResult> Apply()
         {
-            return View();
+            var userId = User.Claims
+                .SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)
+                ?.Value;
+            if (userId == null)
+            {
+                return View();
+            }
+            var user = await _dbContext.Users
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.Id == userId);
+            var model = _mapper.Map<ApplyViewModel>(user);
+            return View(model);
         }
 
         [HttpGet("privacy")]
@@ -78,12 +103,6 @@ namespace Lottery.Controllers
                 .AsNoTracking()
                 .SingleOrDefaultAsync(x => x.Name == "credits");
             return Redirect(url.Value);
-        }
-        
-        [HttpGet("apply")]
-        public IActionResult Apply()
-        {
-            return View();
         }
 
         [HttpGet("errors")]

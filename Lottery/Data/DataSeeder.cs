@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Lottery.Entities;
 using Lottery.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -27,6 +29,10 @@ namespace Lottery.Data
                     await CreateRoleAsync(services, logger);
                     logger.LogInformation("創建角色完成");
                     
+                    logger.LogInformation("開始創建使用者");
+                    await CreateUserAsync(services, logger);
+                    logger.LogInformation("創建角色完成");
+                    
                     logger.LogInformation("開始創建網站設定");
                     await CreateSettingAsync(services, logger);
                     logger.LogInformation("創建網站設定完成");
@@ -44,12 +50,30 @@ namespace Lottery.Data
         
         private static async Task CreateRoleAsync(IServiceProvider services, ILogger<DataSeeder> logger)
         {
-            var dbContext = services.GetRequiredService<LotteryDbContext>();
-            await dbContext.Roles.AddRangeAsync(new List<ApplicationRole>
+            var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
+            
+            var administrator = new ApplicationRole
             {
-                new ApplicationRole { Name = "Administrator", NormalizedName = "Administrator".ToUpperInvariant() }
-            });
-            await dbContext.SaveChangesAsync();
+                Name = "Administrator",
+                NormalizedName = "Administrator".ToUpperInvariant()
+            };
+            await roleManager.CreateAsync(administrator);
+            await roleManager.AddClaimAsync(administrator, new Claim(ClaimTypes.Role, "Administrator"));
+        }
+        
+        private static async Task CreateUserAsync(IServiceProvider services, ILogger<DataSeeder> logger)
+        {
+            var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+            var user = new ApplicationUser
+            {
+                Name = "管理員",
+                UserName = "Admin",
+                Email = "admin@gmail.com",
+                EmailConfirmed = true,
+                IsEnable = true
+            };
+            await userManager.CreateAsync(user, "Admin1234");
+            await userManager.AddToRoleAsync(user, "Administrator");
         }
         
         private static async Task CreateSettingAsync(IServiceProvider services, ILogger<DataSeeder> logger)
