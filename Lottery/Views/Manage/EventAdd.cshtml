@@ -38,8 +38,12 @@
         </div>
         <div class="field">
             <div class="control">
-                <button class="button is-info is-fullwidth" type="submit">新增</button>
+                <button class="button is-info" type="submit">新增</button>
             </div>
         </div>
     </form>
 </div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

@@ -7,6 +7,9 @@ using Lottery.Entities.Activity;
 using Lottery.Helpers;
 using Lottery.Models;
 using Lottery.Models.Event;
+using Lottery.Models.Participant;
+using Lottery.Models.Pool;
+using Lottery.Models.Prize;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -86,11 +89,11 @@ namespace Lottery.Controllers
         public IActionResult EventAdd() => View();
 
         /// <summary>
-        /// 新增活動頁面
+        /// 新增活動
         /// </summary>
         [HttpPost("event/add")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EventAdd([FromForm] EventAddViewModel model)
+        public async Task<ActionResult<EventAddViewModel>> EventAdd([FromForm] EventAddViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -167,6 +170,7 @@ namespace Lottery.Controllers
         public async Task<IActionResult> EventDelete([FromRoute] string eventId)
         {
             var entity = await _dbContext.Events
+                .Include(x => x.Pools)
                 .SingleOrDefaultAsync(x => x.Id == eventId);
             if (entity == null)
             {
@@ -175,6 +179,316 @@ namespace Lottery.Controllers
             _dbContext.Events.Remove(entity);
             await _dbContext.SaveChangesAsync();
             return RedirectToAction("Event", "Manage");
+        }
+        
+        /// <summary>
+        /// 管理獎池頁面
+        /// </summary>
+        [HttpGet("event/{eventId}/pool")]
+        public async Task<ActionResult<IEnumerable<PoolViewModel>>> Pool([FromRoute] string eventId)
+        {
+            if (!await _dbContext.Events.AnyAsync(x => x.Id == eventId))
+            {
+                return NotFound();
+            }
+            var entities = await _dbContext.Pools
+                .AsNoTracking()
+                .Where(x => x.EventId == eventId)
+                .ToListAsync();
+            var models = _mapper.Map<IEnumerable<PoolViewModel>>(entities);
+            return View(models);
+        }
+
+        /// <summary>
+        /// 獎池詳情頁面
+        /// </summary>
+        [HttpGet("event/{eventId}/pool/{poolId}")]
+        public async Task<ActionResult<PoolViewModel>> PoolDetail([FromRoute] string eventId, [FromRoute] string poolId)
+        {
+            var entity = await _dbContext.Pools
+                .AsNoTracking()
+                .Where(x => x.EventId == eventId)
+                .SingleOrDefaultAsync(x => x.Id == poolId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            var model = _mapper.Map<PoolViewModel>(entity);
+            return View(model);
+        }
+
+        /// <summary>
+        /// 新增獎池頁面
+        /// </summary>
+        [HttpGet("event/{eventId}/pool/add")]
+        public async Task<IActionResult> PoolAdd([FromRoute] string eventId)
+        {
+            if (!await _dbContext.Events.AnyAsync(x => x.Id == eventId))
+            {
+                return NotFound();
+            }
+            return View();
+        }
+
+        /// <summary>
+        /// 新增獎池
+        /// </summary>
+        [HttpPost("event/{eventId}/pool/add")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult<PoolAddViewModel>> PoolAdd([FromRoute] string eventId, [FromForm] PoolAddViewModel model)
+        {
+            var act = await _dbContext.Events
+                .Include(x => x.Pools)
+                .SingleOrDefaultAsync(x => x.Id == eventId);
+            if (act == null)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                var entity = _mapper.Map<Pool>(model);
+                act.Pools.Add(entity);
+                _dbContext.Events.Update(act);
+                await _dbContext.SaveChangesAsync();
+                return RedirectToAction("PoolDetail", "Manage", new{ eventId, poolId = entity.Id });
+            }
+            return View(model);
+        }
+        
+        /// <summary>
+        /// 編輯獎池頁面
+        /// </summary>
+        [HttpGet("event/{eventId}/pool/{poolId}/edit")]
+        public async Task<ActionResult<PoolEditViewModel>> PoolEdit([FromRoute] string eventId, [FromRoute] string poolId)
+        {
+            var entity = await _dbContext.Pools
+                .AsNoTracking()
+                .Where(x => x.EventId == eventId)
+                .SingleOrDefaultAsync(x => x.Id == poolId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            var model = _mapper.Map<PoolEditViewModel>(entity);
+            return View(model);
+        }
+        
+        /// <summary>
+        /// 編輯獎池
+        /// </summary>
+        [HttpPost("event/{eventId}/pool/{poolId}/edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult<PoolEditViewModel>> PoolEdit([FromRoute] string eventId, [FromRoute] string poolId, [FromForm] PoolEditViewModel model)
+        {
+            var entity = await _dbContext.Pools
+                .Where(x => x.EventId == eventId)
+                .SingleOrDefaultAsync(x => x.Id == poolId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                var updateEntity = _mapper.Map(model, entity);
+                _dbContext.Pools.Update(updateEntity);
+                await _dbContext.SaveChangesAsync();
+                return RedirectToAction("PoolDetail", "Manage", new{ eventId, poolId });
+            }
+            return View(model);
+        }
+        
+        /// <summary>
+        /// 刪除獎池
+        /// </summary>
+        [HttpPost("event/{eventId}/pool/{poolId}/delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PoolDelete([FromRoute] string eventId, [FromRoute] string poolId)
+        {
+            var entity = await _dbContext.Pools
+                .Where(x => x.EventId == eventId)
+                .SingleOrDefaultAsync(x => x.Id == poolId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            _dbContext.Pools.Remove(entity);
+            await _dbContext.SaveChangesAsync();
+            return RedirectToAction("Pool", "Manage", new{ eventId });
+        }
+        
+        /// <summary>
+        /// 管理獎品頁面
+        /// </summary>
+        [HttpGet("event/{eventId}/pool/{poolId}/prize")]
+        public async Task<ActionResult<IEnumerable<PrizeViewModel>>> Prize([FromRoute] string eventId, [FromRoute] string poolId)
+        {
+            if (!await _dbContext.Pools.AnyAsync(x => x.EventId == eventId && x.Id == poolId))
+            {
+                return NotFound();
+            }
+            var entities = await _dbContext.Prizes
+                .AsNoTracking()
+                .Where(x => x.PoolId == poolId)
+                .ToListAsync();
+            var models = _mapper.Map<IEnumerable<PrizeViewModel>>(entities);
+            return View(models);
+        }
+        
+        /// <summary>
+        /// 獎品詳情頁面
+        /// </summary>
+        [HttpGet("event/{eventId}/pool/{poolId}/prize/{prizeId}")]
+        public async Task<ActionResult<PrizeViewModel>> PrizeDetail([FromRoute] string eventId, [FromRoute] string poolId, [FromRoute] string prizeId)
+        {
+            if (!await _dbContext.Pools.AnyAsync(x => x.EventId == eventId && x.Id == poolId))
+            {
+                return NotFound();
+            }
+            var entity = await _dbContext.Prizes
+                .AsNoTracking()
+                .Where(x => x.PoolId == poolId)
+                .SingleOrDefaultAsync(x => x.Id == prizeId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            var model = _mapper.Map<PrizeViewModel>(entity);
+            return View(model);
+        }
+
+        /// <summary>
+        /// 新增獎品頁面
+        /// </summary>
+        [HttpGet("event/{eventId}/pool/{poolId}/prize/add")]
+        public async Task<IActionResult> PrizeAdd([FromRoute] string eventId, [FromRoute] string poolId)
+        {
+            if (!await _dbContext.Pools.AnyAsync(x => x.EventId == eventId && x.Id == poolId))
+            {
+                return NotFound();
+            }
+            return View();
+        }
+        
+        /// <summary>
+        /// 新增獎品
+        /// </summary>
+        [HttpPost("event/{eventId}/pool/{poolId}/prize/add")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult<PrizeAddViewModel>> PrizeAdd([FromRoute] string eventId, [FromRoute] string poolId, [FromForm] PrizeAddViewModel model)
+        {
+            var pool = await _dbContext.Pools
+                .Include(x => x.Prizes)
+                .Where(x => x.EventId == eventId)
+                .SingleOrDefaultAsync(x => x.Id == poolId);
+            if (pool == null)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                var entity = _mapper.Map<Prize>(model);
+                pool.Prizes.Add(entity);
+                _dbContext.Pools.Update(pool);
+                await _dbContext.SaveChangesAsync();
+                return RedirectToAction("PrizeDetail", "Manage", new{ eventId, poolId, prizeId = entity.Id });
+            }
+            return View(model);
+        }
+        
+        /// <summary>
+        /// 編輯獎池頁面
+        /// </summary>
+        [HttpGet("event/{eventId}/pool/{poolId}/prize/{prizeId}/edit")]
+        public async Task<ActionResult<PrizeEditViewModel>> PrizeEdit([FromRoute] string eventId, [FromRoute] string poolId, [FromRoute] string prizeId)
+        {
+            if (!await _dbContext.Pools.AnyAsync(x => x.EventId == eventId && x.Id == poolId))
+            {
+                return NotFound();
+            }
+            var entity = await _dbContext.Prizes
+                .AsNoTracking()
+                .Where(x => x.PoolId == poolId)
+                .SingleOrDefaultAsync(x => x.Id == prizeId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            var model = _mapper.Map<PrizeEditViewModel>(entity);
+            return View(model);
+        }
+        
+        /// <summary>
+        /// 編輯獎池
+        /// </summary>
+        [HttpPost("event/{eventId}/pool/{poolId}/prize/{prizeId}/edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult<PrizeEditViewModel>> PrizeEdit([FromRoute] string eventId, [FromRoute] string poolId, [FromRoute] string prizeId, [FromForm] PrizeEditViewModel model)
+        {
+            if (!await _dbContext.Pools.AnyAsync(x => x.EventId == eventId && x.Id == poolId))
+            {
+                return NotFound();
+            }
+            var entity = await _dbContext.Prizes
+                .Where(x => x.PoolId == poolId)
+                .SingleOrDefaultAsync(x => x.Id == prizeId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                var updateEntity = _mapper.Map(model, entity);
+                _dbContext.Prizes.Update(updateEntity);
+                await _dbContext.SaveChangesAsync();
+                return RedirectToAction("PrizeDetail", "Manage", new{ eventId, poolId, prizeId });
+            }
+            return View(model);
+        }
+        
+        /// <summary>
+        /// 刪除獎池
+        /// </summary>
+        [HttpPost("event/{eventId}/pool/{poolId}/prize/{prizeId}/delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PrizeDelete([FromRoute] string eventId, [FromRoute] string poolId, [FromRoute] string prizeId)
+        {
+            if (!await _dbContext.Pools.AnyAsync(x => x.EventId == eventId && x.Id == poolId))
+            {
+                return NotFound();
+            }
+            var entity = await _dbContext.Prizes
+                .Where(x => x.PoolId == poolId)
+                .SingleOrDefaultAsync(x => x.Id == prizeId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            _dbContext.Prizes.Remove(entity);
+            await _dbContext.SaveChangesAsync();
+            return RedirectToAction("Prize", "Manage", new{ eventId, poolId });
+        }
+
+        /// <summary>
+        /// 管理參與者頁面
+        /// </summary>
+        [HttpGet("event/{eventId}/pool/{poolId}/participant")]
+        public async Task<ActionResult<PaginatedList<ParticipantViewModel>>> Participant([FromRoute] string eventId, [FromRoute] string poolId, [FromQuery] int? page)
+        {
+            if (!await _dbContext.Pools.AnyAsync(x => x.EventId == eventId && x.Id == poolId))
+            {
+                return NotFound();
+            }
+            var query = _dbContext.Participants
+                .AsNoTracking()
+                .Where(x => x.PoolId == poolId);
+            var entities = await query
+                .Skip((page ?? 1 - 1) * 50)
+                .Take(50)
+                .ToListAsync();
+            var count = await query.CountAsync();
+            var models = _mapper.Map<List<ParticipantViewModel>>(entities);
+            var paginatedModels = new PaginatedList<ParticipantViewModel>(models, count, page ?? 1, 50);
+            return View(paginatedModels);
         }
         
         /// <summary>

@@ -1,0 +1,97 @@
+﻿@model IEnumerable<PrizeViewModel>
+@{
+    ViewData["Title"] = "管理獎品";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-responsive-tables@1.2.3/css/main.min.css"
+          asp-fallback-href="~/lib/bulma-responsive-tables/css/main.min.css"
+          asp-fallback-test-class="b-table"
+          integrity="sha256-qqSeWOTrQzPLIhRfuz3KWtWjWqI9X60r0piSbhCdNKY=" crossorigin="anonymous">
+}
+
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Event">管理活動</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@Context.Request.RouteValues["eventId"]">活動詳情</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Pool" asp-route-eventId="@Context.Request.RouteValues["eventId"]">管理獎池</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="PoolDetail" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]">獎池詳情</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="Prize" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]" aria-current="page">@ViewData["Title"]</a></li>
+    </ul>
+</nav>
+<div class="is-flex is-justify-content-space-between">
+    <h1 class="title is-3">@ViewData["Title"]</h1>
+    <div class="field has-addons is-hidden-tablet">
+        <p class="control">
+            <a asp-area="" asp-controller="Manage" asp-action="PrizeAdd" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]" class="button is-info is-outlined">
+                <span class="icon is-small">
+                    <i class="fas fa-plus"></i>
+                </span>
+            </a>
+        </p>
+    </div>
+    <div class="field has-addons is-hidden-mobile">
+        <p class="control">
+            <a asp-area="" asp-controller="Manage" asp-action="PrizeAdd" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]" class="button is-info is-outlined">
+                <span class="icon is-small">
+                    <i class="fas fa-plus"></i>
+                </span>
+                <span>新增</span>
+            </a>
+        </p>
+    </div>
+</div>
+<hr />
+<div class="b-table">
+    <div class="table-wrapper has-mobile-cards">
+        <table class="table is-fullwidth is-striped is-fullwidth">
+            <thead>
+            <tr>
+                <th>識別碼</th>
+                <th>名稱</th>
+                <th>數量</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (!Model.Any())
+            {
+                <tr class="is-empty">
+                    <td colspan="4">
+                        <section class="section">
+                            <div class="content has-text-grey has-text-centered">
+                                <figure class="image">
+                                    <i class="fas fa-inbox fa-5x"></i>
+                                </figure>
+                                <p>沒有資料</p>
+                            </div>
+                        </section>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var prize in Model)
+                {
+                    <tr>
+                        <td data-label="識別碼">@prize.Id</td>
+                        <td data-label="名稱">@prize.Name</td>
+                        <td data-label="數量">@prize.Quantity</td>
+                        <td class="is-actions-cell">
+                            <div class="buttons">
+                                <a asp-area="" asp-controller="Manage" asp-action="PrizeDetail" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]" asp-route-prizeId="@prize.Id" class="button is-link is-inverted is-underlined">
+                                    <span class="icon is-small">
+                                        <i class="far fa-newspaper"></i>
+                                    </span>
+                                    <span>詳情</span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,13 +1,15 @@
-﻿@model EventViewModel
+﻿@model PoolViewModel
 @{
-    ViewData["Title"] = "活動詳情";
+    ViewData["Title"] = "獎池詳情";
 }
 
 <nav class="breadcrumb" aria-label="breadcrumbs">
     <ul>
         <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
         <li><a asp-area="" asp-controller="Manage" asp-action="Event">管理活動</a></li>
-        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@Context.Request.RouteValues["eventId"]" aria-current="page">@ViewData["Title"]</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@Context.Request.RouteValues["eventId"]">活動詳情</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Pool" asp-route-eventId="@Context.Request.RouteValues["eventId"]">管理獎池</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="PoolDetail" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]" aria-current="page">@ViewData["Title"]</a></li>
     </ul>
 </nav>
 <div class="is-flex is-justify-content-space-between">
@@ -23,7 +25,8 @@
         </div>
         <div class="dropdown-menu" id="dropdown-menu" role="menu">
             <div class="dropdown-content">
-                <a asp-area="" asp-controller="Manage" asp-action="Pool" asp-route-eventId="@Context.Request.RouteValues["eventId"]" class="dropdown-item">管理獎池</a>
+                <a asp-area="" asp-controller="Manage" asp-action="Prize" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]" class="dropdown-item">管理獎品</a>
+                <a asp-area="" asp-controller="Manage" asp-action="Participant" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]" class="dropdown-item">管理參與者</a>
                 <hr class="dropdown-divider" />
                 <a asp-area="" asp-controller="Event" asp-action="Index" class="dropdown-item">查看活動頁面</a>
             </div>
@@ -44,42 +47,15 @@
             <span asp-validation-for="Id" class="help is-danger"></span>
         </div>
         <div class="field mb-5">
-            <label asp-for="End" class="label">狀態</label>
+            <label asp-for="Name" class="label">名稱</label>
             <div class="control">
-                <div class="select is-fullwidth">
-                    <select asp-for="End" disabled>
-                        <option value="false">進行中</option>
-                        <option value="true">已結束</option>
-                    </select>
-                </div>
+                <input asp-for="Name" class="input" type="text" placeholder="請輸入名稱" disabled />
             </div>
-            <span asp-validation-for="End" class="help is-danger"></span>
-        </div>
-        <div class="field mb-5">
-            <label asp-for="Title" class="label">標題</label>
-            <div class="control">
-                <input asp-for="Title" class="input" type="text" placeholder="請輸入標題" disabled/>
-            </div>
-            <span asp-validation-for="Title" class="help is-danger"></span>
-        </div>
-        <div class="field mb-5">
-            <label asp-for="SubTitle" class="label">副標題</label>
-            <div class="control">
-                <textarea asp-for="SubTitle" class="textarea" placeholder="請輸入副標題" disabled></textarea>
-            </div>
-            <span asp-validation-for="SubTitle" class="help is-danger"></span>
-        </div>
-        <div class="field mb-5">
-            <label asp-for="Url" class="label">網址</label>
-            <div class="control">
-                <input asp-for="Url" class="input" type="text" placeholder="請輸入網址" disabled/>
-            </div>
-            <p class="help">活動網址為 https://sscurl.fcu.edu.tw/event/ 加上上面所輸入網址</p>
-            <span asp-validation-for="Url" class="help is-danger"></span>
+            <span asp-validation-for="Name" class="help is-danger"></span>
         </div>
         <div class="field">
             <div class="control">
-                <a asp-area="" asp-controller="Manage" asp-action="EventEdit" asp-route-eventId="@Context.Request.RouteValues["eventId"]" class="button is-link">編輯</a>
+                <a asp-area="" asp-controller="Manage" asp-action="PoolEdit" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]" class="button is-link">編輯</a>
                 <button id="delete-button" class="button is-danger" type="button">刪除</button>
             </div>
         </div>
@@ -87,7 +63,7 @@
 </div>
 <div id="delete-modal" class="modal">
     <div class="modal-background"></div>
-    <form asp-area="" asp-controller="Manage" asp-action="EventDelete" asp-route-eventId="@Context.Request.RouteValues["eventId"]" method="post" role="form" class="modal-card">
+    <form asp-area="" asp-controller="Manage" asp-action="PoolDelete" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]" method="post" role="form" class="modal-card">
         <header class="modal-card-head">
             <p class="modal-card-title">您確定要刪除?</p>
             <button class="delete" aria-label="close" data-bulma-modal="close" type="button"></button>

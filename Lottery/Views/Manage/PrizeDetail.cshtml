@@ -1,0 +1,81 @@
+﻿@model PrizeViewModel
+@{
+    ViewData["Title"] = "獎品詳情";
+}
+
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Event">管理活動</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@Context.Request.RouteValues["eventId"]">活動詳情</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Pool" asp-route-eventId="@Context.Request.RouteValues["eventId"]">管理獎池</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="PoolDetail" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]">獎池詳情</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Prize" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]">管理獎品</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="PrizeDetail" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]" asp-route-prizeId="@Context.Request.RouteValues["prizeId"]" aria-current="page">@ViewData["Title"]</a></li>
+    </ul>
+</nav>
+<h1 class="title is-3">@ViewData["Title"]</h1>
+<hr />
+<div class="box">
+    <form role="form">
+        <div class="field mb-5">
+            <label asp-for="Id" class="label">識別碼</label>
+            <div class="control has-icons-left">
+                <input asp-for="Id" class="input" type="text" placeholder="請輸入識別碼" disabled />
+                <span class="icon is-small is-left">
+                    <i class="fas fa-key"></i>
+                </span>
+            </div>
+            <span asp-validation-for="Id" class="help is-danger"></span>
+        </div>
+        <div class="field mb-5">
+            <label asp-for="Name" class="label">名稱</label>
+            <div class="control">
+                <input asp-for="Name" class="input" type="text" placeholder="請輸入名稱" disabled />
+            </div>
+            <span asp-validation-for="Name" class="help is-danger"></span>
+        </div>
+        <div class="field mb-5">
+            <label asp-for="Quantity" class="label">數量</label>
+            <div class="control">
+                <input asp-for="Quantity" class="input" type="number" placeholder="請輸入數量" disabled />
+            </div>
+            <span asp-validation-for="Quantity" class="help is-danger"></span>
+        </div>
+        <div class="field">
+            <div class="control">
+                <a asp-area="" asp-controller="Manage" asp-action="PrizeEdit" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]" asp-route-prizeId="@Context.Request.RouteValues["prizeId"]" class="button is-link">編輯</a>
+                <button id="delete-button" class="button is-danger" type="button">刪除</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="delete-modal" class="modal">
+    <div class="modal-background"></div>
+    <form asp-area="" asp-controller="Manage" asp-action="PrizeDelete" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]" asp-route-prizeId="@Context.Request.RouteValues["prizeId"]" method="post" role="form" class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">您確定要刪除?</p>
+            <button class="delete" aria-label="close" data-bulma-modal="close" type="button"></button>
+        </header>
+        <section class="modal-card-body">
+            <article class="message is-danger">
+                <div class="message-body">
+                    <strong>請注意</strong>，此操作無法復原
+                </div>
+            </article>
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button is-danger" type="submit">確定</button>
+            <button id="cancel-button" class="button" aria-label="close" type="button">取消</button>
+        </footer>
+    </form>
+</div>
+
+@section Scripts {
+    <environment include="Development">
+        <script src="~/js/delete-modal.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/delete-modal.min.js" asp-append-version="true"></script>
+    </environment>
+}
