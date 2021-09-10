@@ -243,54 +243,6 @@ namespace Lottery.Data
                 }
 
                 #endregion
-
-                #region Teacher
-
-                var teacher = new ApplicationUser
-                {
-                    Email = configuration["UserSettings:Teacher:Email"],
-                    EmailConfirmed = true,
-                    UserName = configuration["UserSettings:Teacher:UserName"]
-                };
-
-                result = userManager.CreateAsync(teacher, configuration["UserSettings:Teacher:Password"]).Result;
-                if (result.Succeeded)
-                {
-                    logger.LogInformation("建立Teacher使用者成功");
-                }
-                else
-                {
-                    logger.LogError("建立Teacher使用者失敗");
-                }
-
-                currentUser = userManager.FindByNameAsync(configuration["UserSettings:Teacher:UserName"]).Result;
-                result = userManager.AddToRoleAsync(currentUser, "Admin").Result;
-                if (result.Succeeded)
-                {
-                    logger.LogInformation("Teacher使用者添加角色成功");
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.NameIdentifier, string.IsNullOrEmpty(currentUser.Id) ? "" : currentUser.Id),
-                        new Claim(ClaimTypes.Name, string.IsNullOrEmpty(currentUser.UserName) ? "" : currentUser.UserName),
-                        new Claim(ClaimTypes.Email, string.IsNullOrEmpty(currentUser.Email) ? "" : currentUser.Email),
-                        new Claim(ClaimTypes.MobilePhone, string.IsNullOrEmpty(currentUser.PhoneNumber) ? "" : currentUser.PhoneNumber)
-                    };
-                    var addClaimResult = userManager.AddClaimsAsync(currentUser, claims).Result;
-                    if (addClaimResult.Succeeded)
-                    {
-                        logger.LogInformation("Teacher使用者添加聲明成功");
-                    }
-                    else
-                    {
-                        logger.LogError("Teacher使用者添加聲明失敗");
-                    }
-                }
-                else
-                {
-                    logger.LogError("Teacher使用者添加角色失敗");
-                }
-
-                #endregion
             }
             catch (Exception e)
             {

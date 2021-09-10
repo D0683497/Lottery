@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://fcussc.k139.me/api'
+  apiUrl: 'http://sscurl.fcu.edu.tw'
 };

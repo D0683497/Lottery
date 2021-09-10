@@ -1,6 +1,7 @@
 <div mat-dialog-title>上傳參與者名單</div>
 <mat-dialog-content>
   <input type="file" (change)="upload($event)" placeholder="上傳檔案" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+  <p>欄位請依照學號、系所、姓名擺放</p>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-raised-button type="button" (click)="onSubmit()" color="primary" [disabled]="loading">

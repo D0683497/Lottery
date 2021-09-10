@@ -44,7 +44,8 @@ export class UploadComponent implements OnInit {
       const firstSheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[firstSheetName];
       this.attendeeService
-        .createAttendeesForItemId(this.itemId, XLSX.utils.sheet_to_json(worksheet, {header: ['nid', 'department', 'name'], raw: true}))
+        .createAttendeesForItemId(this.itemId, XLSX.utils.sheet_to_json(worksheet,
+          {header: ['nid', 'department', 'name'], raw: true}))
         .subscribe(
           () => {
             this.snackBar.open('新增成功', '關閉', { duration: 5000 });
