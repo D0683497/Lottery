@@ -1,0 +1,49 @@
+﻿@model FieldAddViewModel
+@{
+    ViewData["Title"] = "新增欄位";
+    var eventId = @Context.Request.RouteValues["eventId"];
+}
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-switch@2.0.0/dist/css/bulma-switch.min.css"
+              asp-fallback-href="~/lib/bulma-switch/dist/css/bulma-switch.min.css"
+              asp-fallback-test-class="switch"
+              integrity="sha256-jCV/cXwP13w0GNHLgFx6SFgTNAvJPvS5MIhuE30Ng08=" crossorigin="anonymous">
+}
+
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Event">管理活動</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@eventId">活動詳情</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Field" asp-route-eventId="@eventId">管理欄位</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="FieldAdd" asp-route-eventId="@eventId" aria-current="page">@ViewData["Title"]</a></li>
+    </ul>
+</nav>
+<h1 class="title is-3">@ViewData["Title"]</h1>
+<hr />
+<div class="box">
+    <form asp-area="" asp-controller="Manage" asp-action="FieldAdd" asp-route-eventId="@eventId" method="post" role="form">
+        <div class="field mb-5">
+            <input asp-for="Key" class="switch is-rounded is-rtl" type="checkbox" />
+            <label asp-for="Key" class="label">搜尋</label>
+            <span asp-validation-for="Key" class="help is-danger"></span>
+        </div>
+        <div class="field mb-5">
+            <label asp-for="Value" class="label">值</label>
+            <div class="control">
+                <input asp-for="Value" class="input" type="text" placeholder="請輸入值" />
+            </div>
+            <span asp-validation-for="Value" class="help is-danger"></span>
+        </div>
+        <div class="field">
+            <div class="control">
+                <button class="button is-info" type="submit">新增</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

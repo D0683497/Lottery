@@ -1,20 +1,21 @@
 ﻿@model EventEditViewModel
 @{
     ViewData["Title"] = "編輯活動";
+    var eventId = @Context.Request.RouteValues["eventId"];
 }
 
 <nav class="breadcrumb" aria-label="breadcrumbs">
     <ul>
         <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
         <li><a asp-area="" asp-controller="Manage" asp-action="Event">管理活動</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@Context.Request.RouteValues["eventId"]">活動詳情</a></li>
-        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="EventEdit" asp-route-eventId="@Context.Request.RouteValues["eventId"]" aria-current="page">@ViewData["Title"]</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@eventId">活動詳情</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="EventEdit" asp-route-eventId="@eventId" aria-current="page">@ViewData["Title"]</a></li>
     </ul>
 </nav>
 <h1 class="title is-3">@ViewData["Title"]</h1>
 <hr />
 <div class="box">
-    <form asp-area="" asp-controller="Manage" asp-action="EventEdit" asp-route-eventId="@Context.Request.RouteValues["eventId"]" method="post" role="form">
+    <form asp-area="" asp-controller="Manage" asp-action="EventEdit" asp-route-eventId="@eventId" method="post" role="form">
         <div class="field mb-5">
             <label asp-for="End" class="label">狀態</label>
             <div class="control">

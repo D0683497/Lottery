@@ -7,6 +7,7 @@ using Lottery.Entities.Activity;
 using Lottery.Helpers;
 using Lottery.Models;
 using Lottery.Models.Event;
+using Lottery.Models.Field;
 using Lottery.Models.Participant;
 using Lottery.Models.Pool;
 using Lottery.Models.Prize;
@@ -489,6 +490,142 @@ namespace Lottery.Controllers
             var models = _mapper.Map<List<ParticipantViewModel>>(entities);
             var paginatedModels = new PaginatedList<ParticipantViewModel>(models, count, page ?? 1, 50);
             return View(paginatedModels);
+        }
+        
+        /// <summary>
+        /// 管理欄位頁面
+        /// </summary>
+        [HttpGet("event/{eventId}/field")]
+        public async Task<ActionResult<IEnumerable<FieldViewModel>>> Field([FromRoute] string eventId)
+        {
+            if (!await _dbContext.Events.AnyAsync(x => x.Id == eventId))
+            {
+                return NotFound();
+            }
+            var entities = await _dbContext.EventClaims
+                .AsNoTracking()
+                .Where(x => x.EventId == eventId)
+                .ToListAsync();
+            var models = _mapper.Map<IEnumerable<FieldViewModel>>(entities);
+            return View(models);
+        }
+        
+        /// <summary>
+        /// 欄位詳情頁面
+        /// </summary>
+        [HttpGet("event/{eventId}/field/{fieldId}")]
+        public async Task<ActionResult<FieldViewModel>> FieldDetail([FromRoute] string eventId, [FromRoute] string fieldId)
+        {
+            var entity = await _dbContext.EventClaims
+                .AsNoTracking()
+                .Where(x => x.EventId == eventId)
+                .SingleOrDefaultAsync(x => x.Id == fieldId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            var model = _mapper.Map<FieldViewModel>(entity);
+            return View(model);
+        }
+
+        /// <summary>
+        /// 新增欄位頁面
+        /// </summary>
+        [HttpGet("event/{eventId}/field/add")]
+        public async Task<IActionResult> FieldAdd([FromRoute] string eventId)
+        {
+            if (!await _dbContext.Events.AnyAsync(x => x.Id == eventId))
+            {
+                return NotFound();
+            }
+            return View();
+        }
+        
+        /// <summary>
+        /// 新增欄位
+        /// </summary>
+        [HttpPost("event/{eventId}/field/add")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult<PoolAddViewModel>> FieldAdd([FromRoute] string eventId, [FromForm] FieldAddViewModel model)
+        {
+            var act = await _dbContext.Events
+                .Include(x => x.Claims)
+                .SingleOrDefaultAsync(x => x.Id == eventId);
+            if (act == null)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                var entity = _mapper.Map<EventClaim>(model);
+                act.Claims.Add(entity);
+                _dbContext.Events.Update(act);
+                await _dbContext.SaveChangesAsync();
+                return RedirectToAction("FieldDetail", "Manage", new{ eventId, fieldId = entity.Id });
+            }
+            return View(model);
+        }
+        
+        /// <summary>
+        /// 編輯欄位頁面
+        /// </summary>
+        [HttpGet("event/{eventId}/field/{fieldId}/edit")]
+        public async Task<ActionResult<FieldEditViewModel>> FieldEdit([FromRoute] string eventId, [FromRoute] string fieldId)
+        {
+            var entity = await _dbContext.EventClaims
+                .AsNoTracking()
+                .Where(x => x.EventId == eventId)
+                .SingleOrDefaultAsync(x => x.Id == fieldId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            var model = _mapper.Map<FieldEditViewModel>(entity);
+            return View(model);
+        }
+        
+        /// <summary>
+        /// 編輯欄位
+        /// </summary>
+        [HttpPost("event/{eventId}/field/{fieldId}/edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult<PoolEditViewModel>> FieldEdit([FromRoute] string eventId, [FromRoute] string fieldId, [FromForm] FieldEditViewModel model)
+        {
+            var entity = await _dbContext.EventClaims
+                .Where(x => x.EventId == eventId)
+                .SingleOrDefaultAsync(x => x.Id == fieldId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                var updateEntity = _mapper.Map(model, entity);
+                _dbContext.EventClaims.Update(updateEntity);
+                await _dbContext.SaveChangesAsync();
+                return RedirectToAction("FieldDetail", "Manage", new{ eventId, fieldId });
+            }
+            return View(model);
+        }
+        
+        /// <summary>
+        /// 刪除欄位
+        /// </summary>
+        [HttpPost("event/{eventId}/field/{fieldId}/delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> FieldDelete([FromRoute] string eventId, [FromRoute] string fieldId)
+        {
+            var entity = await _dbContext.EventClaims
+                .Include(x => x.ParticipantClaims)
+                .Where(x => x.EventId == eventId)
+                .SingleOrDefaultAsync(x => x.Id == fieldId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            _dbContext.EventClaims.Remove(entity);
+            await _dbContext.SaveChangesAsync();
+            return RedirectToAction("Pool", "Manage", new{ eventId });
         }
         
         /// <summary>

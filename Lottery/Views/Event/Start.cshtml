@@ -1,0 +1,32 @@
+﻿@model EventStartViewModel
+@{
+  ViewData["Title"] = "抽獎";
+    var eventId = Context.Request.RouteValues["eventId"];
+    var poolId = Context.Request.RouteValues["poolId"];
+}
+
+<h1 class="title mb-6 has-text-centered">@Model.Event.Title</h1>
+<h2 class="subtitle my-6 has-text-centered">@Model.Pool.Name</h2>
+<nav class="buttons is-centered my-6">
+    @foreach (var item in Model.Prizes)
+    {
+        <button onclick="lottery('@eventId', '@poolId', '@item.Id')" class="button is-large is-link is-inverted">
+            <div class="tags has-addons">
+                <span class="tag is-dark is-large">@item.Name</span>
+                <span class="tag is-info is-large">@item.Quantity</span>
+            </div>
+        </button>
+    }
+</nav>
+
+@section Scripts {
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function lottery(eventId, poolId, prizeId) {
+            Swal.fire({
+                title: '恭喜',
+                html: eventId + '<br />' + poolId + '<br />' + prizeId
+            })
+        }
+    </script>
+}

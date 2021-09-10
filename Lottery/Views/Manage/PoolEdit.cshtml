@@ -9,6 +9,7 @@
         <li><a asp-area="" asp-controller="Manage" asp-action="Event">管理活動</a></li>
         <li><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@Context.Request.RouteValues["eventId"]">活動詳情</a></li>
         <li><a asp-area="" asp-controller="Manage" asp-action="Pool" asp-route-eventId="@Context.Request.RouteValues["eventId"]">管理獎池</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="PoolDetail" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]">獎池詳情</a></li>
         <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="PoolEdit" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]" aria-current="page">@ViewData["Title"]</a></li>
     </ul>
 </nav>

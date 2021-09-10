@@ -1,6 +1,7 @@
 ﻿@model EventViewModel
 @{
     ViewData["Title"] = "活動詳情";
+    var eventId = @Context.Request.RouteValues["eventId"];
 }
 
 <nav class="breadcrumb" aria-label="breadcrumbs">
@@ -23,7 +24,7 @@
         </div>
         <div class="dropdown-menu" id="dropdown-menu" role="menu">
             <div class="dropdown-content">
-                <a asp-area="" asp-controller="Manage" asp-action="Pool" asp-route-eventId="@Context.Request.RouteValues["eventId"]" class="dropdown-item">管理獎池</a>
+                <a asp-area="" asp-controller="Manage" asp-action="Pool" asp-route-eventId="@eventId" class="dropdown-item">管理獎池</a>
                 <hr class="dropdown-divider" />
                 <a asp-area="" asp-controller="Event" asp-action="Index" class="dropdown-item">查看活動頁面</a>
             </div>
@@ -79,7 +80,7 @@
         </div>
         <div class="field">
             <div class="control">
-                <a asp-area="" asp-controller="Manage" asp-action="EventEdit" asp-route-eventId="@Context.Request.RouteValues["eventId"]" class="button is-link">編輯</a>
+                <a asp-area="" asp-controller="Manage" asp-action="EventEdit" asp-route-eventId="@eventId" class="button is-link">編輯</a>
                 <button id="delete-button" class="button is-danger" type="button">刪除</button>
             </div>
         </div>
@@ -87,7 +88,7 @@
 </div>
 <div id="delete-modal" class="modal">
     <div class="modal-background"></div>
-    <form asp-area="" asp-controller="Manage" asp-action="EventDelete" asp-route-eventId="@Context.Request.RouteValues["eventId"]" method="post" role="form" class="modal-card">
+    <form asp-area="" asp-controller="Manage" asp-action="EventDelete" asp-route-eventId="@eventId" method="post" role="form" class="modal-card">
         <header class="modal-card-head">
             <p class="modal-card-title">您確定要刪除?</p>
             <button class="delete" aria-label="close" data-bulma-modal="close" type="button"></button>

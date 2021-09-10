@@ -1,0 +1,16 @@
+﻿@model EventDisplayViewModel
+@{
+    ViewData["Title"] = "活動";
+}
+
+<h1 class="title mb-6 has-text-centered">@Model.Title</h1>
+@if (!string.IsNullOrEmpty(Model.SubTitle))
+{
+    <h2 class="subtitle my-6 has-text-centered">@Model.SubTitle</h2>
+}
+<nav class="buttons is-centered my-6">
+    @foreach (var item in Model.Pools)
+    {
+        <a asp-area="" asp-controller="Event" asp-action="Start" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@item.Id" class="button is-success is-outlined is-rounded is-normal">@item.Name</a>
+    }
+</nav>

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Lottery.Entities.Activity;
+using Lottery.Models;
 using Lottery.Models.Pool;
 
 namespace Lottery.Mappers
@@ -39,6 +40,20 @@ namespace Lottery.Mappers
             CreateMap<PoolEditViewModel, Pool>()
                 .ForMember(dest => dest.Name,
                     opt => opt.MapFrom(src => src.Name));
+
+            #endregion
+
+            #region Pool 轉換成 EventStartViewModel
+
+            CreateMap<Pool, EventStartViewModel>()
+                .ForMember(dest => dest.Event,
+                    opt => opt.MapFrom(src => src.Event))
+                .ForPath(dest => dest.Pool.Id,
+                    opt => opt.MapFrom(src => src.Id))
+                .ForPath(dest => dest.Pool.Name,
+                    opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Prizes,
+                    opt => opt.MapFrom(src => src.Prizes));
 
             #endregion
         }

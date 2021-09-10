@@ -19,11 +19,23 @@ namespace Lottery.Entities.Activity
         public string Id { get; set; } = Guid.NewGuid().ToString();
         
         /// <summary>
-        /// 是否可搜尋
+        /// 搜尋
         /// </summary>
         [Required]
         public bool Key { get; set; } = false;
 
+        /// <summary>
+        /// 顯示
+        /// </summary>
+        [Required]
+        public bool Show { get; set; } = false;
+
+        /// <summary>
+        /// 機密
+        /// </summary>
+        [Required]
+        public bool Security { get; set; } = false;
+        
         /// <summary>
         /// 值
         /// </summary>

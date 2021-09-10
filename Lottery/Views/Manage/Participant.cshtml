@@ -20,3 +20,26 @@
         <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="Participant" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]" aria-current="page">@ViewData["Title"]</a></li>
     </ul>
 </nav>
+<div class="is-flex is-justify-content-space-between">
+    <h1 class="title is-3">@ViewData["Title"]</h1>
+    <div class="dropdown is-right">
+        <div class="dropdown-trigger">
+            <button class="button is-info is-outlined" aria-haspopup="true" aria-controls="dropdown-menu">
+                <span>操作</span>
+                <span class="icon is-small">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </span>
+            </button>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu" role="menu">
+            <div class="dropdown-content">
+                <a asp-area="" asp-controller="Manage" asp-action="Field" asp-route-eventId="@Context.Request.RouteValues["eventId"]" class="dropdown-item">管理欄位</a>
+                <a class="dropdown-item">新增參與者</a>
+                <a class="dropdown-item">匯入參與者</a>
+                <hr class="dropdown-divider" />
+                <a asp-area="" asp-controller="Event" asp-action="Index" class="dropdown-item">查看活動頁面</a>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />

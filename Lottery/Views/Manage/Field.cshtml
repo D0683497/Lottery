@@ -1,6 +1,7 @@
-﻿@model IEnumerable<PoolViewModel>
+﻿@model IEnumerable<FieldViewModel>
 @{
-    ViewData["Title"] = "管理獎池";
+    ViewData["Title"] = "管理欄位";
+    var eventId = @Context.Request.RouteValues["eventId"];
 }
 
 @section Styles {
@@ -14,15 +15,19 @@
     <ul>
         <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
         <li><a asp-area="" asp-controller="Manage" asp-action="Event">管理活動</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@Context.Request.RouteValues["eventId"]">活動詳情</a></li>
-        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="Pool" asp-route-eventId="@Context.Request.RouteValues["eventId"]" aria-current="page">@ViewData["Title"]</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@eventId">活動詳情</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="Pool" asp-route-eventId="@eventId" aria-current="page">@ViewData["Title"]</a></li>
     </ul>
 </nav>
+<div class="notification is-warning is-light">
+    <button class="delete"></button>
+    若欄位為可被搜尋則參與者對應此欄位的值<strong>不能為空</strong>
+</div>
 <div class="is-flex is-justify-content-space-between">
     <h1 class="title is-3">@ViewData["Title"]</h1>
     <div class="field has-addons is-hidden-tablet">
         <p class="control">
-            <a asp-area="" asp-controller="Manage" asp-action="PoolAdd" asp-route-eventId="@Context.Request.RouteValues["eventId"]" class="button is-info is-outlined">
+            <a asp-area="" asp-controller="Manage" asp-action="FieldAdd" asp-route-eventId="@eventId" class="button is-info is-outlined">
                 <span class="icon is-small">
                     <i class="fas fa-plus"></i>
                 </span>
@@ -31,7 +36,7 @@
     </div>
     <div class="field has-addons is-hidden-mobile">
         <p class="control">
-            <a asp-area="" asp-controller="Manage" asp-action="PoolAdd" asp-route-eventId="@Context.Request.RouteValues["eventId"]" class="button is-info is-outlined">
+            <a asp-area="" asp-controller="Manage" asp-action="FieldAdd" asp-route-eventId="@eventId" class="button is-info is-outlined">
                 <span class="icon is-small">
                     <i class="fas fa-plus"></i>
                 </span>
@@ -47,7 +52,8 @@
             <thead>
             <tr>
                 <th>識別碼</th>
-                <th>名稱</th>
+                <th>搜尋</th>
+                <th>值</th>
                 <th></th>
             </tr>
             </thead>
@@ -55,7 +61,7 @@
                 @if (!Model.Any())
                 {
                     <tr class="is-empty">
-                        <td colspan="3">
+                        <td colspan="4">
                             <section class="section">
                                 <div class="content has-text-grey has-text-centered">
                                     <figure class="image">
@@ -73,10 +79,20 @@
                     {
                         <tr>
                             <td data-label="識別碼">@item.Id</td>
-                            <td data-label="名稱">@item.Name</td>
+                            <td data-label="搜尋">
+                                @if (item.Key)
+                                {
+                                    <span class="tag is-success">可被搜尋</span>
+                                }
+                                else
+                                {
+                                    <span class="tag is-danger">不能被搜尋</span>
+                                }
+                            </td>
+                            <td data-label="值">@item.Value</td>
                             <td class="is-actions-cell">
                                 <div class="buttons">
-                                    <a asp-area="" asp-controller="Manage" asp-action="PoolDetail" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@item.Id" class="button is-link is-inverted is-underlined">
+                                    <a asp-area="" asp-controller="Manage" asp-action="FieldDetail" asp-route-eventId="@eventId" asp-route-fieldId="@item.Id" class="button is-link is-inverted is-underlined">
                                         <span class="icon is-small">
                                             <i class="far fa-newspaper"></i>
                                         </span>

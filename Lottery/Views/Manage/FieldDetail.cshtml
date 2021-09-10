@@ -1,0 +1,86 @@
+﻿@model FieldViewModel
+@{
+    ViewData["Title"] = "欄位詳情";
+    var eventId = @Context.Request.RouteValues["eventId"];
+}
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-switch@2.0.0/dist/css/bulma-switch.min.css"
+              asp-fallback-href="~/lib/bulma-switch/dist/css/bulma-switch.min.css"
+              asp-fallback-test-class="switch"
+              integrity="sha256-jCV/cXwP13w0GNHLgFx6SFgTNAvJPvS5MIhuE30Ng08=" crossorigin="anonymous">
+}
+
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Event">管理活動</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@eventId">活動詳情</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Field" asp-route-eventId="@eventId">管理欄位</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="FieldDetail" asp-route-eventId="@eventId" asp-route-fieldId="@Context.Request.RouteValues["fieldId"]" aria-current="page">@ViewData["Title"]</a></li>
+    </ul>
+</nav>
+<h1 class="title is-3">@ViewData["Title"]</h1>
+<hr />
+<div class="box">
+    <form role="form">
+        <div class="field mb-5">
+            <label asp-for="Id" class="label">識別碼</label>
+            <div class="control has-icons-left">
+                <input asp-for="Id" class="input" type="text" placeholder="請輸入識別碼" disabled />
+                <span class="icon is-small is-left">
+                    <i class="fas fa-key"></i>
+                </span>
+            </div>
+            <span asp-validation-for="Id" class="help is-danger"></span>
+        </div>
+        <div class="field mb-5">
+            <input asp-for="Key" class="switch is-rounded is-rtl" type="checkbox" disabled />
+            <label asp-for="Key" class="label">搜尋</label>
+            <span asp-validation-for="Key" class="help is-danger"></span>
+        </div>
+        <div class="field mb-5">
+            <label asp-for="Value" class="label">值</label>
+            <div class="control">
+                <input asp-for="Value" class="input" type="text" placeholder="請輸入值" disabled />
+            </div>
+            <span asp-validation-for="Value" class="help is-danger"></span>
+        </div>
+        <div class="field">
+            <div class="control">
+                <a asp-area="" asp-controller="Manage" asp-action="FieldEdit" asp-route-eventId="@eventId" asp-route-fieldId="@Context.Request.RouteValues["fieldId"]" class="button is-link">編輯</a>
+                <button id="delete-button" class="button is-danger" type="button">刪除</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="delete-modal" class="modal">
+    <div class="modal-background"></div>
+    <form asp-area="" asp-controller="Manage" asp-action="FieldDelete" asp-route-eventId="@eventId" asp-route-fieldId="@Context.Request.RouteValues["fieldId"]" method="post" role="form" class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">您確定要刪除?</p>
+            <button class="delete" aria-label="close" data-bulma-modal="close" type="button"></button>
+        </header>
+        <section class="modal-card-body">
+            <article class="message is-danger">
+                <div class="message-body">
+                    <strong>請注意</strong>，此操作無法復原<br />
+                    與此欄位相關的參與者資料將會一併被刪除
+                </div>
+            </article>
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button is-danger" type="submit">確定</button>
+            <button id="cancel-button" class="button" aria-label="close" type="button">取消</button>
+        </footer>
+    </form>
+</div>
+
+@section Scripts {
+    <environment include="Development">
+        <script src="~/js/delete-modal.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/delete-modal.min.js" asp-append-version="true"></script>
+    </environment>
+}

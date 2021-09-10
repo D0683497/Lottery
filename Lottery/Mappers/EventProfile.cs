@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Lottery.Entities.Activity;
+using Lottery.Models;
 using Lottery.Models.Event;
 
 namespace Lottery.Mappers
@@ -61,6 +62,24 @@ namespace Lottery.Mappers
                     opt => opt.MapFrom(src => src.SubTitle))
                 .ForMember(dest => dest.Url,
                     opt => opt.MapFrom(src => src.Url));
+
+            #endregion
+
+            #region MyRegion
+
+            CreateMap<Event, EventDisplayViewModel>()
+                .ForMember(dest => dest.Id,
+                    opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.End,
+                    opt => opt.MapFrom(src => src.End))
+                .ForMember(dest => dest.Title,
+                    opt => opt.MapFrom(src => src.Title))
+                .ForMember(dest => dest.SubTitle,
+                    opt => opt.MapFrom(src => src.SubTitle))
+                .ForMember(dest => dest.Url,
+                    opt => opt.MapFrom(src => src.Url))
+                .ForMember(dest => dest.Pools,
+                    opt => opt.MapFrom(src => src.Pools));
 
             #endregion
         }
