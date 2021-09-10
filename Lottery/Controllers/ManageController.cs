@@ -481,6 +481,8 @@ namespace Lottery.Controllers
             }
             var query = _dbContext.Participants
                 .AsNoTracking()
+                .Include(x => x.Claims)
+                .ThenInclude(x => x.EventClaim)
                 .Where(x => x.PoolId == poolId);
             var entities = await query
                 .Skip((page ?? 1 - 1) * 50)
@@ -492,6 +494,91 @@ namespace Lottery.Controllers
             return View(paginatedModels);
         }
         
+        /// <summary>
+        /// 參與者詳情頁面
+        /// </summary>
+        [HttpGet("event/{eventId}/pool/{poolId}/participant/{participantId}")]
+        public async Task<ActionResult<ParticipantViewModel>> ParticipantDetail([FromRoute] string eventId, [FromRoute] string poolId, [FromRoute] string participantId)
+        {
+            if (!await _dbContext.Pools.AnyAsync(x => x.EventId == eventId && x.Id == poolId))
+            {
+                return NotFound();
+            }
+            var entity = await _dbContext.Participants
+                .AsNoTracking()
+                .Include(x => x.Claims)
+                .ThenInclude(x => x.EventClaim)
+                .Where(x => x.PoolId == poolId)
+                .SingleOrDefaultAsync(x => x.Id == participantId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            var model = _mapper.Map<ParticipantViewModel>(entity);
+            return View(model);
+        }
+
+        /// <summary>
+        /// 新增參與者頁面
+        /// </summary>
+        [HttpGet("event/{eventId}/pool/{poolId}/participant/add")]
+        public async Task<ActionResult<List<ParticipantAddViewModel>>> ParticipantAdd([FromRoute] string eventId, [FromRoute] string poolId)
+        {
+            if (!await _dbContext.Pools.AnyAsync(x => x.EventId == eventId && x.Id == poolId))
+            {
+                return NotFound();
+            }
+            var entities = await _dbContext.EventClaims
+                .AsNoTracking()
+                .Where(x => x.EventId == eventId)
+                .ToListAsync();
+            var models = _mapper.Map<List<ParticipantAddViewModel>>(entities);
+            return View(models);
+        }
+        
+        /// <summary>
+        /// 新增參與者
+        /// </summary>
+        [HttpPost("event/{eventId}/pool/{poolId}/participant/add")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult<List<ParticipantAddViewModel>>> ParticipantAdd([FromRoute] string eventId, [FromRoute] string poolId, [FromForm] List<ParticipantAddViewModel> models)
+        {
+            var pool = await _dbContext.Pools
+                .Include(x => x.Participants)
+                .Where(x => x.EventId == eventId)
+                .SingleOrDefaultAsync(x => x.Id == poolId);
+            if (pool == null)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                for (int i = 0; i < models.Count; i++)
+                {
+                    var field = await _dbContext.EventClaims
+                        .AsNoTracking()
+                        .SingleOrDefaultAsync(x => x.Id == models[i].Field.Id);
+                    if (field == null)
+                    {
+                        return BadRequest();
+                    }
+                    if (field.Key && string.IsNullOrEmpty(models[i].Value))
+                    {
+                        ModelState.AddModelError($"[{i}].Value", $"{models[i].Field.Value}是必填的");
+                    }
+                }
+                if (ModelState.IsValid)
+                {
+                    var entity = _mapper.Map<Participant>(models);
+                    pool.Participants.Add(entity);
+                    _dbContext.Pools.Update(pool);
+                    await _dbContext.SaveChangesAsync();
+                    return RedirectToAction("ParticipantDetail", "Manage", new{ eventId, poolId, participantId = entity.Id });
+                }
+            }
+            return View(models);
+        }
+
         /// <summary>
         /// 管理欄位頁面
         /// </summary>

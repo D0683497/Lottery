@@ -4,15 +4,18 @@ using Lottery.Models.Field;
 
 namespace Lottery.Models.Participant
 {
-    public class ParticipantAddViewModel
+    public class ParticipantClaimViewModel
     {
-        [JsonPropertyName("Field")]
-        [Display(Name = "欄位")]
-        public FieldViewModel Field { get; set; }
+        [JsonPropertyName("Id")]
+        [Display(Name = "識別碼")]
+        public string Id { get; set; }
         
-        [DataType(DataType.Text)]
         [JsonPropertyName("Value")]
         [Display(Name = "值")]
         public string Value { get; set; }
+        
+        [JsonPropertyName("Field")]
+        [Display(Name = "欄位")]
+        public FieldViewModel Field { get; set; }
     }
 }

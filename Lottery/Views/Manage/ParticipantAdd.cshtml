@@ -1,0 +1,54 @@
+﻿@model List<ParticipantAddViewModel>
+@{
+    ViewData["Title"] = "新增參與者";
+    var eventId = Context.Request.RouteValues["eventId"];
+    var poolId = Context.Request.RouteValues["poolId"];
+}
+
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Event">管理活動</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@eventId">活動詳情</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Pool" asp-route-eventId="@eventId">管理獎池</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="PoolDetail" asp-route-eventId="@eventId" asp-route-poolId="@poolId">獎池詳情</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Participant" asp-route-eventId="@eventId" asp-route-poolId="@poolId">管理參與者</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="ParticipantAdd" asp-route-eventId="@eventId" asp-route-poolId="@poolId" aria-current="page">@ViewData["Title"]</a></li>
+    </ul>
+</nav>
+<h1 class="title is-3">@ViewData["Title"]</h1>
+<hr />
+<div class="box">
+    <form asp-area="" asp-controller="Manage" asp-action="ParticipantAdd" asp-route-eventId="@eventId" asp-route-poolId="@poolId" method="post" role="form">
+        @for (int index = 0; index < Model.Count; index++)
+        {
+            <div class="field mb-5">
+                <label asp-for="@Model[index].Value" class="label">
+                    @if (Model[index].Field.Key)
+                    {
+                        <span class="has-text-danger">*</span>
+                    }
+                    <span>@Model[index].Field.Value</span>
+                </label>
+                <div class="control">
+                    <input asp-for="@Model[index].Value" class="input" type="text" placeholder="請輸入 @Model[index].Field.Value" />
+                </div>
+                <span asp-validation-for="@Model[index].Value" class="help is-danger"></span>
+            </div>
+            <input asp-for="@Model[index].Field.Id" class="input" type="hidden" />
+            <input asp-for="@Model[index].Field.Key" class="input" type="hidden" />
+            <input asp-for="@Model[index].Field.Show" class="input" type="hidden" />
+            <input asp-for="@Model[index].Field.Security" class="input" type="hidden" />
+            <input asp-for="@Model[index].Field.Value" class="input" type="hidden" />
+        }
+        <div class="field">
+            <div class="control">
+                <button class="button is-info" type="submit">新增</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

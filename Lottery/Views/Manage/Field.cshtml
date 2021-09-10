@@ -21,7 +21,9 @@
 </nav>
 <div class="notification is-warning is-light">
     <button class="delete"></button>
-    若欄位為可被搜尋則參與者對應此欄位的值<strong>不能為空</strong>
+    若欄位為可被搜尋則參與者對應此欄位的值<strong>不能為空</strong><br />
+    若欄位為顯示則<strong>抽獎時</strong>此欄位會顯示出來<br />
+    若欄位為機密則抽獎時此欄位會被<strong>隱藏部分資訊</strong>
 </div>
 <div class="is-flex is-justify-content-space-between">
     <h1 class="title is-3">@ViewData["Title"]</h1>
@@ -53,6 +55,8 @@
             <tr>
                 <th>識別碼</th>
                 <th>搜尋</th>
+                <th>顯示</th>
+                <th>機密</th>
                 <th>值</th>
                 <th></th>
             </tr>
@@ -61,7 +65,7 @@
                 @if (!Model.Any())
                 {
                     <tr class="is-empty">
-                        <td colspan="4">
+                        <td colspan="6">
                             <section class="section">
                                 <div class="content has-text-grey has-text-centered">
                                     <figure class="image">
@@ -87,6 +91,26 @@
                                 else
                                 {
                                     <span class="tag is-danger">不能被搜尋</span>
+                                }
+                            </td>
+                            <td data-label="顯示">
+                                @if (item.Show)
+                                {
+                                    <span class="tag is-success">顯示</span>
+                                }
+                                else
+                                {
+                                    <span class="tag is-danger">不顯示</span>
+                                }
+                            </td>
+                            <td data-label="機密">
+                                @if (item.Security)
+                                {
+                                    <span class="tag is-success">機密</span>
+                                }
+                                else
+                                {
+                                    <span class="tag is-danger">非機密</span>
                                 }
                             </td>
                             <td data-label="值">@item.Value</td>

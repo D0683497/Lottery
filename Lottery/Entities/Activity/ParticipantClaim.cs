@@ -21,14 +21,14 @@ namespace Lottery.Entities.Activity
         public string Value { get; set; }
         
         /// <summary>
-        /// 得獎者識別碼
+        /// 參與者識別碼
         /// </summary>
         [Required]
         [MaxLength(36)]
         public string ParticipantId { get; set; }
         
         /// <summary>
-        /// 得獎者
+        /// 參與者
         /// </summary>
         public Participant Participant { get; set; }
 

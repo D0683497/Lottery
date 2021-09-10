@@ -20,6 +20,12 @@
         <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="FieldDetail" asp-route-eventId="@eventId" asp-route-fieldId="@Context.Request.RouteValues["fieldId"]" aria-current="page">@ViewData["Title"]</a></li>
     </ul>
 </nav>
+<div class="notification is-warning is-light">
+    <button class="delete"></button>
+    若欄位為可被搜尋則參與者對應此欄位的值<strong>不能為空</strong><br />
+    若欄位為顯示則<strong>抽獎時</strong>此欄位會顯示出來<br />
+    若欄位為機密則抽獎時此欄位會被<strong>隱藏部分資訊</strong>
+</div>
 <h1 class="title is-3">@ViewData["Title"]</h1>
 <hr />
 <div class="box">
@@ -38,6 +44,16 @@
             <input asp-for="Key" class="switch is-rounded is-rtl" type="checkbox" disabled />
             <label asp-for="Key" class="label">搜尋</label>
             <span asp-validation-for="Key" class="help is-danger"></span>
+        </div>
+        <div class="field mb-5">
+            <input asp-for="Show" class="switch is-rounded is-rtl" type="checkbox" disabled />
+            <label asp-for="Show" class="label">顯示</label>
+            <span asp-validation-for="Show" class="help is-danger"></span>
+        </div>
+        <div class="field mb-5">
+            <input asp-for="Security" class="switch is-rounded is-rtl" type="checkbox" disabled />
+            <label asp-for="Security" class="label">機密</label>
+            <span asp-validation-for="Security" class="help is-danger"></span>
         </div>
         <div class="field mb-5">
             <label asp-for="Value" class="label">值</label>

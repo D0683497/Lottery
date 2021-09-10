@@ -1,6 +1,8 @@
 ﻿@model PaginatedList<ParticipantViewModel>
 @{
     ViewData["Title"] = "管理參與者";
+    var eventId = Context.Request.RouteValues["eventId"];
+    var poolId = Context.Request.RouteValues["poolId"];
 }
 
 @section Styles {
@@ -14,10 +16,10 @@
     <ul>
         <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
         <li><a asp-area="" asp-controller="Manage" asp-action="Event">管理活動</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@Context.Request.RouteValues["eventId"]">活動詳情</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="Pool" asp-route-eventId="@Context.Request.RouteValues["eventId"]">管理獎池</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="PoolDetail" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]">獎池詳情</a></li>
-        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="Participant" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]" aria-current="page">@ViewData["Title"]</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@eventId">活動詳情</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Pool" asp-route-eventId="@eventId">管理獎池</a></li>
+        <li><a asp-area="" asp-controller="Manage" asp-action="PoolDetail" asp-route-eventId="@eventId" asp-route-poolId="@poolId">獎池詳情</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="Participant" asp-route-eventId="@eventId" asp-route-poolId="@poolId" aria-current="page">@ViewData["Title"]</a></li>
     </ul>
 </nav>
 <div class="is-flex is-justify-content-space-between">
@@ -33,8 +35,8 @@
         </div>
         <div class="dropdown-menu" id="dropdown-menu" role="menu">
             <div class="dropdown-content">
-                <a asp-area="" asp-controller="Manage" asp-action="Field" asp-route-eventId="@Context.Request.RouteValues["eventId"]" class="dropdown-item">管理欄位</a>
-                <a class="dropdown-item">新增參與者</a>
+                <a asp-area="" asp-controller="Manage" asp-action="Field" asp-route-eventId="@eventId" class="dropdown-item">管理欄位</a>
+                <a asp-area="" asp-controller="Manage" asp-action="ParticipantAdd" asp-route-eventId="@eventId" asp-route-poolId="@poolId" class="dropdown-item">新增參與者</a>
                 <a class="dropdown-item">匯入參與者</a>
                 <hr class="dropdown-divider" />
                 <a asp-area="" asp-controller="Event" asp-action="Index" class="dropdown-item">查看活動頁面</a>
@@ -43,3 +45,62 @@
     </div>
 </div>
 <hr />
+<div class="b-table">
+    <div class="table-wrapper has-mobile-cards">
+        <table class="table is-fullwidth is-striped is-fullwidth">
+            <thead>
+            <tr>
+                <th>識別碼</th>
+                @if (Model.Any())
+                {
+                    @foreach (var item in Model.First().Claims)
+                    {
+                        <th>@item.Field.Value</th>
+                    }
+                }
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr class="is-empty">
+                        <td colspan="2">
+                            <section class="section">
+                                <div class="content has-text-grey has-text-centered">
+                                    <figure class="image">
+                                        <i class="fas fa-inbox fa-5x"></i>
+                                    </figure>
+                                    <p>沒有資料</p>
+                                </div>
+                            </section>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td data-label="識別碼">@item.Id</td>
+                            @foreach (var claim in item.Claims)
+                            {
+                                <td data-label="@claim.Field.Value">@claim.Value</td>
+                            }
+                            <td class="is-actions-cell">
+                                <div class="buttons">
+                                    <a asp-area="" asp-controller="Manage" asp-action="ParticipantDetail" asp-route-eventId="@eventId" asp-route-poolId="@poolId" asp-route-participantId="@item.Id" class="button is-link is-inverted is-underlined">
+                                        <span class="icon is-small">
+                                            <i class="far fa-newspaper"></i>
+                                        </span>
+                                        <span>詳情</span>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
