@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "編輯參與者";
+    var eventId = Context.Request.RouteValues["eventId"];
+    var poolId = Context.Request.RouteValues["poolId"];
+}
+
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
+        <li><a asp-area="" asp-controller="Event" asp-action="Index">管理活動</a></li>
+        <li><a asp-area="" asp-controller="Event" asp-action="Detail" asp-route-eventId="@eventId">活動詳情</a></li>
+        <li><a asp-area="" asp-controller="Pool" asp-action="Index" asp-route-eventId="@eventId">管理獎池</a></li>
+        <li><a asp-area="" asp-controller="Pool" asp-action="Detail" asp-route-eventId="@eventId" asp-route-poolId="@poolId">獎池詳情</a></li>
+        <li><a asp-area="" asp-controller="Participant" asp-action="Index" asp-route-eventId="@eventId" asp-route-poolId="@poolId">管理參與者</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Participant" asp-action="Index" asp-route-eventId="@eventId" asp-route-poolId="@poolId" aria-current="page">@ViewData["Title"]</a></li>
+    </ul>
+</nav>
+<h1 class="title is-3">@ViewData["Title"]</h1>

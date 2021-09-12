@@ -3,17 +3,18 @@
     ViewData["Title"] = "參與者詳情";
     var eventId = Context.Request.RouteValues["eventId"];
     var poolId = Context.Request.RouteValues["poolId"];
+    var participantId = Context.Request.RouteValues["participantId"];
 }
 
 <nav class="breadcrumb" aria-label="breadcrumbs">
     <ul>
         <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="Event">管理活動</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@eventId">活動詳情</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="Pool" asp-route-eventId="@eventId">管理獎池</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="PoolDetail" asp-route-eventId="@eventId" asp-route-poolId="@poolId">獎池詳情</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="Participant" asp-route-eventId="@eventId" asp-route-poolId="@poolId">管理參與者</a></li>
-        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="Participant" asp-route-eventId="@eventId" asp-route-poolId="@poolId" aria-current="page">@ViewData["Title"]</a></li>
+        <li><a asp-area="" asp-controller="Event" asp-action="Index">管理活動</a></li>
+                <li><a asp-area="" asp-controller="Event" asp-action="Detail" asp-route-eventId="@eventId">活動詳情</a></li>
+        <li><a asp-area="" asp-controller="Pool" asp-action="Index" asp-route-eventId="@eventId">管理獎池</a></li>
+        <li><a asp-area="" asp-controller="Pool" asp-action="Detail" asp-route-eventId="@eventId" asp-route-poolId="@poolId">獎池詳情</a></li>
+        <li><a asp-area="" asp-controller="Participant" asp-action="Index" asp-route-eventId="@eventId" asp-route-poolId="@poolId">管理參與者</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Participant" asp-action="Detail" asp-route-eventId="@eventId" asp-route-poolId="@poolId" asp-route-participantId="@participantId" aria-current="page">@ViewData["Title"]</a></li>
     </ul>
 </nav>
 <h1 class="title is-3">@ViewData["Title"]</h1>
@@ -54,7 +55,7 @@
         }
         <div class="field">
             <div class="control">
-                <a asp-area="" asp-controller="Manage" asp-action="FieldEdit" asp-route-eventId="@eventId" class="button is-link">編輯</a>
+                <a asp-area="" asp-controller="Field" asp-action="Edit" asp-route-eventId="@eventId" class="button is-link">編輯</a>
                 <button id="delete-button" class="button is-danger" type="button">刪除</button>
             </div>
         </div>
@@ -62,7 +63,7 @@
 </div>
 <div id="delete-modal" class="modal">
     <div class="modal-background"></div>
-    <form asp-area="" asp-controller="Manage" asp-action="FieldDelete" asp-route-eventId="@eventId" method="post" role="form" class="modal-card">
+    <form asp-area="" asp-controller="Field" asp-action="Delete" asp-route-eventId="@eventId" method="post" role="form" class="modal-card">
         <header class="modal-card-head">
             <p class="modal-card-title">您確定要刪除?</p>
             <button class="delete" aria-label="close" data-bulma-modal="close" type="button"></button>

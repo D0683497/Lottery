@@ -1,7 +1,7 @@
 ﻿@model FieldAddViewModel
 @{
     ViewData["Title"] = "新增欄位";
-    var eventId = @Context.Request.RouteValues["eventId"];
+    var eventId = Context.Request.RouteValues["eventId"];
 }
 
 @section Styles {
@@ -14,10 +14,10 @@
 <nav class="breadcrumb" aria-label="breadcrumbs">
     <ul>
         <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="Event">管理活動</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@eventId">活動詳情</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="Field" asp-route-eventId="@eventId">管理欄位</a></li>
-        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="FieldAdd" asp-route-eventId="@eventId" aria-current="page">@ViewData["Title"]</a></li>
+        <li><a asp-area="" asp-controller="Event" asp-action="Index">管理活動</a></li>
+        <li><a asp-area="" asp-controller="Event" asp-action="Detail" asp-route-eventId="@eventId">活動詳情</a></li>
+        <li><a asp-area="" asp-controller="Field" asp-action="Index" asp-route-eventId="@eventId">管理欄位</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Field" asp-action="Add" asp-route-eventId="@eventId" aria-current="page">@ViewData["Title"]</a></li>
     </ul>
 </nav>
 <div class="notification is-warning is-light">
@@ -29,7 +29,7 @@
 <h1 class="title is-3">@ViewData["Title"]</h1>
 <hr />
 <div class="box">
-    <form asp-area="" asp-controller="Manage" asp-action="FieldAdd" asp-route-eventId="@eventId" method="post" role="form">
+    <form asp-area="" asp-controller="Field" asp-action="Add" asp-route-eventId="@eventId" method="post" role="form">
         <div class="field mb-5">
             <input asp-for="Key" class="switch is-rounded is-rtl" type="checkbox" />
             <label asp-for="Key" class="label">搜尋</label>

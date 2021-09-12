@@ -1,0 +1,24 @@
+@{
+    ViewData["Title"] = "活動";
+}
+
+<h1 class="title mb-6 has-text-centered">2021 新鮮人成長營</h1>
+<h2 class="subtitle my-6 has-text-centered">這邊可以打字</h2>
+<form class="my-6">
+    <div class="field has-addons">
+        <div class="control has-icons-left is-expanded">
+            <input class="input" type="text" placeholder="請輸入學號">
+            <span class="icon is-left">
+                <i class="fas fa-user"></i>
+            </span>
+        </div>
+        <div class="control">
+            <button class="button is-primary" asp-area="" asp-controller="Activity" asp-action="Participant">
+                <span class="icon">
+                    <i class="fas fa-search"></i>
+                </span>
+                <span>查詢</span>
+            </button>
+        </div>
+    </div>
+</form>

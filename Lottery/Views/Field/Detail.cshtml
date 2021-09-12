@@ -1,7 +1,8 @@
 ﻿@model FieldViewModel
 @{
     ViewData["Title"] = "欄位詳情";
-    var eventId = @Context.Request.RouteValues["eventId"];
+    var eventId = Context.Request.RouteValues["eventId"];
+    var fieldId = Context.Request.RouteValues["fieldId"];
 }
 
 @section Styles {
@@ -14,10 +15,10 @@
 <nav class="breadcrumb" aria-label="breadcrumbs">
     <ul>
         <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="Event">管理活動</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@eventId">活動詳情</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="Field" asp-route-eventId="@eventId">管理欄位</a></li>
-        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="FieldDetail" asp-route-eventId="@eventId" asp-route-fieldId="@Context.Request.RouteValues["fieldId"]" aria-current="page">@ViewData["Title"]</a></li>
+        <li><a asp-area="" asp-controller="Event" asp-action="Index">管理活動</a></li>
+        <li><a asp-area="" asp-controller="Event" asp-action="Detail" asp-route-eventId="@eventId">活動詳情</a></li>
+        <li><a asp-area="" asp-controller="Field" asp-action="Index" asp-route-eventId="@eventId">管理欄位</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Field" asp-action="Detail" asp-route-eventId="@eventId" asp-route-fieldId="@fieldId" aria-current="page">@ViewData["Title"]</a></li>
     </ul>
 </nav>
 <div class="notification is-warning is-light">
@@ -64,7 +65,7 @@
         </div>
         <div class="field">
             <div class="control">
-                <a asp-area="" asp-controller="Manage" asp-action="FieldEdit" asp-route-eventId="@eventId" asp-route-fieldId="@Context.Request.RouteValues["fieldId"]" class="button is-link">編輯</a>
+                <a asp-area="" asp-controller="Field" asp-action="Edit" asp-route-eventId="@eventId" asp-route-fieldId="@fieldId" class="button is-link">編輯</a>
                 <button id="delete-button" class="button is-danger" type="button">刪除</button>
             </div>
         </div>
@@ -72,7 +73,7 @@
 </div>
 <div id="delete-modal" class="modal">
     <div class="modal-background"></div>
-    <form asp-area="" asp-controller="Manage" asp-action="FieldDelete" asp-route-eventId="@eventId" asp-route-fieldId="@Context.Request.RouteValues["fieldId"]" method="post" role="form" class="modal-card">
+    <form asp-area="" asp-controller="Field" asp-action="Delete" asp-route-eventId="@eventId" asp-route-fieldId="@fieldId" method="post" role="form" class="modal-card">
         <header class="modal-card-head">
             <p class="modal-card-title">您確定要刪除?</p>
             <button class="delete" aria-label="close" data-bulma-modal="close" type="button"></button>

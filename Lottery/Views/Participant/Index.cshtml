@@ -15,11 +15,11 @@
 <nav class="breadcrumb" aria-label="breadcrumbs">
     <ul>
         <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="Event">管理活動</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@eventId">活動詳情</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="Pool" asp-route-eventId="@eventId">管理獎池</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="PoolDetail" asp-route-eventId="@eventId" asp-route-poolId="@poolId">獎池詳情</a></li>
-        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="Participant" asp-route-eventId="@eventId" asp-route-poolId="@poolId" aria-current="page">@ViewData["Title"]</a></li>
+        <li><a asp-area="" asp-controller="Event" asp-action="Index">管理活動</a></li>
+        <li><a asp-area="" asp-controller="Event" asp-action="Detail" asp-route-eventId="@eventId">活動詳情</a></li>
+        <li><a asp-area="" asp-controller="Pool" asp-action="Index" asp-route-eventId="@eventId">管理獎池</a></li>
+        <li><a asp-area="" asp-controller="Pool" asp-action="Detail" asp-route-eventId="@eventId" asp-route-poolId="@poolId">獎池詳情</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Participant" asp-action="Index" asp-route-eventId="@eventId" asp-route-poolId="@poolId" aria-current="page">@ViewData["Title"]</a></li>
     </ul>
 </nav>
 <div class="is-flex is-justify-content-space-between">
@@ -35,11 +35,11 @@
         </div>
         <div class="dropdown-menu" id="dropdown-menu" role="menu">
             <div class="dropdown-content">
-                <a asp-area="" asp-controller="Manage" asp-action="Field" asp-route-eventId="@eventId" class="dropdown-item">管理欄位</a>
-                <a asp-area="" asp-controller="Manage" asp-action="ParticipantAdd" asp-route-eventId="@eventId" asp-route-poolId="@poolId" class="dropdown-item">新增參與者</a>
+                <a asp-area="" asp-controller="Field" asp-action="Index" asp-route-eventId="@eventId" class="dropdown-item">管理欄位</a>
+                <a asp-area="" asp-controller="Participant" asp-action="Add" asp-route-eventId="@eventId" asp-route-poolId="@poolId" class="dropdown-item">新增參與者</a>
                 <a class="dropdown-item">匯入參與者</a>
                 <hr class="dropdown-divider" />
-                <a asp-area="" asp-controller="Event" asp-action="Index" class="dropdown-item">查看活動頁面</a>
+                <a asp-area="" asp-controller="Activity" asp-action="Index" class="dropdown-item">查看活動頁面</a>
             </div>
         </div>
     </div>
@@ -89,7 +89,7 @@
                             }
                             <td class="is-actions-cell">
                                 <div class="buttons">
-                                    <a asp-area="" asp-controller="Manage" asp-action="ParticipantDetail" asp-route-eventId="@eventId" asp-route-poolId="@poolId" asp-route-participantId="@item.Id" class="button is-link is-inverted is-underlined">
+                                    <a asp-area="" asp-controller="Participant" asp-action="Detail" asp-route-eventId="@eventId" asp-route-poolId="@poolId" asp-route-participantId="@item.Id" class="button is-link is-inverted is-underlined">
                                         <span class="icon is-small">
                                             <i class="far fa-newspaper"></i>
                                         </span>

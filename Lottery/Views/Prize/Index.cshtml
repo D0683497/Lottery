@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<PrizeViewModel>
 @{
     ViewData["Title"] = "管理獎品";
+    var eventId = Context.Request.RouteValues["eventId"];
+    var poolId = Context.Request.RouteValues["poolId"];
 }
 
 @section Styles {
@@ -13,18 +15,18 @@
 <nav class="breadcrumb" aria-label="breadcrumbs">
     <ul>
         <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="Event">管理活動</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@Context.Request.RouteValues["eventId"]">活動詳情</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="Pool" asp-route-eventId="@Context.Request.RouteValues["eventId"]">管理獎池</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="PoolDetail" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]">獎池詳情</a></li>
-        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="Prize" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]" aria-current="page">@ViewData["Title"]</a></li>
+        <li><a asp-area="" asp-controller="Event" asp-action="Index">管理活動</a></li>
+        <li><a asp-area="" asp-controller="Event" asp-action="Detail" asp-route-eventId="@eventId">活動詳情</a></li>
+        <li><a asp-area="" asp-controller="Pool" asp-action="Index" asp-route-eventId="@eventId">管理獎池</a></li>
+        <li><a asp-area="" asp-controller="Pool" asp-action="Detail" asp-route-eventId="@eventId" asp-route-poolId="@poolId">獎池詳情</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Prize" asp-action="Index" asp-route-eventId="@eventId" asp-route-poolId="@poolId" aria-current="page">@ViewData["Title"]</a></li>
     </ul>
 </nav>
 <div class="is-flex is-justify-content-space-between">
     <h1 class="title is-3">@ViewData["Title"]</h1>
     <div class="field has-addons is-hidden-tablet">
         <p class="control">
-            <a asp-area="" asp-controller="Manage" asp-action="PrizeAdd" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]" class="button is-info is-outlined">
+            <a asp-area="" asp-controller="Prize" asp-action="Add" asp-route-eventId="@eventId" asp-route-poolId="@poolId" class="button is-info is-outlined">
                 <span class="icon is-small">
                     <i class="fas fa-plus"></i>
                 </span>
@@ -33,7 +35,7 @@
     </div>
     <div class="field has-addons is-hidden-mobile">
         <p class="control">
-            <a asp-area="" asp-controller="Manage" asp-action="PrizeAdd" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]" class="button is-info is-outlined">
+            <a asp-area="" asp-controller="Prize" asp-action="Add" asp-route-eventId="@eventId" asp-route-poolId="@poolId" class="button is-info is-outlined">
                 <span class="icon is-small">
                     <i class="fas fa-plus"></i>
                 </span>
@@ -80,7 +82,7 @@
                         <td data-label="數量">@prize.Quantity</td>
                         <td class="is-actions-cell">
                             <div class="buttons">
-                                <a asp-area="" asp-controller="Manage" asp-action="PrizeDetail" asp-route-eventId="@Context.Request.RouteValues["eventId"]" asp-route-poolId="@Context.Request.RouteValues["poolId"]" asp-route-prizeId="@prize.Id" class="button is-link is-inverted is-underlined">
+                                <a asp-area="" asp-controller="Prize" asp-action="Detail" asp-route-eventId="@eventId" asp-route-poolId="@poolId" asp-route-prizeId="@prize.Id" class="button is-link is-inverted is-underlined">
                                     <span class="icon is-small">
                                         <i class="far fa-newspaper"></i>
                                     </span>

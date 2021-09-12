@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<FieldViewModel>
 @{
     ViewData["Title"] = "管理欄位";
-    var eventId = @Context.Request.RouteValues["eventId"];
+    var eventId = Context.Request.RouteValues["eventId"];
 }
 
 @section Styles {
@@ -14,9 +14,9 @@
 <nav class="breadcrumb" aria-label="breadcrumbs">
     <ul>
         <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="Event">管理活動</a></li>
-        <li><a asp-area="" asp-controller="Manage" asp-action="EventDetail" asp-route-eventId="@eventId">活動詳情</a></li>
-        <li class="is-active"><a asp-area="" asp-controller="Manage" asp-action="Pool" asp-route-eventId="@eventId" aria-current="page">@ViewData["Title"]</a></li>
+        <li><a asp-area="" asp-controller="Event" asp-action="Index">管理活動</a></li>
+                <li><a asp-area="" asp-controller="Event" asp-action="Detail" asp-route-eventId="@eventId">活動詳情</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Field" asp-action="Index" asp-route-eventId="@eventId" aria-current="page">@ViewData["Title"]</a></li>
     </ul>
 </nav>
 <div class="notification is-warning is-light">
@@ -29,7 +29,7 @@
     <h1 class="title is-3">@ViewData["Title"]</h1>
     <div class="field has-addons is-hidden-tablet">
         <p class="control">
-            <a asp-area="" asp-controller="Manage" asp-action="FieldAdd" asp-route-eventId="@eventId" class="button is-info is-outlined">
+            <a asp-area="" asp-controller="Field" asp-action="Add" asp-route-eventId="@eventId" class="button is-info is-outlined">
                 <span class="icon is-small">
                     <i class="fas fa-plus"></i>
                 </span>
@@ -38,7 +38,7 @@
     </div>
     <div class="field has-addons is-hidden-mobile">
         <p class="control">
-            <a asp-area="" asp-controller="Manage" asp-action="FieldAdd" asp-route-eventId="@eventId" class="button is-info is-outlined">
+            <a asp-area="" asp-controller="Field" asp-action="Add" asp-route-eventId="@eventId" class="button is-info is-outlined">
                 <span class="icon is-small">
                     <i class="fas fa-plus"></i>
                 </span>
@@ -116,7 +116,7 @@
                             <td data-label="值">@item.Value</td>
                             <td class="is-actions-cell">
                                 <div class="buttons">
-                                    <a asp-area="" asp-controller="Manage" asp-action="FieldDetail" asp-route-eventId="@eventId" asp-route-fieldId="@item.Id" class="button is-link is-inverted is-underlined">
+                                    <a asp-area="" asp-controller="Field" asp-action="Detail" asp-route-eventId="@eventId" asp-route-fieldId="@item.Id" class="button is-link is-inverted is-underlined">
                                         <span class="icon is-small">
                                             <i class="far fa-newspaper"></i>
                                         </span>

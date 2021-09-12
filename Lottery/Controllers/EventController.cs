@@ -1,23 +1,25 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Lottery.Data;
+using Lottery.Entities.Activity;
+using Lottery.Helpers;
 using Lottery.Models;
 using Lottery.Models.Event;
-using Lottery.Models.Prize;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Lottery.Controllers
 {
-    [Route("event")]
+    [AuthAuthorize]
+    [Route("manage/event")]
     public class EventController : Controller
     {
         private readonly ILogger<EventController> _logger;
         private readonly LotteryDbContext _dbContext;
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
 
         public EventController(ILogger<EventController> logger, LotteryDbContext dbContext, IMapper mapper)
         {
@@ -26,17 +28,11 @@ namespace Lottery.Controllers
             _mapper = mapper;
         }
         
-        [HttpGet("")]
-        public IActionResult Index()
-        {
-            return View();
-        }
-        
         /// <summary>
-        /// 活動列表頁面
+        /// 管理活動頁面
         /// </summary>
-        [HttpGet("list")]
-        public async Task<ActionResult<PaginatedList<EventViewModel>>> List([FromQuery] int? page, [FromQuery] string search)
+        [HttpGet("")]
+        public async Task<ActionResult<PaginatedList<EventViewModel>>> Index([FromQuery] int? page, [FromQuery] string search)
         {
             var query = _dbContext.Events.AsNoTracking();
             if (!string.IsNullOrEmpty(search))
@@ -52,9 +48,12 @@ namespace Lottery.Controllers
             var paginatedModels = new PaginatedList<EventViewModel>(models, count, page ?? 1, 50);
             return View(paginatedModels);
         }
-
+        
+        /// <summary>
+        /// 活動詳情頁面
+        /// </summary>
         [HttpGet("{eventId}")]
-        public async Task<IActionResult> Display([FromRoute] string eventId)
+        public async Task<ActionResult<EventViewModel>> Detail([FromRoute] string eventId)
         {
             var entity = await _dbContext.Events
                 .AsNoTracking()
@@ -64,37 +63,107 @@ namespace Lottery.Controllers
             {
                 return NotFound();
             }
-            var model = _mapper.Map<EventDisplayViewModel>(entity);
+            var model = _mapper.Map<EventViewModel>(entity);
+            return View(model);
+        }
+        
+        /// <summary>
+        /// 新增活動頁面
+        /// </summary>
+        [HttpGet("add")]
+        public IActionResult Add() => View();
+
+        /// <summary>
+        /// 新增活動
+        /// </summary>
+        [HttpPost("add")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult<EventAddViewModel>> Add([FromForm] EventAddViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (await _dbContext.Events.AnyAsync(x => x.Url == model.Url))
+                {
+                    ModelState.AddModelError("Url", "網址已經被使用");
+                }
+                if (ModelState.IsValid)
+                {
+                    var entity = _mapper.Map<Event>(model);
+                    await _dbContext.Events.AddAsync(entity);
+                    await _dbContext.SaveChangesAsync();
+                    return RedirectToAction("Detail", "Event", new{ eventId = entity.Id });
+                }
+            }
             return View(model);
         }
 
-        [HttpGet("{eventId}/start/{poolId}")]
-        public async Task<IActionResult> Start([FromRoute] string eventId, [FromRoute] string poolId)
+        /// <summary>
+        /// 編輯活動頁面
+        /// </summary>
+        [HttpGet("{eventId}/edit")]
+        public async Task<ActionResult<EventEditViewModel>> Edit([FromRoute] string eventId)
         {
-            if (!await _dbContext.Pools.AnyAsync(x => x.EventId == eventId && x.Id == poolId))
+            var entity = await _dbContext.Events
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.Id == eventId);
+            if (entity == null)
             {
                 return NotFound();
             }
-            var entity = await _dbContext.Pools
-                .AsNoTracking()
-                .Include(x => x.Event)
-                .Include(x => x.Prizes)
-                .Where(x => x.EventId == eventId)
-                .SingleOrDefaultAsync(x => x.Id == poolId);
-            var models = _mapper.Map<EventStartViewModel>(entity);
-            return View(models);
-        }
-
-        [HttpGet("participant")]
-        public IActionResult Participant()
-        {
-            return View();
+            var model = _mapper.Map<EventEditViewModel>(entity);
+            return View(model);
         }
         
-        [HttpGet("background")]
-        public IActionResult Background()
+        /// <summary>
+        /// 編輯活動
+        /// </summary>
+        [HttpPost("{eventId}/edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult<EventEditViewModel>> Edit([FromRoute] string eventId, [FromForm] EventEditViewModel model)
         {
-            return File(System.IO.File.OpenRead("wwwroot/images/home.jpg"), "image/jpeg", $"home.jpg");
+            var entity = await _dbContext.Events
+                .SingleOrDefaultAsync(x => x.Id == eventId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                if (entity.Url != model.Url)
+                {
+                    if (await _dbContext.Events.AnyAsync(x => x.Url == model.Url))
+                    {
+                        ModelState.AddModelError("Url", "網址已經被使用");
+                    }
+                }
+                if (ModelState.IsValid)
+                {
+                    var updateEntity = _mapper.Map(model, entity);
+                    _dbContext.Events.Update(updateEntity);
+                    await _dbContext.SaveChangesAsync();
+                    return RedirectToAction("Detail", "Event", new{ eventId });
+                }
+            }
+            return View(model);
+        }
+        
+        /// <summary>
+        /// 刪除活動
+        /// </summary>
+        [HttpPost("{eventId}/delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete([FromRoute] string eventId)
+        {
+            var entity = await _dbContext.Events
+                .Include(x => x.Pools)
+                .SingleOrDefaultAsync(x => x.Id == eventId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            _dbContext.Events.Remove(entity);
+            await _dbContext.SaveChangesAsync();
+            return RedirectToAction("Index", "Event");
         }
     }
 }
