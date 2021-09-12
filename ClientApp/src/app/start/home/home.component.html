@@ -11,7 +11,9 @@
   <mat-card class="mat-elevation-z0">
     <!-- Content -->
     <ng-container *ngIf="!loading && !fetchDataError">
-      <img mat-card-image src="assets/images/raffle-background.jpg" alt="Photo of a Background">
+      <div class="card-image">
+        <img mat-card-image src="assets/images/raffle-background.jpg" alt="Photo of a Background">
+      </div>
       <mat-card-actions>
         <button mat-raised-button color="primary" class="start-button"
           *ngFor="let item of items"

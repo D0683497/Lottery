@@ -46,3 +46,13 @@ mat-card-actions {
   background-color: #424242;
   height: 100%;
 }
+
+img {
+  max-height: calc(100vh - 250px);
+  width: auto;
+}
+
+.card-image {
+  display: flex;
+  justify-content: center;
+}
