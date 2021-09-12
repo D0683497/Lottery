@@ -50,6 +50,15 @@ namespace Lottery.Controllers
             var model = _mapper.Map<ApplyViewModel>(user);
             return View(model);
         }
+        
+        [HttpGet("current-activity")]
+        public async Task<IActionResult> CurrentActivity()
+        {
+            var url = await _dbContext.Settings
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.Name == "event");
+            return Redirect(url.Value);
+        }
 
         [HttpGet("privacy")]
         public async Task<IActionResult> Privacy()

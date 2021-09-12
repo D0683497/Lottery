@@ -137,5 +137,99 @@ namespace Lottery.Controllers
             }
             return View(models);
         }
+        
+        /// <summary>
+        /// 編輯參與者頁面
+        /// </summary>
+        [HttpGet("{participantId}/edit")]
+        public async Task<ActionResult<List<ParticipantEditViewModel>>> Edit([FromRoute] string eventId, [FromRoute] string poolId, [FromRoute] string participantId)
+        {
+            if (!await _dbContext.Pools.AnyAsync(x => x.EventId == eventId && x.Id == poolId))
+            {
+                return NotFound();
+            }
+            var entity = await _dbContext.Participants
+                .AsNoTracking()
+                .Include(x => x.Claims)
+                .ThenInclude(x => x.EventClaim)
+                .Where(x => x.PoolId == poolId)
+                .SingleOrDefaultAsync(x => x.Id == participantId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            var model = _mapper.Map<List<ParticipantEditViewModel>>(entity.Claims);
+            return View(model);
+        }
+        
+        /// <summary>
+        /// 編輯參與者
+        /// </summary>
+        [HttpPost("{participantId}/edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult<List<ParticipantEditViewModel>>> Edit([FromRoute] string eventId, [FromRoute] string poolId, [FromRoute] string participantId, [FromForm] List<ParticipantEditViewModel> models)
+        {
+            if (!await _dbContext.Pools.AnyAsync(x => x.EventId == eventId && x.Id == poolId))
+            {
+                return NotFound();
+            }
+            var entity = await _dbContext.Participants
+                .Include(x => x.Claims)
+                .ThenInclude(x => x.EventClaim)
+                .Where(x => x.PoolId == poolId)
+                .SingleOrDefaultAsync(x => x.Id == participantId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                for (int i = 0; i < models.Count; i++)
+                {
+                    var field = entity.Claims
+                        .SingleOrDefault(x => x.EventClaimId ==  models[i].Field.Id);
+                    if (field == null)
+                    {
+                        return BadRequest();
+                    }
+                    if (field.EventClaim.Key && string.IsNullOrEmpty(models[i].Value))
+                    {
+                        ModelState.AddModelError($"[{i}].Value", $"{models[i].Field.Value}是必填的");
+                    }
+                }
+                if (ModelState.IsValid)
+                {
+                    var updateEntity = _mapper.Map(models, entity);
+                    _dbContext.Participants.Update(updateEntity);
+                    await _dbContext.SaveChangesAsync();
+                    return RedirectToAction("Detail", "Participant", new{ eventId, poolId, participantId });
+                }
+            }
+            return View(models);
+        }
+        
+        /// <summary>
+        /// 刪除參與者
+        /// </summary>
+        [HttpPost("{participantId}/delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete([FromRoute] string eventId, [FromRoute] string poolId, [FromRoute] string participantId)
+        {
+            if (!await _dbContext.Pools.AnyAsync(x => x.EventId == eventId && x.Id == poolId))
+            {
+                return NotFound();
+            }
+            var entity = await _dbContext.Participants
+                .Include(x => x.Claims)
+                .Where(x => x.PoolId == poolId)
+                .SingleOrDefaultAsync(x => x.Id == participantId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            _dbContext.Participants.Remove(entity);
+            await _dbContext.SaveChangesAsync();
+            return RedirectToAction("Index", "Participant", new{ eventId, poolId });
+        }
     }
 }

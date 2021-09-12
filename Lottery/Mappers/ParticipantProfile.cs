@@ -11,28 +11,26 @@ namespace Lottery.Mappers
         {
             #region Participant 轉換成 ParticipantViewModel
 
-            CreateMap<Participant, ParticipantViewModel>();
+            CreateMap<Participant, ParticipantViewModel>()
+                .ForMember(dest => dest.Id,
+                    opt => opt.MapFrom(src => src.Id))
+                .ForPath(dest => dest.Claims,
+                    opt => opt.MapFrom(src => src.Claims));
 
             #endregion
+            
+            #region ParticipantClaim 轉換成 ParticipantClaimViewMode
 
-            #region ParticipantAddViewModel 轉換成 Participant
-
-            CreateMap<ParticipantAddViewModel, Participant>();
-
-            #endregion
-
-            #region Participant 轉換成 ParticipantEditViewModel
-
-            CreateMap<Participant, ParticipantEditViewModel>();
-
-            #endregion
-
-            #region ParticipantEditViewModel 轉換成 Participant
-
-            CreateMap<ParticipantEditViewModel, Participant>();
+            CreateMap<ParticipantClaim, ParticipantClaimViewModel>()
+                .ForMember(dest => dest.Id,
+                    opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Value,
+                    opt => opt.MapFrom(src => src.Value))
+                .ForPath(dest => dest.Field,
+                    opt => opt.MapFrom(src => src.EventClaim));
 
             #endregion
-
+            
             #region EventClaim 轉換成 ParticipantAddViewModel
 
             CreateMap<EventClaim, ParticipantAddViewModel>()
@@ -61,25 +59,32 @@ namespace Lottery.Mappers
 
             #endregion
 
-            #region Participant 轉換成 ParticipantViewModel
+            #region ParticipantClaim 轉換成 ParticipantEditViewModel
 
-            CreateMap<Participant, ParticipantViewModel>()
-                .ForMember(dest => dest.Id,
-                    opt => opt.MapFrom(src => src.Id))
-                .ForPath(dest => dest.Claims,
-                    opt => opt.MapFrom(src => src.Claims));
+            CreateMap<ParticipantClaim, ParticipantEditViewModel>()
+                .ForMember(dest => dest.Value,
+                    opt => opt.MapFrom(src => src.Value))
+                .ForMember(dest => dest.Field,
+                    opt => opt.MapFrom(src => src.EventClaim));
 
             #endregion
 
-            #region ParticipantClaim 轉換成 ParticipantClaimViewMode
+            #region List<ParticipantEditViewModel> 轉換成 Participant
 
-            CreateMap<ParticipantClaim, ParticipantClaimViewModel>()
-                .ForMember(dest => dest.Id,
-                    opt => opt.MapFrom(src => src.Id))
+            CreateMap<List<ParticipantEditViewModel>, Participant>()
+                .ForPath(dest => dest.Claims,
+                    opt => opt.MapFrom(src => src));
+
+
+            #endregion
+ 
+            #region ParticipantEditViewModel 轉換成 ParticipantClaim
+
+            CreateMap<ParticipantEditViewModel, ParticipantClaim>()
                 .ForMember(dest => dest.Value,
                     opt => opt.MapFrom(src => src.Value))
-                .ForPath(dest => dest.Field,
-                    opt => opt.MapFrom(src => src.EventClaim));
+                .ForMember(dest => dest.EventClaimId,
+                    opt => opt.MapFrom(src => src.Field.Id));
 
             #endregion
         }

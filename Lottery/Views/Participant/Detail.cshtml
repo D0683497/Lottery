@@ -55,7 +55,7 @@
         }
         <div class="field">
             <div class="control">
-                <a asp-area="" asp-controller="Field" asp-action="Edit" asp-route-eventId="@eventId" class="button is-link">編輯</a>
+                <a asp-area="" asp-controller="Participant" asp-action="Edit" asp-route-eventId="@eventId" asp-route-poolId="@poolId" asp-route-participantId="@participantId" class="button is-link">編輯</a>
                 <button id="delete-button" class="button is-danger" type="button">刪除</button>
             </div>
         </div>
@@ -63,7 +63,7 @@
 </div>
 <div id="delete-modal" class="modal">
     <div class="modal-background"></div>
-    <form asp-area="" asp-controller="Field" asp-action="Delete" asp-route-eventId="@eventId" method="post" role="form" class="modal-card">
+    <form asp-area="" asp-controller="Participant" asp-action="Delete" asp-route-eventId="@eventId" asp-route-poolId="@poolId" asp-route-participantId="@participantId" method="post" role="form" class="modal-card">
         <header class="modal-card-head">
             <p class="modal-card-title">您確定要刪除?</p>
             <button class="delete" aria-label="close" data-bulma-modal="close" type="button"></button>
@@ -81,3 +81,12 @@
         </footer>
     </form>
 </div>
+
+@section Scripts {
+    <environment include="Development">
+        <script src="~/js/delete-modal.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/delete-modal.min.js" asp-append-version="true"></script>
+    </environment>
+}
