@@ -80,8 +80,25 @@ namespace Lottery.Controllers
                 .Include(x => x.Prizes)
                 .Where(x => x.EventId == eventId)
                 .SingleOrDefaultAsync(x => x.Id == poolId);
-            var models = _mapper.Map<EventStartViewModel>(entity);
-            return View(models);
+            var model = _mapper.Map<EventStartViewModel>(entity);
+            return View(model);
+        }
+        
+        [HttpGet("{eventId}/start/{poolId}/prize/{prizeId}")]
+        public async Task<IActionResult> Lottery([FromRoute] string eventId, [FromRoute] string poolId, [FromRoute] string prizeId)
+        {
+            if (!await _dbContext.Pools.AnyAsync(x => x.EventId == eventId && x.Id == poolId))
+            {
+                return NotFound();
+            }
+            var entity = await _dbContext.Pools
+                .AsNoTracking()
+                .Include(x => x.Event)
+                .Include(x => x.Prizes)
+                .Where(x => x.EventId == eventId)
+                .SingleOrDefaultAsync(x => x.Id == poolId);
+            var model = _mapper.Map<EventStartViewModel>(entity);
+            return Ok();
         }
 
         [HttpGet("participant")]

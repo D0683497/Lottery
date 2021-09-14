@@ -65,7 +65,7 @@ namespace Lottery.Mappers
 
             #endregion
 
-            #region MyRegion
+            #region Event 轉換成 EventDisplayViewModel
 
             CreateMap<Event, EventDisplayViewModel>()
                 .ForMember(dest => dest.Id,

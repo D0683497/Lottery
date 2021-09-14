@@ -1,32 +1,54 @@
 ﻿@model EventStartViewModel
 @{
-  ViewData["Title"] = "抽獎";
-    var eventId = Context.Request.RouteValues["eventId"];
-    var poolId = Context.Request.RouteValues["poolId"];
+	Layout = "_HTML";
+    ViewData["Title"] = Model.Event.Title;
+	var eventId = Context.Request.RouteValues["eventId"];
+	var poolId = Context.Request.RouteValues["poolId"];
 }
 
-<h1 class="title mb-6 has-text-centered">@Model.Event.Title</h1>
-<h2 class="subtitle my-6 has-text-centered">@Model.Pool.Name</h2>
-<nav class="buttons is-centered my-6">
-    @foreach (var item in Model.Prizes)
-    {
-        <button onclick="lottery('@eventId', '@poolId', '@item.Id')" class="button is-large is-link is-inverted">
-            <div class="tags has-addons">
-                <span class="tag is-dark is-large">@item.Name</span>
-                <span class="tag is-info is-large">@item.Quantity</span>
-            </div>
-        </button>
-    }
-</nav>
+@section Styles {
+	<link rel="stylesheet" href="~/css/start.css" />
+}
+
+<div class="canvas-box">
+	<canvas id="canvas">您的瀏覽器不支援 canvas</canvas>
+</div>
+<div class="music">
+	<div class="music-box">@Model.Pool.Name</div>
+</div>
+<div id="prizeBar">
+	<div class="prize-mess prize-shine">@Model.Event.Title</div>
+	<ul class="prize-list">
+		@foreach (var prize in Model.Prizes)
+		{
+			<li class="prize-item" id="prize-item-@prize.Id">
+				<span></span><span></span><span></span><span></span>
+				<div class="prize-img">
+					<img src="http://localhost:9000/img/secrit.jpg" alt="@prize.Name" />
+				</div>
+				<div class="prize-text">
+					<h5 class="prize-title">@prize.Name</h5>
+					<div class="prize-count">
+						<div class="progress">
+							<div id="prize-bar-@prize.Id" class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 100%;"></div>
+						</div>
+						<div id="prize-count-@prize.Id" class="prize-count-left">@prize.Quantity / @prize.Quantity</div>
+					</div>
+				</div>
+			</li>
+		}
+	</ul>
+</div>
+<div id="container"></div>
+<div id="menu">
+	<button id="enter" type="button">開始抽獎</button>
+	<button class="none" id="lottery" type="button">抽獎</button>
+	<button class="none" id="confirm" type="button">確認</button>
+</div>
 
 @section Scripts {
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        function lottery(eventId, poolId, prizeId) {
-            Swal.fire({
-                title: '恭喜',
-                html: eventId + '<br />' + poolId + '<br />' + prizeId
-            })
-        }
-    </script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.min.js"
+            integrity="sha512-fJ91rDja9nv9NCUNbvoW69MB1sQlp1d0eJt1NZDJQ1CuwcxReaXUrMCKI23yI9IMnB2hd2fq4PHZZ9UKN/i0mA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="module" src="~/js/start.js"></script>
 }

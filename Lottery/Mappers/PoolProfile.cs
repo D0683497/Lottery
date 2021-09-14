@@ -46,13 +46,11 @@ namespace Lottery.Mappers
             #region Pool 轉換成 EventStartViewModel
 
             CreateMap<Pool, EventStartViewModel>()
-                .ForMember(dest => dest.Event,
+                .ForPath(dest => dest.Event,
                     opt => opt.MapFrom(src => src.Event))
-                .ForPath(dest => dest.Pool.Id,
-                    opt => opt.MapFrom(src => src.Id))
-                .ForPath(dest => dest.Pool.Name,
-                    opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.Prizes,
+                .ForPath(dest => dest.Pool,
+                    opt => opt.MapFrom(src => src))
+                .ForPath(dest => dest.Prizes,
                     opt => opt.MapFrom(src => src.Prizes));
 
             #endregion
