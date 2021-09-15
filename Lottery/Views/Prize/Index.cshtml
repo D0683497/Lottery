@@ -52,6 +52,7 @@
             <tr>
                 <th>識別碼</th>
                 <th>名稱</th>
+                <th>剩餘數量</th>
                 <th>數量</th>
                 <th></th>
             </tr>
@@ -60,7 +61,7 @@
             @if (!Model.Any())
             {
                 <tr class="is-empty">
-                    <td colspan="4">
+                    <td colspan="5">
                         <section class="section">
                             <div class="content has-text-grey has-text-centered">
                                 <figure class="image">
@@ -79,7 +80,8 @@
                     <tr>
                         <td data-label="識別碼">@prize.Id</td>
                         <td data-label="名稱">@prize.Name</td>
-                        <td data-label="數量">@prize.Quantity</td>
+                        <td data-label="剩餘數量">@prize.Last</td>
+                        <td data-label="數量">@prize.Total</td>
                         <td class="is-actions-cell">
                             <div class="buttons">
                                 <a asp-area="" asp-controller="Prize" asp-action="Detail" asp-route-eventId="@eventId" asp-route-poolId="@poolId" asp-route-prizeId="@prize.Id" class="button is-link is-inverted is-underlined">

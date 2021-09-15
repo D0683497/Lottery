@@ -14,8 +14,8 @@ namespace Lottery.Models.Prize
         
         [Required(ErrorMessage = "{0}是必填的")]
         [DataType(DataType.Text)]
-        [JsonPropertyName("Quantity")]
+        [JsonPropertyName("Total")]
         [Display(Name = "數量")]
-        public int Quantity { get; set; }
+        public int Total { get; set; }
     }
 }

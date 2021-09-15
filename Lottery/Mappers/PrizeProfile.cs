@@ -15,8 +15,10 @@ namespace Lottery.Mappers
                     opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name,
                     opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.Quantity,
-                    opt => opt.MapFrom(src => src.Quantity));
+                .ForMember(dest => dest.Total,
+                    opt => opt.MapFrom(src => src.Total))
+                .ForMember(dest => dest.Last,
+                    opt => opt.MapFrom(src => src.Last));
 
             #endregion
 
@@ -25,8 +27,10 @@ namespace Lottery.Mappers
             CreateMap<PrizeAddViewModel, Prize>()
                 .ForMember(dest => dest.Name,
                     opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.Quantity,
-                    opt => opt.MapFrom(src => src.Quantity));
+                .ForMember(dest => dest.Total,
+                    opt => opt.MapFrom(src => src.Total))
+                .ForMember(dest => dest.Last,
+                    opt => opt.MapFrom(src => src.Total));
 
             #endregion
 
@@ -35,8 +39,8 @@ namespace Lottery.Mappers
             CreateMap<Prize, PrizeEditViewModel>()
                 .ForMember(dest => dest.Name,
                     opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.Quantity,
-                    opt => opt.MapFrom(src => src.Quantity));
+                .ForMember(dest => dest.Total,
+                    opt => opt.MapFrom(src => src.Total));
 
             #endregion
 
@@ -45,8 +49,10 @@ namespace Lottery.Mappers
             CreateMap<PrizeEditViewModel, Prize>()
                 .ForMember(dest => dest.Name,
                     opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.Quantity,
-                    opt => opt.MapFrom(src => src.Quantity));
+                .ForMember(dest => dest.Total,
+                    opt => opt.MapFrom(src => src.Total))
+                .ForMember(dest => dest.Last,
+                    opt => opt.MapFrom(src => src.Total));
 
             #endregion
         }

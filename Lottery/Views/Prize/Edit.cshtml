@@ -20,6 +20,16 @@
 </nav>
 <h1 class="title is-3">@ViewData["Title"]</h1>
 <hr />
+@if (!ViewData.ModelState.IsValid)
+{
+    @foreach (var modelError in ViewData.ModelState.SelectMany(keyValuePair => keyValuePair.Value.Errors))
+    {
+        <div class="notification is-danger">
+            <button class="delete"></button>
+            @modelError.ErrorMessage
+        </div>
+    }
+}
 <div class="box">
     <form asp-area="" asp-controller="Prize" asp-action="Edit" asp-route-eventId="@eventId" asp-route-poolId="@poolId" asp-route-prizeId="@prizeId" method="post" role="form">
         <div class="field mb-5">
@@ -30,11 +40,11 @@
             <span asp-validation-for="Name" class="help is-danger"></span>
         </div>
         <div class="field mb-5">
-            <label asp-for="Quantity" class="label">數量</label>
+            <label asp-for="Total" class="label">數量</label>
             <div class="control">
-                <input asp-for="Quantity" class="input" type="number" placeholder="請輸入數量" />
+                <input asp-for="Total" class="input" type="number" placeholder="請輸入數量" />
             </div>
-            <span asp-validation-for="Quantity" class="help is-danger"></span>
+            <span asp-validation-for="Total" class="help is-danger"></span>
         </div>
         <div class="field">
             <div class="control">

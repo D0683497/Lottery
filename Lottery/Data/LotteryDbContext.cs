@@ -55,9 +55,9 @@ namespace Lottery.Data
         public DbSet<Event> Events { get; set; }
 
         /// <summary>
-        /// 活動聲明
+        /// 活動欄位
         /// </summary>
-        public DbSet<EventClaim> EventClaims { get; set; }
+        public DbSet<Field> Fields { get; set; }
 
         /// <summary>
         /// 講池
@@ -78,6 +78,11 @@ namespace Lottery.Data
         /// 參與者聲明
         /// </summary>
         public DbSet<ParticipantClaim> ParticipantClaims { get; set; }
+
+        /// <summary>
+        /// 獲得獎品
+        /// </summary>
+        public DbSet<ParticipantPrize> ParticipantPrizes { get; set; }
 
         /// <summary>
         /// 活動圖片

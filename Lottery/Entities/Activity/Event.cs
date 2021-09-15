@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Lottery.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 
@@ -21,7 +22,7 @@ namespace Lottery.Entities.Activity
         /// <summary>
         /// 活動狀態
         /// </summary>
-        public bool End { get; set; } = false;
+        public EventStatus Status { get; set; } = EventStatus.HideIng;
 
         /// <summary>
         /// 活動標題
@@ -43,9 +44,9 @@ namespace Lottery.Entities.Activity
         public string Url { get; set; }
 
         /// <summary>
-        /// 活動聲明
+        /// 活動欄位
         /// </summary>
-        public ICollection<EventClaim> Claims { get; set; }
+        public ICollection<Field> Fields { get; set; }
 
         /// <summary>
         /// 活動圖片

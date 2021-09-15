@@ -40,8 +40,8 @@ namespace Lottery.Entities.Activity
         public string EventClaimId { get; set; }
         
         /// <summary>
-        /// 活動聲明
+        /// 活動欄位
         /// </summary>
-        public EventClaim EventClaim { get; set; }
+        public Field Field { get; set; }
     }
 }

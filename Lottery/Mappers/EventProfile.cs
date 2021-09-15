@@ -26,8 +26,8 @@ namespace Lottery.Mappers
             CreateMap<Event, EventViewModel>()
                 .ForMember(dest => dest.Id,
                     opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.End,
-                    opt => opt.MapFrom(src => src.End))
+                .ForMember(dest => dest.Status,
+                    opt => opt.MapFrom(src => src.Status))
                 .ForMember(dest => dest.Title,
                     opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.SubTitle,
@@ -40,8 +40,8 @@ namespace Lottery.Mappers
             #region Event 轉換成 EventEditViewModel
 
             CreateMap<Event, EventEditViewModel>()
-                .ForMember(dest => dest.End,
-                    opt => opt.MapFrom(src => src.End))
+                .ForMember(dest => dest.Status,
+                    opt => opt.MapFrom(src => src.Status))
                 .ForMember(dest => dest.Title,
                     opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.SubTitle,
@@ -54,8 +54,8 @@ namespace Lottery.Mappers
             #region EventEditViewModel 轉換成 Event
 
             CreateMap<EventEditViewModel, Event>()
-                .ForMember(dest => dest.End,
-                    opt => opt.MapFrom(src => src.End))
+                .ForMember(dest => dest.Status,
+                    opt => opt.MapFrom(src => src.Status))
                 .ForMember(dest => dest.Title,
                     opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.SubTitle,
@@ -70,8 +70,8 @@ namespace Lottery.Mappers
             CreateMap<Event, EventDisplayViewModel>()
                 .ForMember(dest => dest.Id,
                     opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.End,
-                    opt => opt.MapFrom(src => src.End))
+                .ForMember(dest => dest.Status,
+                    opt => opt.MapFrom(src => src.Status))
                 .ForMember(dest => dest.Title,
                     opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.SubTitle,

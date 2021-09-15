@@ -8,9 +8,9 @@ namespace Lottery.Mappers
     {
         public FieldProfile()
         {
-            #region EventClaim 轉換成 FieldViewModel
+            #region Field 轉換成 FieldViewModel
 
-            CreateMap<EventClaim, FieldViewModel>()
+            CreateMap<Field, FieldViewModel>()
                 .ForMember(dest => dest.Id,
                     opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Key,
@@ -24,9 +24,9 @@ namespace Lottery.Mappers
 
             #endregion
 
-            #region FieldAddViewModel 轉換成 EventClaim
+            #region FieldAddViewModel 轉換成 Field
 
-            CreateMap<FieldAddViewModel, EventClaim>()
+            CreateMap<FieldAddViewModel, Field>()
                 .ForMember(dest => dest.Key,
                     opt => opt.MapFrom(src => src.Key))
                 .ForMember(dest => dest.Show,
@@ -38,9 +38,9 @@ namespace Lottery.Mappers
 
             #endregion
 
-            #region EventClaim 轉換成 FieldEditViewModel
+            #region Field 轉換成 FieldEditViewModel
 
-            CreateMap<EventClaim, FieldEditViewModel>()
+            CreateMap<Field, FieldEditViewModel>()
                 .ForMember(dest => dest.Key,
                     opt => opt.MapFrom(src => src.Key))
                 .ForMember(dest => dest.Show,
@@ -52,9 +52,9 @@ namespace Lottery.Mappers
 
             #endregion
 
-            #region FieldEditViewModel 轉換成 EventClaim
+            #region FieldEditViewModel 轉換成 Field
 
-            CreateMap<FieldEditViewModel, EventClaim>()
+            CreateMap<FieldEditViewModel, Field>()
                 .ForMember(dest => dest.Key,
                     opt => opt.MapFrom(src => src.Key))
                 .ForMember(dest => dest.Show,

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Lottery.Data;
+using Lottery.Enums;
 using Lottery.Models;
 using Lottery.Models.Event;
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +38,8 @@ namespace Lottery.Controllers
         [HttpGet("list")]
         public async Task<ActionResult<PaginatedList<EventViewModel>>> List([FromQuery] int? page, [FromQuery] string search)
         {
-            var query = _dbContext.Events.AsNoTracking();
+            var query = _dbContext.Events.AsNoTracking()
+                .Where(x => x.Status == EventStatus.OpenIng);
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(x => x.Title.Contains(search));

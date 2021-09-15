@@ -15,7 +15,9 @@ namespace Lottery.Mappers
                 .ForMember(dest => dest.Id,
                     opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name,
-                    opt => opt.MapFrom(src => src.Name));
+                    opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Duplicate,
+                    opt => opt.MapFrom(src => src.Duplicate));
 
             #endregion
 
@@ -23,7 +25,9 @@ namespace Lottery.Mappers
 
             CreateMap<PoolAddViewModel, Pool>()
                 .ForMember(dest => dest.Name,
-                    opt => opt.MapFrom(src => src.Name));
+                    opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Duplicate,
+                    opt => opt.MapFrom(src => src.Duplicate));
 
             #endregion
 
@@ -31,7 +35,9 @@ namespace Lottery.Mappers
 
             CreateMap<Pool, PoolEditViewModel>()
                 .ForMember(dest => dest.Name,
-                    opt => opt.MapFrom(src => src.Name));
+                    opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Duplicate,
+                    opt => opt.MapFrom(src => src.Duplicate));
 
             #endregion
 
@@ -39,7 +45,9 @@ namespace Lottery.Mappers
 
             CreateMap<PoolEditViewModel, Pool>()
                 .ForMember(dest => dest.Name,
-                    opt => opt.MapFrom(src => src.Name));
+                    opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Duplicate,
+                    opt => opt.MapFrom(src => src.Duplicate));
 
             #endregion
 

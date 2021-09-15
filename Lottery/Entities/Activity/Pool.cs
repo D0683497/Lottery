@@ -24,6 +24,12 @@ namespace Lottery.Entities.Activity
         public string Name { get; set; }
 
         /// <summary>
+        /// 重複中獎
+        /// </summary>
+        [Required]
+        public bool Duplicate { get; set; } = false;
+
+        /// <summary>
         /// 獎品
         /// </summary>
         public ICollection<Prize> Prizes { get; set; }

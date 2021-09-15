@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Lottery.Entities.Activity
@@ -23,10 +24,16 @@ namespace Lottery.Entities.Activity
         public string Name { get; set; }
 
         /// <summary>
+        /// 獎品剩餘數量
+        /// </summary>
+        [Required]
+        public int Last { get; set; } = 1;
+
+        /// <summary>
         /// 獎品數量
         /// </summary>
         [Required]
-        public int Quantity { get; set; } = 1;
+        public int Total { get; set; } = 1;
 
         /// <summary>
         /// 獎品圖片
@@ -34,15 +41,9 @@ namespace Lottery.Entities.Activity
         public PrizeImage Image { get; set; }
         
         /// <summary>
-        /// 得獎者識別碼
+        /// 獲得獎品
         /// </summary>
-        [MaxLength(36)]
-        public string ParticipantId { get; set; }
-        
-        /// <summary>
-        /// 得獎者
-        /// </summary>
-        public Participant Participant { get; set; }
+        public ICollection<ParticipantPrize> ParticipantPrizes { get; set; }
 
         /// <summary>
         /// 講池識別碼

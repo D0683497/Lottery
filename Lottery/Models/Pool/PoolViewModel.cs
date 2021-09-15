@@ -12,5 +12,9 @@ namespace Lottery.Models.Pool
         [JsonPropertyName("Name")]
         [Display(Name = "名稱")]
         public string Name { get; set; }
+        
+        [JsonPropertyName("Duplicate")]
+        [Display(Name = "重複中獎")]
+        public bool Duplicate { get; set; }
     }
 }

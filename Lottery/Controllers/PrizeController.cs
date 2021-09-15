@@ -146,6 +146,10 @@ namespace Lottery.Controllers
             {
                 return NotFound();
             }
+            if (entity.Total != entity.Last)
+            {
+                ModelState.AddModelError("", "尚未開始抽獎的獎品才能修改數量");
+            }
             if (ModelState.IsValid)
             {
                 var updateEntity = _mapper.Map(model, entity);

@@ -17,16 +17,13 @@
 <div class="box">
     <form asp-area="" asp-controller="Event" asp-action="Edit" asp-route-eventId="@eventId" method="post" role="form">
         <div class="field mb-5">
-            <label asp-for="End" class="label">狀態</label>
+            <label asp-for="Status" class="label">狀態</label>
             <div class="control">
                 <div class="select is-fullwidth">
-                    <select asp-for="End">
-                        <option value="false">進行中</option>
-                        <option value="true">已結束</option>
-                    </select>
+                    <select asp-for="Status" asp-items="Html.GetEnumSelectList<EventStatus>()"></select>
                 </div>
             </div>
-            <span asp-validation-for="End" class="help is-danger"></span>
+            <span asp-validation-for="Status" class="help is-danger"></span>
         </div>
         <div class="field mb-5">
             <label asp-for="Title" class="label">標題</label>

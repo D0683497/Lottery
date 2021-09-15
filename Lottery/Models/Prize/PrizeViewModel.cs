@@ -12,9 +12,13 @@ namespace Lottery.Models.Prize
         [JsonPropertyName("Name")]
         [Display(Name = "名稱")]
         public string Name { get; set; }
+      
+        [JsonPropertyName("Last")]
+        [Display(Name = "剩餘數量")]
+        public int Last { get; set; }
         
-        [JsonPropertyName("Quantity")]
+        [JsonPropertyName("Total")]
         [Display(Name = "數量")]
-        public int Quantity { get; set; }
+        public int Total { get; set; }
     }
 }

@@ -11,11 +11,11 @@ namespace Lottery.Models.Prize
         [JsonPropertyName("Name")]
         [Display(Name = "名稱")]
         public string Name { get; set; }
-        
+
         [Required(ErrorMessage = "{0}是必填的")]
         [DataType(DataType.Text)]
-        [JsonPropertyName("Quantity")]
+        [JsonPropertyName("Total")]
         [Display(Name = "數量")]
-        public int Quantity { get; set; }
+        public int Total { get; set; }
     }
 }

@@ -27,13 +27,13 @@ namespace Lottery.Mappers
                 .ForMember(dest => dest.Value,
                     opt => opt.MapFrom(src => src.Value))
                 .ForPath(dest => dest.Field,
-                    opt => opt.MapFrom(src => src.EventClaim));
+                    opt => opt.MapFrom(src => src.Field));
 
             #endregion
             
-            #region EventClaim 轉換成 ParticipantAddViewModel
+            #region Field 轉換成 ParticipantAddViewModel
 
-            CreateMap<EventClaim, ParticipantAddViewModel>()
+            CreateMap<Field, ParticipantAddViewModel>()
                 .ForPath(dest => dest.Field,
                     opt => opt.MapFrom(src => src))
                 .ForMember(dest => dest.Value,
@@ -65,7 +65,7 @@ namespace Lottery.Mappers
                 .ForMember(dest => dest.Value,
                     opt => opt.MapFrom(src => src.Value))
                 .ForMember(dest => dest.Field,
-                    opt => opt.MapFrom(src => src.EventClaim));
+                    opt => opt.MapFrom(src => src.Field));
 
             #endregion
 

@@ -41,7 +41,7 @@ namespace Lottery.Controllers
             var query = _dbContext.Participants
                 .AsNoTracking()
                 .Include(x => x.Claims)
-                .ThenInclude(x => x.EventClaim)
+                .ThenInclude(x => x.Field)
                 .Where(x => x.PoolId == poolId);
             var entities = await query
                 .Skip((page ?? 1 - 1) * 50)
@@ -66,7 +66,7 @@ namespace Lottery.Controllers
             var entity = await _dbContext.Participants
                 .AsNoTracking()
                 .Include(x => x.Claims)
-                .ThenInclude(x => x.EventClaim)
+                .ThenInclude(x => x.Field)
                 .Where(x => x.PoolId == poolId)
                 .SingleOrDefaultAsync(x => x.Id == participantId);
             if (entity == null)
@@ -87,7 +87,7 @@ namespace Lottery.Controllers
             {
                 return NotFound();
             }
-            var entities = await _dbContext.EventClaims
+            var entities = await _dbContext.Fields
                 .AsNoTracking()
                 .Where(x => x.EventId == eventId)
                 .ToListAsync();
@@ -114,7 +114,7 @@ namespace Lottery.Controllers
             {
                 for (int i = 0; i < models.Count; i++)
                 {
-                    var field = await _dbContext.EventClaims
+                    var field = await _dbContext.Fields
                         .AsNoTracking()
                         .SingleOrDefaultAsync(x => x.Id == models[i].Field.Id);
                     if (field == null)
@@ -151,7 +151,7 @@ namespace Lottery.Controllers
             var entity = await _dbContext.Participants
                 .AsNoTracking()
                 .Include(x => x.Claims)
-                .ThenInclude(x => x.EventClaim)
+                .ThenInclude(x => x.Field)
                 .Where(x => x.PoolId == poolId)
                 .SingleOrDefaultAsync(x => x.Id == participantId);
             if (entity == null)
@@ -175,7 +175,7 @@ namespace Lottery.Controllers
             }
             var entity = await _dbContext.Participants
                 .Include(x => x.Claims)
-                .ThenInclude(x => x.EventClaim)
+                .ThenInclude(x => x.Field)
                 .Where(x => x.PoolId == poolId)
                 .SingleOrDefaultAsync(x => x.Id == participantId);
             if (entity == null)
@@ -192,7 +192,7 @@ namespace Lottery.Controllers
                     {
                         return BadRequest();
                     }
-                    if (field.EventClaim.Key && string.IsNullOrEmpty(models[i].Value))
+                    if (field.Field.Key && string.IsNullOrEmpty(models[i].Value))
                     {
                         ModelState.AddModelError($"[{i}].Value", $"{models[i].Field.Value}是必填的");
                     }

@@ -49,6 +49,7 @@
             <tr>
                 <th>識別碼</th>
                 <th>名稱</th>
+                <th>重複中獎</th>
                 <th></th>
             </tr>
             </thead>
@@ -56,7 +57,7 @@
                 @if (!Model.Any())
                 {
                     <tr class="is-empty">
-                        <td colspan="3">
+                        <td colspan="4">
                             <section class="section">
                                 <div class="content has-text-grey has-text-centered">
                                     <figure class="image">
@@ -75,6 +76,16 @@
                         <tr>
                             <td data-label="識別碼">@item.Id</td>
                             <td data-label="名稱">@item.Name</td>
+                            <td data-label="重複中獎">
+                                @if (item.Duplicate)
+                                {
+                                    <span class="tag is-info">可以重複中獎</span>
+                                }
+                                else
+                                {
+                                    <span class="tag is-info is-light">不可重複中獎</span>
+                                }
+                            </td>
                             <td class="is-actions-cell">
                                 <div class="buttons">
                                     <a asp-area="" asp-controller="Pool" asp-action="Detail" asp-route-eventId="@eventId" asp-route-poolId="@item.Id" class="button is-link is-inverted is-underlined">

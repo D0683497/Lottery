@@ -31,8 +31,8 @@ namespace Lottery.Entities.Activity
         /// <summary>
         /// 獲得獎品
         /// </summary>
-        public ICollection<Prize> Prizes { get; set; }
-        
+        public ICollection<ParticipantPrize> ParticipantPrizes { get; set; }
+
         /// <summary>
         /// 參與者聲明
         /// </summary>

@@ -1,14 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Lottery.Enums;
 
 namespace Lottery.Models.Event
 {
     public class EventEditViewModel
     {
         [Required(ErrorMessage = "{0}是必填的")]
-        [JsonPropertyName("End")]
+        [JsonPropertyName("Status")]
         [Display(Name = "活動狀態")]
-        public bool End { get; set; }
+        public EventStatus Status { get; set; }
 
         [Required(ErrorMessage = "{0}是必填的")]
         [MaxLength(50, ErrorMessage = "{0}最多{1}位")]

@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore;
 namespace Lottery.Entities.Activity
 {
     /// <summary>
-    /// 活動聲明
+    /// 活動欄位
     /// </summary>
-    [Index(nameof(Value), Name = "EventClaimValueIndex", IsUnique = true)]
-    public class EventClaim
+    [Index(nameof(Value), Name = "FieldValueIndex", IsUnique = true)]
+    public class Field
     {
         /// <summary>
-        /// 活動聲明識別碼
+        /// 活動欄位識別碼
         /// </summary>
         [Key]
         [MaxLength(36)]

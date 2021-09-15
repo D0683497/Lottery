@@ -13,7 +13,7 @@ namespace Lottery.Data.EntityConfigurations
                 b.HasMany(e => e.Pools)
                     .WithOne(p => p.Event)
                     .HasForeignKey(p => p.EventId);
-                b.HasMany(e => e.Claims)
+                b.HasMany(e => e.Fields)
                     .WithOne(c => c.Event)
                     .HasForeignKey(c => c.EventId);
                 b.HasOne(e => e.ApplyForm)
@@ -27,10 +27,10 @@ namespace Lottery.Data.EntityConfigurations
                     .HasForeignKey(eu => eu.EventId);
             });
 
-            builder.Entity<EventClaim>(b =>
+            builder.Entity<Field>(b =>
             {
                 b.HasMany(e => e.ParticipantClaims)
-                    .WithOne(pc => pc.EventClaim)
+                    .WithOne(pc => pc.Field)
                     .HasForeignKey(pc => pc.EventClaimId);
             });
 
@@ -49,19 +49,24 @@ namespace Lottery.Data.EntityConfigurations
                 b.HasOne(e => e.Image)
                     .WithOne(i => i.Prize)
                     .HasForeignKey<PrizeImage>(i => i.PrizeId);
+                b.HasMany(e => e.ParticipantPrizes)
+                    .WithOne(pp => pp.Prize)
+                    .HasForeignKey(pp => pp.PrizeId);
             });
 
             builder.Entity<Participant>(b =>
             {
-                b.HasMany(e => e.Prizes)
-                    .WithOne(prize => prize.Participant)
-                    .HasForeignKey(prize => prize.ParticipantId);
                 b.HasMany(e => e.Claims)
                     .WithOne(c => c.Participant)
                     .HasForeignKey(c => c.ParticipantId);
+                b.HasMany(e => e.ParticipantPrizes)
+                    .WithOne(pp => pp.Participant)
+                    .HasForeignKey(pp => pp.ParticipantId);
             });
 
             builder.Entity<ParticipantClaim>();
+
+            builder.Entity<ParticipantPrize>();
 
             builder.Entity<EventImage>();
 

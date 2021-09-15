@@ -38,7 +38,7 @@ namespace Lottery.Controllers
             {
                 return NotFound();
             }
-            var entities = await _dbContext.EventClaims
+            var entities = await _dbContext.Fields
                 .AsNoTracking()
                 .Where(x => x.EventId == eventId)
                 .ToListAsync();
@@ -52,7 +52,7 @@ namespace Lottery.Controllers
         [HttpGet("{fieldId}")]
         public async Task<ActionResult<FieldViewModel>> Detail([FromRoute] string eventId, [FromRoute] string fieldId)
         {
-            var entity = await _dbContext.EventClaims
+            var entity = await _dbContext.Fields
                 .AsNoTracking()
                 .Where(x => x.EventId == eventId)
                 .SingleOrDefaultAsync(x => x.Id == fieldId);
@@ -85,7 +85,7 @@ namespace Lottery.Controllers
         public async Task<ActionResult<PoolAddViewModel>> Add([FromRoute] string eventId, [FromForm] FieldAddViewModel model)
         {
             var act = await _dbContext.Events
-                .Include(x => x.Claims)
+                .Include(x => x.Fields)
                 .SingleOrDefaultAsync(x => x.Id == eventId);
             if (act == null)
             {
@@ -93,8 +93,8 @@ namespace Lottery.Controllers
             }
             if (ModelState.IsValid)
             {
-                var entity = _mapper.Map<EventClaim>(model);
-                act.Claims.Add(entity);
+                var entity = _mapper.Map<Field>(model);
+                act.Fields.Add(entity);
                 _dbContext.Events.Update(act);
                 await _dbContext.SaveChangesAsync();
                 return RedirectToAction("Detail", "Field", new{ eventId, fieldId = entity.Id });
@@ -108,7 +108,7 @@ namespace Lottery.Controllers
         [HttpGet("{fieldId}/edit")]
         public async Task<ActionResult<FieldEditViewModel>> Edit([FromRoute] string eventId, [FromRoute] string fieldId)
         {
-            var entity = await _dbContext.EventClaims
+            var entity = await _dbContext.Fields
                 .AsNoTracking()
                 .Where(x => x.EventId == eventId)
                 .SingleOrDefaultAsync(x => x.Id == fieldId);
@@ -127,7 +127,7 @@ namespace Lottery.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult<PoolEditViewModel>> Edit([FromRoute] string eventId, [FromRoute] string fieldId, [FromForm] FieldEditViewModel model)
         {
-            var entity = await _dbContext.EventClaims
+            var entity = await _dbContext.Fields
                 .Where(x => x.EventId == eventId)
                 .SingleOrDefaultAsync(x => x.Id == fieldId);
             if (entity == null)
@@ -137,7 +137,7 @@ namespace Lottery.Controllers
             if (ModelState.IsValid)
             {
                 var updateEntity = _mapper.Map(model, entity);
-                _dbContext.EventClaims.Update(updateEntity);
+                _dbContext.Fields.Update(updateEntity);
                 await _dbContext.SaveChangesAsync();
                 return RedirectToAction("Detail", "Field", new{ eventId, fieldId });
             }
@@ -151,7 +151,7 @@ namespace Lottery.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete([FromRoute] string eventId, [FromRoute] string fieldId)
         {
-            var entity = await _dbContext.EventClaims
+            var entity = await _dbContext.Fields
                 .Include(x => x.ParticipantClaims)
                 .Where(x => x.EventId == eventId)
                 .SingleOrDefaultAsync(x => x.Id == fieldId);
@@ -159,7 +159,7 @@ namespace Lottery.Controllers
             {
                 return NotFound();
             }
-            _dbContext.EventClaims.Remove(entity);
+            _dbContext.Fields.Remove(entity);
             await _dbContext.SaveChangesAsync();
             return RedirectToAction("Index", "Pool", new{ eventId });
         }
