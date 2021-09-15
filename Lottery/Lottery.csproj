@@ -16,6 +16,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.10" />
+    <PackageReference Include="ClosedXML" Version="0.95.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="ClosedXML" />
+  </ItemGroup>
 </Project>

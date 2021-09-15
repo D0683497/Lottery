@@ -40,6 +40,7 @@ namespace Lottery.Controllers
             }
             var entities = await _dbContext.Fields
                 .AsNoTracking()
+                .OrderByDescending(x => x.Id)
                 .Where(x => x.EventId == eventId)
                 .ToListAsync();
             var models = _mapper.Map<IEnumerable<FieldViewModel>>(entities);
@@ -161,7 +162,7 @@ namespace Lottery.Controllers
             }
             _dbContext.Fields.Remove(entity);
             await _dbContext.SaveChangesAsync();
-            return RedirectToAction("Index", "Pool", new{ eventId });
+            return RedirectToAction("Index", "Field", new{ eventId });
         }
     }
 }

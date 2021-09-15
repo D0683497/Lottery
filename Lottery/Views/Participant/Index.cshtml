@@ -37,7 +37,7 @@
             <div class="dropdown-content">
                 <a asp-area="" asp-controller="Field" asp-action="Index" asp-route-eventId="@eventId" class="dropdown-item">管理欄位</a>
                 <a asp-area="" asp-controller="Participant" asp-action="Add" asp-route-eventId="@eventId" asp-route-poolId="@poolId" class="dropdown-item">新增參與者</a>
-                <a class="dropdown-item">匯入參與者</a>
+                <a asp-area="" asp-controller="Participant" asp-action="Import" asp-route-eventId="@eventId" asp-route-poolId="@poolId" class="dropdown-item">匯入參與者</a>
                 <hr class="dropdown-divider" />
                 <a asp-area="" asp-controller="Activity" asp-action="Index" class="dropdown-item">查看活動頁面</a>
             </div>

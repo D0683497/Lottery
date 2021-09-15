@@ -1,0 +1,68 @@
+﻿@model List<FieldViewModel>
+@{
+    ViewData["Title"] = "匯入參與者";
+    var eventId = Context.Request.RouteValues["eventId"];
+    var poolId = Context.Request.RouteValues["poolId"];
+}
+
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
+        <li><a asp-area="" asp-controller="Event" asp-action="Index">管理活動</a></li>
+        <li><a asp-area="" asp-controller="Event" asp-action="Detail" asp-route-eventId="@eventId">活動詳情</a></li>
+        <li><a asp-area="" asp-controller="Pool" asp-action="Index" asp-route-eventId="@eventId">管理獎池</a></li>
+        <li><a asp-area="" asp-controller="Pool" asp-action="Detail" asp-route-eventId="@eventId" asp-route-poolId="@poolId">獎池詳情</a></li>
+        <li><a asp-area="" asp-controller="Participant" asp-action="Index" asp-route-eventId="@eventId" asp-route-poolId="@poolId">管理參與者</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Participant" asp-action="Import" asp-route-eventId="@eventId" asp-route-poolId="@poolId" aria-current="page">@ViewData["Title"]</a></li>
+    </ul>
+</nav>
+<h1 class="title is-3">@ViewData["Title"]</h1>
+<hr />
+<div class="box">
+    @if (Model.Count == 0)
+    {
+        <article class="message is-warning">
+            <div class="message-body">
+                您尚未新增欄位，無法匯入參與者，請先前往<a asp-area="" asp-controller="Field" asp-action="Add" asp-route-eventId="@eventId">新增欄位</a>
+            </div>
+        </article>
+    }
+    else
+    {
+        <article class="message is-primary">
+            <div class="message-body">
+                <span>欄位請依照 </span>
+                @foreach (var item in Model)
+                {
+                    <span>@item.Value</span>
+                    if (item.Id != Model.Last().Id)
+                    {
+                        <span>、</span>
+                    }
+                }
+                <span> 擺放，且不能有標題</span>
+            </div>
+        </article>
+        <form asp-area="" asp-controller="Participant" asp-action="Import" asp-route-eventId="@eventId" asp-route-poolId="@poolId" method="post" role="form" enctype="multipart/form-data">
+            <div class="field mb-5">
+                <div class="file is-fullwidth has-name">
+                    <label class="file-label">
+                        <input class="file-input" type="file" name="file" />
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label">點此選取檔案</span>
+                        </span>
+                        <span class="file-name">只限上傳 <code>.xlsx</code> 檔案</span>
+                    </label>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <button class="button is-info" type="submit">匯入</button>
+                </div>
+            </div>
+        </form>
+    }
+</div>

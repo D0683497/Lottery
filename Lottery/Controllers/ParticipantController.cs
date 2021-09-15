@@ -2,11 +2,14 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using ClosedXML.Excel;
 using Lottery.Data;
 using Lottery.Entities.Activity;
 using Lottery.Helpers;
 using Lottery.Models;
+using Lottery.Models.Field;
 using Lottery.Models.Participant;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -89,6 +92,7 @@ namespace Lottery.Controllers
             }
             var entities = await _dbContext.Fields
                 .AsNoTracking()
+                .OrderBy(x => x.Id)
                 .Where(x => x.EventId == eventId)
                 .ToListAsync();
             var models = _mapper.Map<List<ParticipantAddViewModel>>(entities);
@@ -137,7 +141,68 @@ namespace Lottery.Controllers
             }
             return View(models);
         }
-        
+
+        /// <summary>
+        /// 匯入參與者頁面
+        /// </summary>
+        [HttpGet("import")]
+        public async Task<IActionResult> Import([FromRoute] string eventId, [FromRoute] string poolId)
+        {
+            if (!await _dbContext.Pools.AnyAsync(x => x.EventId == eventId && x.Id == poolId))
+            {
+                return NotFound();
+            }
+            var entities = await _dbContext.Fields
+                .AsNoTracking()
+                .OrderByDescending(x => x.Id)
+                .Where(x => x.EventId == eventId)
+                .ToListAsync();
+            var models = _mapper.Map<List<FieldViewModel>>(entities);
+            return View(models);
+        }
+
+        /// <summary>
+        /// 匯入參與者
+        /// </summary>
+        [HttpPost("import")]
+        public async Task<IActionResult> Import([FromRoute] string eventId, [FromRoute] string poolId, [FromForm] IFormFile file)
+        {
+            if (!await _dbContext.Pools.AnyAsync(x => x.EventId == eventId && x.Id == poolId))
+            {
+                return NotFound();
+            }
+            var fields = await _dbContext.Fields
+                .AsNoTracking()
+                .Include(x => x.ParticipantClaims)
+                .OrderByDescending(x => x.Id)
+                .Where(x => x.EventId == eventId)
+                .ToListAsync();
+            using (var wbook = new XLWorkbook(file.OpenReadStream()))
+            {
+                var worksheet = wbook.Worksheet(1);
+                foreach (IXLRow row in worksheet.Rows())
+                {
+                    var entity = new Participant { PoolId = poolId, Claims = new List<ParticipantClaim>() };
+                    for (int i = 1; i <= fields.Count; i++)
+                    {
+                        var value = row.Cell(i).Value.ToString();
+                        if (fields[i].Key && string.IsNullOrEmpty(value))
+                        {
+                            return BadRequest();
+                        }
+                        entity.Claims.Add(new ParticipantClaim
+                        {
+                            Value = row.Cell(i).Value.ToString(),
+                            EventClaimId = fields[i-1].Id
+                        });
+                    }
+                    _dbContext.Participants.Add(entity);
+                }
+                await _dbContext.SaveChangesAsync();
+            }
+            return RedirectToAction("Index", "Participant", new { eventId, poolId });
+        }
+
         /// <summary>
         /// 編輯參與者頁面
         /// </summary>
