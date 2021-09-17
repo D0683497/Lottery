@@ -40,7 +40,7 @@ namespace Lottery.Controllers
             }
             var entities = await _dbContext.Fields
                 .AsNoTracking()
-                .OrderByDescending(x => x.Id)
+                .OrderBy(x => x.Id)
                 .Where(x => x.EventId == eventId)
                 .ToListAsync();
             var models = _mapper.Map<IEnumerable<FieldViewModel>>(entities);

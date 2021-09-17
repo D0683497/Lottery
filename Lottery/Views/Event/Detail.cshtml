@@ -25,6 +25,7 @@
         <div class="dropdown-menu" id="dropdown-menu" role="menu">
             <div class="dropdown-content">
                 <a asp-area="" asp-controller="Pool" asp-action="Index" asp-route-eventId="@eventId" class="dropdown-item">管理獎池</a>
+                <a asp-area="" asp-controller="Field" asp-action="Index" asp-route-eventId="@eventId" class="dropdown-item">管理欄位</a>
                 <hr class="dropdown-divider" />
                 <a asp-area="" asp-controller="Activity" asp-action="Display" asp-route-eventId="@eventId" asp class="dropdown-item">查看活動頁面</a>
             </div>

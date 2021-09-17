@@ -45,7 +45,7 @@ namespace Lottery.Controllers
             {
                 var query = _dbContext.Participants
                     .AsNoTracking()
-                    .Include(x => x.Claims)
+                    .Include(x => x.Claims.OrderBy(y => y.EventClaimId))
                     .ThenInclude(x => x.Field)
                     .Where(x => x.PoolId == poolId);
                 var entities = await query
@@ -63,11 +63,12 @@ namespace Lottery.Controllers
                     .AsNoTracking()
                     .Where(x => x.Value.Contains(search))
                     .Include(x => x.Participant)
+                    .OrderBy(x => x.EventClaimId)
                     .Select(x => x.Participant.Id)
                     .ToListAsync();
                 var entities = await _dbContext.Participants
                     .AsNoTracking()
-                    .Include(x => x.Claims)
+                    .Include(x => x.Claims.OrderBy(x => x.EventClaimId))
                     .ThenInclude(x => x.Field)
                     .Where(x => ids.Contains(x.Id))
                     .ToListAsync();
@@ -89,7 +90,7 @@ namespace Lottery.Controllers
             }
             var entity = await _dbContext.Participants
                 .AsNoTracking()
-                .Include(x => x.Claims)
+                .Include(x => x.Claims.OrderBy(y => y.EventClaimId))
                 .ThenInclude(x => x.Field)
                 .Where(x => x.PoolId == poolId)
                 .SingleOrDefaultAsync(x => x.Id == participantId);
@@ -239,7 +240,7 @@ namespace Lottery.Controllers
             }
             var entity = await _dbContext.Participants
                 .AsNoTracking()
-                .Include(x => x.Claims)
+                .Include(x => x.Claims.OrderBy(y => y.EventClaimId))
                 .ThenInclude(x => x.Field)
                 .Where(x => x.PoolId == poolId)
                 .SingleOrDefaultAsync(x => x.Id == participantId);
@@ -263,7 +264,7 @@ namespace Lottery.Controllers
                 return NotFound();
             }
             var entity = await _dbContext.Participants
-                .Include(x => x.Claims)
+                .Include(x => x.Claims.OrderBy(y => y.EventClaimId))
                 .ThenInclude(x => x.Field)
                 .Where(x => x.PoolId == poolId)
                 .SingleOrDefaultAsync(x => x.Id == participantId);

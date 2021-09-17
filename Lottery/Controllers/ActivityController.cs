@@ -58,7 +58,7 @@ namespace Lottery.Controllers
             var entity = await _dbContext.Events
                 .AsNoTracking()
                 .Include(x => x.Pools)
-                .Include(x => x.Fields)
+                .Include(x => x.Fields.OrderBy(y => y.Id))
                 .SingleOrDefaultAsync(x => x.Id == eventId);
             if (entity == null)
             {
@@ -118,7 +118,7 @@ namespace Lottery.Controllers
             {
                 participant = _dbContext.Participants
                     .AsNoTracking()
-                    .Include(x => x.Claims)
+                    .Include(x => x.Claims.OrderBy(y => y.EventClaimId))
                     .ThenInclude(x => x.Field)
                     .Where(x => x.PoolId == poolId)
                     .AsEnumerable()
@@ -131,7 +131,7 @@ namespace Lottery.Controllers
                 {
                     participant = _dbContext.Participants
                         .AsNoTracking()
-                        .Include(x => x.Claims)
+                        .Include(x => x.Claims.OrderBy(y => y.EventClaimId))
                         .ThenInclude(x => x.Field)
                         .Where(x => x.PoolId == poolId)
                         .AsEnumerable()
@@ -161,7 +161,7 @@ namespace Lottery.Controllers
         {
             var act = await _dbContext.Events
                 .AsNoTracking()
-                .Include(x => x.Fields)
+                .Include(x => x.Fields.OrderBy(y => y.Id))
                 .Include(x => x.Pools)
                 .ThenInclude(x => x.Prizes)
                 .SingleOrDefaultAsync(x => x.Id == eventId);
