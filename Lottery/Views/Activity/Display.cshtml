@@ -2,12 +2,48 @@
 @{
     ViewData["Title"] = "活動";
     var eventId = Context.Request.RouteValues["eventId"];
+    string text = "";
+    foreach(var field in Model.Fields)
+    {
+        if (field.Key)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                text += $"{field.Value}";
+            }
+            else
+            {
+                text += $"或{field.Value}";
+            }
+        }
+    }
 }
 
 <h1 class="title mb-6 has-text-centered">@Model.Title</h1>
 @if (!string.IsNullOrEmpty(Model.SubTitle))
 {
     <h2 class="subtitle my-6 has-text-centered">@Model.SubTitle</h2>
+}
+@if (!string.IsNullOrEmpty(text))
+{
+    <form asp-area="" asp-controller="Activity" asp-action="Participant" asp-route-eventId="@eventId" method="get" class="my-6">
+        <div class="field has-addons">
+            <div class="control has-icons-left is-expanded">
+                <input class="input" type="text" name="search" placeholder="請輸入 @text">
+                <span class="icon is-left">
+                    <i class="fas fa-user"></i>
+                </span>
+            </div>
+            <div class="control">
+                <button class="button is-primary">
+                    <span class="icon">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    <span>查詢</span>
+                </button>
+            </div>
+        </div>
+    </form>
 }
 <nav class="buttons is-centered my-6">
     @foreach (var item in Model.Pools)

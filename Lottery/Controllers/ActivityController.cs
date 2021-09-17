@@ -6,6 +6,7 @@ using Lottery.Data;
 using Lottery.Enums;
 using Lottery.Models;
 using Lottery.Models.Event;
+using Lottery.Models.Participant;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -60,6 +61,7 @@ namespace Lottery.Controllers
             var entity = await _dbContext.Events
                 .AsNoTracking()
                 .Include(x => x.Pools)
+                .Include(x => x.Fields)
                 .SingleOrDefaultAsync(x => x.Id == eventId);
             if (entity == null)
             {
@@ -103,10 +105,52 @@ namespace Lottery.Controllers
             return Ok();
         }
 
-        [HttpGet("participant")]
-        public IActionResult Participant()
+        /// <summary>
+        /// 參與者頁面
+        /// </summary>
+        [HttpGet("{eventId}/participant")]
+        public async Task<ActionResult<SearchViewModel>> Participant([FromRoute] string eventId, [FromQuery] string search)
         {
-            return View();
+            var act = await _dbContext.Events
+                .AsNoTracking()
+                .Include(x => x.Fields)
+                .Include(x => x.Pools)
+                .ThenInclude(x => x.Prizes)
+                .SingleOrDefaultAsync(x => x.Id == eventId);
+            if (act == null)
+            {
+                return NotFound();
+            }
+            var model = _mapper.Map<SearchViewModel>(act);
+            foreach(var field in act.Fields)
+            {
+                if (field.Key)
+                {
+                    var claims = await _dbContext.ParticipantClaims
+                        .AsNoTracking()
+                        .Where(x => x.EventClaimId == field.Id)
+                        .Where(x => x.Value == search)
+                        .ToListAsync();
+                    if (claims == null)
+                    {
+                        return NotFound();
+                    }
+                    foreach (var claim in claims)
+                    {
+                        var participant = await _dbContext.Participants
+                            .AsNoTracking()
+                            .Include(x => x.ParticipantPrizes)
+                            .SingleOrDefaultAsync(x => x.Id == claim.ParticipantId);
+                        var pool = model.Pools
+                            .SingleOrDefault(x => x.Id == participant.PoolId);
+                        if (pool.Participant == null)
+                        {
+                            pool.Participant = _mapper.Map<ParticipantSearchViewModel>(participant);
+                        }
+                    }
+                }
+            }
+            return View(model);
         }
         
         [HttpGet("background")]

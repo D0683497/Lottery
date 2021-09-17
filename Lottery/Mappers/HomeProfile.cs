@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Lottery.Entities.Activity;
 using Lottery.Entities.Identity;
 using Lottery.Models;
 
@@ -17,6 +18,14 @@ namespace Lottery.Mappers
                     opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.Purpose,
                     opt => opt.Ignore());
+
+            #endregion
+
+            #region Event 轉換成 SearchViewModel
+
+            CreateMap<Event, SearchViewModel>()
+                .ForMember(dest => dest.Pools,
+                    opt => opt.MapFrom(src => src.Pools));
 
             #endregion
         }

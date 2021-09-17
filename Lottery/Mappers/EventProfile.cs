@@ -79,7 +79,9 @@ namespace Lottery.Mappers
                 .ForMember(dest => dest.Url,
                     opt => opt.MapFrom(src => src.Url))
                 .ForMember(dest => dest.Pools,
-                    opt => opt.MapFrom(src => src.Pools));
+                    opt => opt.MapFrom(src => src.Pools))
+                .ForPath(dest => dest.Fields,
+                    opt => opt.MapFrom(src => src.Fields));
 
             #endregion
         }

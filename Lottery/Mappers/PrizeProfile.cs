@@ -55,6 +55,18 @@ namespace Lottery.Mappers
                     opt => opt.MapFrom(src => src.Total));
 
             #endregion
+
+            #region ParticipantPrize 轉換成 PrizeSearchViewModel
+
+            CreateMap<ParticipantPrize, PrizeSearchViewModel>()
+                .ForMember(dest => dest.Id,
+                    opt => opt.MapFrom(src => src.ParticipantPrizeId))
+                .ForMember(dest => dest.PrizeId,
+                    opt => opt.MapFrom(src => src.PrizeId))
+                .ForMember(dest => dest.ParticipantId,
+                    opt => opt.MapFrom(src => src.ParticipantId));
+
+            #endregion
         }
     }
 }

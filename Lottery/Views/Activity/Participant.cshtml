@@ -1,9 +1,75 @@
+@model SearchViewModel
 @{
     ViewData["Title"] = "參與者";
+    var eventId = Context.Request.RouteValues["eventId"];
+    var search = Context.Request.Query["search"];
 }
 
 @section Styles {
+    <link rel="stylesheet" href="https://unpkg.com/bulma-pricingtable@0.2.0/dist/css/bulma-pricingtable.min.css" />
 }
 
-@section Scripts {
+<div class="is-flex is-justify-content-space-between">
+    <h1 class="title is-3">@ViewData["Title"]</h1>
+    <a asp-area="" asp-controller="Activity" asp-action="Display" asp-route-eventId="@eventId" class="button is-info is-outlined">返回活動</a>
+</div>
+<hr />
+@foreach (var pool in Model.Pools)
+{
+    <div class="pricing-table is-comparative">
+        <div class="pricing-plan is-features">
+            <div class="plan-header">講池</div>
+            <div class="plan-price"><span class="plan-price-amount">&nbsp;</span></div>
+            <div class="plan-items">
+                @foreach (var prize in pool.Prizes)
+                {
+                    <div class="plan-item">@prize.Name</div>
+                }
+            </div>
+        </div>
+        @if (pool.Participant != null)
+        {
+            <div class="pricing-plan is-success">
+                <div class="plan-header">@pool.Name</div>
+                <div class="plan-price">
+                    <span class="plan-price-amount">符合資格</span>
+                </div>
+                <div class="plan-items">
+                    @foreach (var prize in pool.Prizes)
+                    {
+                        @if (prize.Total == prize.Last)
+                        {
+                            <div class="plan-item" data-feature="@prize.Name">未抽獎</div>
+                        }
+                        else
+                        {
+                            @if (pool.Participant.Prizes.Find(x => x.PrizeId == prize.Id) == null)
+                            {
+                                <div class="plan-item" data-feature="@prize.Name">沒中獎</div>
+                            }
+                            else
+                            {
+                                <div class="plan-item" data-feature="@prize.Name">中獎</div>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="pricing-plan">
+                <div class="plan-header">@pool.Name</div>
+                <div class="plan-price">
+                    <span class="plan-price-amount">不符合資格</span>
+                </div>
+                <div class="plan-items">
+                    @foreach (var prize in pool.Prizes)
+                    {
+                        <div class="plan-item" data-feature="@prize.Name">-</div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
 }

@@ -3,6 +3,7 @@
     ViewData["Title"] = "管理參與者";
     var eventId = Context.Request.RouteValues["eventId"];
     var poolId = Context.Request.RouteValues["poolId"];
+    var search = Context.Request.Query["search"];
 }
 
 @section Styles {
@@ -44,6 +45,17 @@
         </div>
     </div>
 </div>
+<form asp-area="" asp-controller="Participant" asp-action="Index" class="field has-addons" method="get">
+    <div class="control has-icons-left is-expanded">
+        <input class="input" type="text" name="search" placeholder="搜尋" value="@search" />
+        <span class="icon is-left">
+            <i class="fas fa-search" aria-hidden="true"></i>
+        </span>
+    </div>
+    <div class="control">
+        <button type="submit" class="button is-primary">搜尋</button>
+    </div>
+</form>
 <hr />
 <div class="b-table">
     <div class="table-wrapper has-mobile-cards">

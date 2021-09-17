@@ -28,7 +28,7 @@ namespace Lottery.Entities.Activity
         public Prize Prize { get; set; }
 
         /// <summary>
-        /// 參加與者識別碼
+        /// 參與者識別碼
         /// </summary>
         [Required]
         [MaxLength(36)]

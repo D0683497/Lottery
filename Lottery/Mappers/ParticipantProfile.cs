@@ -41,21 +41,15 @@ namespace Lottery.Mappers
 
             #endregion
 
-            #region List<ParticipantAddViewModel> 轉換成 Participant
-
-            CreateMap<List<ParticipantAddViewModel>, Participant>()
-                .ForPath(dest => dest.Claims,
-                    opt => opt.MapFrom(src => src));
-
-            #endregion
-
             #region ParticipantAddViewModel 轉換成 ParticipantClaim
 
             CreateMap<ParticipantAddViewModel, ParticipantClaim>()
                 .ForMember(dest => dest.Value,
                     opt => opt.MapFrom(src => src.Value))
                 .ForMember(dest => dest.EventClaimId,
-                    opt => opt.MapFrom(src => src.Field.Id));
+                    opt => opt.MapFrom(src => src.Field.Id))
+                .ForMember(dest => dest.Field,
+                    opt => opt.Ignore());
 
             #endregion
 
@@ -85,6 +79,16 @@ namespace Lottery.Mappers
                     opt => opt.MapFrom(src => src.Value))
                 .ForMember(dest => dest.EventClaimId,
                     opt => opt.MapFrom(src => src.Field.Id));
+
+            #endregion
+
+            #region
+
+            CreateMap<Participant, ParticipantSearchViewModel>()
+                .ForMember(dest => dest.Id,
+                    opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Prizes,
+                    opt => opt.MapFrom(src => src.ParticipantPrizes));
 
             #endregion
         }

@@ -62,6 +62,20 @@ namespace Lottery.Mappers
                     opt => opt.MapFrom(src => src.Prizes));
 
             #endregion
+
+            #region Pool 轉換成 PoolSearchViewModel
+
+            CreateMap<Pool, PoolSearchViewModel>()
+                .ForMember(dest => dest.Id,
+                    opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Name,
+                    opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Duplicate,
+                    opt => opt.MapFrom(src => src.Duplicate))
+                .ForMember(dest => dest.Prizes,
+                    opt => opt.MapFrom(src => src.Prizes));
+
+            #endregion
         }
     }
 }

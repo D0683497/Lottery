@@ -35,25 +35,46 @@ namespace Lottery.Controllers
         /// 管理參與者頁面
         /// </summary>
         [HttpGet("")]
-        public async Task<ActionResult<PaginatedList<ParticipantViewModel>>> Index([FromRoute] string eventId, [FromRoute] string poolId, [FromQuery] int? page)
+        public async Task<ActionResult<PaginatedList<ParticipantViewModel>>> Index([FromRoute] string eventId, [FromRoute] string poolId, [FromQuery] int? page, [FromQuery] string search)
         {
             if (!await _dbContext.Pools.AnyAsync(x => x.EventId == eventId && x.Id == poolId))
             {
                 return NotFound();
             }
-            var query = _dbContext.Participants
-                .AsNoTracking()
-                .Include(x => x.Claims)
-                .ThenInclude(x => x.Field)
-                .Where(x => x.PoolId == poolId);
-            var entities = await query
-                .Skip((page ?? 1 - 1) * 50)
-                .Take(50)
-                .ToListAsync();
-            var count = await query.CountAsync();
-            var models = _mapper.Map<List<ParticipantViewModel>>(entities);
-            var paginatedModels = new PaginatedList<ParticipantViewModel>(models, count, page ?? 1, 50);
-            return View(paginatedModels);
+            if (string.IsNullOrEmpty(search))
+            {
+                var query = _dbContext.Participants
+                    .AsNoTracking()
+                    .Include(x => x.Claims)
+                    .ThenInclude(x => x.Field)
+                    .Where(x => x.PoolId == poolId);
+                var entities = await query
+                    .Skip((page ?? 1 - 1) * 50)
+                    .Take(50)
+                    .ToListAsync();
+                var count = await query.CountAsync();
+                var models = _mapper.Map<List<ParticipantViewModel>>(entities);
+                var paginatedModels = new PaginatedList<ParticipantViewModel>(models, count, page ?? 1, 50);
+                return View(paginatedModels);
+            }
+            else
+            {
+                var ids = await _dbContext.ParticipantClaims
+                    .AsNoTracking()
+                    .Where(x => x.Value.Contains(search))
+                    .Include(x => x.Participant)
+                    .Select(x => x.Participant.Id)
+                    .ToListAsync();
+                var entities = await _dbContext.Participants
+                    .AsNoTracking()
+                    .Include(x => x.Claims)
+                    .ThenInclude(x => x.Field)
+                    .Where(x => ids.Contains(x.Id))
+                    .ToListAsync();
+                var models = _mapper.Map<List<ParticipantViewModel>>(entities);
+                var paginatedModels = new PaginatedList<ParticipantViewModel>(models, models.Count, 1, models.Count);
+                return View(paginatedModels);
+            }
         }
         
         /// <summary>
@@ -132,7 +153,10 @@ namespace Lottery.Controllers
                 }
                 if (ModelState.IsValid)
                 {
-                    var entity = _mapper.Map<Participant>(models);
+                    var entity = new Participant
+                    {
+                        Claims = _mapper.Map<List<ParticipantClaim>>(models)
+                    };
                     pool.Participants.Add(entity);
                     _dbContext.Pools.Update(pool);
                     await _dbContext.SaveChangesAsync();
