@@ -1,9 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Lottery.Data;
+using Lottery.Entities.Activity;
 using Lottery.Enums;
+using Lottery.Helpers;
 using Lottery.Models;
 using Lottery.Models.Event;
 using Lottery.Models.Participant;
@@ -25,12 +28,6 @@ namespace Lottery.Controllers
             _logger = logger;
             _dbContext = dbContext;
             _mapper = mapper;
-        }
-        
-        [HttpGet("")]
-        public IActionResult Index()
-        {
-            return View();
         }
         
         /// <summary>
@@ -71,38 +68,89 @@ namespace Lottery.Controllers
             return View(model);
         }
 
+        [AuthAuthorize]
         [HttpGet("{eventId}/start/{poolId}")]
         public async Task<IActionResult> Start([FromRoute] string eventId, [FromRoute] string poolId)
         {
-            if (!await _dbContext.Pools.AnyAsync(x => x.EventId == eventId && x.Id == poolId))
-            {
-                return NotFound();
-            }
             var entity = await _dbContext.Pools
                 .AsNoTracking()
                 .Include(x => x.Event)
                 .Include(x => x.Prizes)
                 .Where(x => x.EventId == eventId)
                 .SingleOrDefaultAsync(x => x.Id == poolId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
             var model = _mapper.Map<EventStartViewModel>(entity);
             return View(model);
         }
-        
+
+        /// <summary>
+        /// 抽獎
+        /// </summary>
+        [AuthAuthorize]
         [HttpGet("{eventId}/start/{poolId}/prize/{prizeId}")]
         public async Task<IActionResult> Lottery([FromRoute] string eventId, [FromRoute] string poolId, [FromRoute] string prizeId)
         {
-            if (!await _dbContext.Pools.AnyAsync(x => x.EventId == eventId && x.Id == poolId))
+            var pool = await _dbContext.Pools
+                .AsNoTracking()
+                .Where(x => x.EventId == eventId)
+                .SingleOrDefaultAsync(x => x.Id == poolId);
+            if (pool == null)
             {
                 return NotFound();
             }
-            var entity = await _dbContext.Pools
-                .AsNoTracking()
-                .Include(x => x.Event)
-                .Include(x => x.Prizes)
-                .Where(x => x.EventId == eventId)
-                .SingleOrDefaultAsync(x => x.Id == poolId);
-            var model = _mapper.Map<EventStartViewModel>(entity);
-            return Ok();
+            var prize = await _dbContext.Prizes
+                .Where(x => x.PoolId == poolId)
+                .SingleOrDefaultAsync(x => x.Id == prizeId);
+            if (prize == null)
+            {
+                return NotFound();
+            }
+            if (prize.Last == 0)
+            {
+                return NoContent();
+            }
+            prize.Last--;
+            Participant participant;
+            if (pool.Duplicate)
+            {
+                participant = _dbContext.Participants
+                    .AsNoTracking()
+                    .Include(x => x.Claims)
+                    .ThenInclude(x => x.Field)
+                    .Where(x => x.PoolId == poolId)
+                    .AsEnumerable()
+                    .OrderBy(r => Guid.NewGuid())
+                    .FirstOrDefault();
+            }
+            else
+            {
+                while (true)
+                {
+                    participant = _dbContext.Participants
+                        .AsNoTracking()
+                        .Include(x => x.Claims)
+                        .ThenInclude(x => x.Field)
+                        .Where(x => x.PoolId == poolId)
+                        .AsEnumerable()
+                        .OrderBy(r => Guid.NewGuid())
+                        .FirstOrDefault();
+                    if (!await _dbContext.ParticipantPrizes.AnyAsync(x => x.ParticipantId == participant.Id))
+                    {
+                        break;
+                    }
+                }
+            }
+            _dbContext.ParticipantPrizes.Add(new ParticipantPrize
+            {
+                PrizeId = prizeId,
+                ParticipantId = participant.Id
+            });
+            await _dbContext.SaveChangesAsync();
+            var model = _mapper.Map<ParticipantViewModel>(participant);
+            return Ok(model);
         }
 
         /// <summary>

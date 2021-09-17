@@ -178,7 +178,7 @@ namespace Lottery.Controllers
             }
             var entities = await _dbContext.Fields
                 .AsNoTracking()
-                .OrderByDescending(x => x.Id)
+                .OrderBy(x => x.Id)
                 .Where(x => x.EventId == eventId)
                 .ToListAsync();
             var models = _mapper.Map<List<FieldViewModel>>(entities);
@@ -198,7 +198,7 @@ namespace Lottery.Controllers
             var fields = await _dbContext.Fields
                 .AsNoTracking()
                 .Include(x => x.ParticipantClaims)
-                .OrderByDescending(x => x.Id)
+                .OrderBy(x => x.Id)
                 .Where(x => x.EventId == eventId)
                 .ToListAsync();
             using (var wbook = new XLWorkbook(file.OpenReadStream()))
@@ -210,7 +210,7 @@ namespace Lottery.Controllers
                     for (int i = 1; i <= fields.Count; i++)
                     {
                         var value = row.Cell(i).Value.ToString();
-                        if (fields[i].Key && string.IsNullOrEmpty(value))
+                        if (fields[i-1].Key && string.IsNullOrEmpty(value))
                         {
                             return BadRequest();
                         }

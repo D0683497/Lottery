@@ -7,7 +7,7 @@
 }
 
 @section Styles {
-	<link rel="stylesheet" href="~/css/start.css" />
+	<link rel="stylesheet" href="~/css/start.css" asp-append-version="true" />
 }
 
 <div class="canvas-box">
@@ -47,8 +47,13 @@
 </div>
 
 @section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+            asp-fallback-src="~/lib/jquery/jquery.min.js"
+            asp-fallback-test="window.jQuery"
+            integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.min.js"
             integrity="sha512-fJ91rDja9nv9NCUNbvoW69MB1sQlp1d0eJt1NZDJQ1CuwcxReaXUrMCKI23yI9IMnB2hd2fq4PHZZ9UKN/i0mA=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script type="module" src="~/js/start.js"></script>
+    <script type="module" src="~/js/start.js" asp-append-version="true"></script>
 }

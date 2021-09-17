@@ -46,8 +46,18 @@
     </form>
 }
 <nav class="buttons is-centered my-6">
-    @foreach (var item in Model.Pools)
+    @if (User.Claims.Any(x => x.Type == Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames.Jti))
     {
-        <a asp-area="" asp-controller="Activity" asp-action="Start" asp-route-eventId="@eventId" asp-route-poolId="@item.Id" class="button is-success is-outlined is-rounded is-normal">@item.Name</a>
+        @foreach (var item in Model.Pools)
+        {
+            <a asp-area="" asp-controller="Activity" asp-action="Start" asp-route-eventId="@eventId" asp-route-poolId="@item.Id" class="button is-success is-outlined is-rounded is-normal">@item.Name</a>
+        }
+    }
+    else
+    {
+        @foreach (var item in Model.Pools)
+        {
+            <button class="button is-success is-outlined is-rounded is-normal" disabled>@item.Name</button>
+        }
     }
 </nav>

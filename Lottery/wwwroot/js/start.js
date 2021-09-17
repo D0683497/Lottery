@@ -14,8 +14,6 @@ let random = getRandom(0, ROW_COUNT * COLUMN_COUNT - 1);
 const objects = [];
 const targets = { table: [], sphere: [], helix: [], grid: [] };
 let prizes = [];
-const eventId = document.URL.split('/')[4];
-const poolId = document.URL.split('/')[6];
 
 init();
 animate();
@@ -69,11 +67,11 @@ function init() {
     }
 
     // helix
-    for ( let i = 0, l = objects.length; i < l; i ++ ) {
+    for (let i = 0, l = objects.length; i < l; i ++ ) {
         const theta = i * 0.175 + Math.PI;
-        const y = - ( i * 8 ) + 450;
+        const y = - (i * 8) + 450;
         const object = new THREE.Object3D();
-        object.position.setFromCylindricalCoords( 900, theta, y );
+        object.position.setFromCylindricalCoords(900, theta, y);
         vector.x = object.position.x * 2;
         vector.y = object.position.y;
         vector.z = object.position.z * 2;
@@ -84,24 +82,24 @@ function init() {
     // grid
     for ( let i = 0; i < objects.length; i ++ ) {
         const object = new THREE.Object3D();
-        object.position.x = ( ( i % 5 ) * 400 ) - 800;
-        object.position.y = ( - ( Math.floor( i / 5 ) % 5 ) * 400 ) + 800;
-        object.position.z = ( Math.floor( i / 25 ) ) * 1000 - 2000;
+        object.position.x = ((i % 5) * 400) - 800;
+        object.position.y = (-( Math.floor(i / 5) % 5) * 400) + 800;
+        object.position.z = (Math.floor(i / 25)) * 1000 - 2000;
         targets.grid.push( object );
     }
 
     //
 
     renderer = new CSS3DRenderer();
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    document.getElementById('container').appendChild( renderer.domElement );
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.getElementById('container').appendChild(renderer.domElement);
 
     //
 
-    controls = new TrackballControls( camera, renderer.domElement );
+    controls = new TrackballControls(camera, renderer.domElement);
     controls.minDistance = 500;
     controls.maxDistance = 6000;
-    controls.addEventListener( 'change', render );
+    controls.addEventListener('change', render);
 
     bindEvent();
 
@@ -129,9 +127,10 @@ function bindEvent() {
         let quantity = document.querySelector(`#prize-count-${id}`).innerText.split(' / ');
         let last = quantity[0];
         let total = quantity[1];
+        document.querySelector(`#prize-bar-${id}`).style.width = `${last / total * 100}%`;
         prizes.push({id, last, total});
     });
-    console.log(prizes);
+    document.querySelector(`#prize-item-${prizes[0].id}`).classList.add('shine');
     document.querySelector("#menu").addEventListener("click", function (e) {
         e.stopPropagation();
         let target = e.target.id;
@@ -143,7 +142,17 @@ function bindEvent() {
             case 'lottery':
                 document.querySelector('#lottery').classList.add('button-loading');
                 rotateBall().then(() => {
-                    modalCard(random);
+                    $.ajax({
+                        type: 'GET',
+                        url: `${document.URL}/prize/${prizes[0].id}`,
+                        dataType: 'json',
+                        success: function (res) {
+                            modalCard(random, res);
+                        },
+                        error: function (err) {
+                            console.log(err)
+                        }
+                    });
                     changePrize();
                     document.querySelector('#confirm').classList.remove('none');
                 });
@@ -169,7 +178,6 @@ function createCard(isHighlight, content) {
         element.className = 'element';
     }
     element.style.backgroundColor = 'rgba(0,127,127,0.3)';
-    // element.appendChild(createElement('symbol', content));
     return element;
 }
 
@@ -258,7 +266,7 @@ function rotateBall() {
     });
 }
 
-function modalCard(random) {
+function modalCard(random, res) {
     let duration = 600;
     let object = objects[random];
     new TWEEN.Tween(object.position)
@@ -271,7 +279,33 @@ function modalCard(random) {
         .start();
 
     object.element.classList.add('prize');
+    res.Claims.forEach(claim => {
+        if (claim.Field.Show) {
+            if (claim.Field.Security) {
+                const strLen = claim.Value.length;
+                switch (strLen) {
+                    case 1:
+                        object.element.appendChild(createElement('symbol', `<p>${claim.Field.Value}: *</p>`));
+                        break;
+                    case 2:
+                        object.element.appendChild(createElement('symbol', `<p>${claim.Field.Value}: ${claim.Value}*</p>`));
+                        break;
+                    case 3:
+                        object.element.appendChild(createElement('symbol', `<p>${claim.Field.Value}: ${claim.Value[0]}*${claim.Value[2]}</p>`));
+                        break;
+                    default:
+                        const len = Math.floor(strLen / 3); /* 前後字串長度 */
+                        const center = strLen - (len * 3);
+                        object.element.appendChild(createElement('symbol', `<p>${claim.Field.Value}: ${claim.Value.substring(0, len)}${'*'.repeat(center)}${claim.Value.substring(center+len)}</p>`));
+                        break;
+                }
+            } else {
+                object.element.appendChild(createElement('symbol', `<p>${claim.Field.Value}: ${claim.Value}</p>`));
+            }
+        }
+    });
     document.querySelector('#lottery').innerText = '確定';
+
     new TWEEN.Tween(this)
         .to({}, duration * 2)
         .onUpdate(render)
@@ -280,6 +314,16 @@ function modalCard(random) {
 }
 
 function closeCard(random) {
+    prizes[0].last -= 1;
+    document.querySelector(`#prize-bar-${prizes[0].id}`).style.width = `${prizes[0].last / prizes[0].total * 100}%`;
+    document.querySelector(`#prize-count-${prizes[0].id}`).innerHTML = `${prizes[0].last} / ${prizes[0].total}`;
+    if (prizes[0].last == 0) {
+        document.querySelector(`#prize-item-${prizes[0].id}`).classList.remove('shine');
+        document.querySelector(`#prize-item-${prizes[0].id}`).classList.add('done');
+        prizes.splice(0, 1);
+        document.querySelector(`#prize-item-${prizes[0].id}`).classList.add('shine');
+    }
+
     let duration = 500;
     let object = objects[random];
     let target = targets.sphere[random];
@@ -297,6 +341,9 @@ function closeCard(random) {
             .onUpdate(render)
             .start()
             .onComplete(() => {
+                document.querySelectorAll('.symbol').forEach(e => {
+                    e.remove();
+                });
                 object.element.classList.remove("prize");
                 document.querySelector('#lottery').innerText = '抽獎';
                 resolve();
