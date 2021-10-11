@@ -1,58 +1,166 @@
 ﻿@model EventStartViewModel
 @{
-	Layout = "_HTML";
-    ViewData["Title"] = Model.Event.Title;
-	var eventId = Context.Request.RouteValues["eventId"];
-	var poolId = Context.Request.RouteValues["poolId"];
+    Layout = "_HTML";
+    ViewData["Title"] = Model.Title;
+    var eventId = Context.Request.RouteValues["eventId"];
+    var poolId = Context.Request.RouteValues["poolId"];
 }
 
 @section Styles {
-	<link rel="stylesheet" href="~/css/start.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/start.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/progress.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/card.css" asp-append-version="true" />
 }
 
-<div class="canvas-box">
-	<canvas id="canvas">您的瀏覽器不支援 canvas</canvas>
-</div>
-<div class="music">
-	<div class="music-box">@Model.Pool.Name</div>
-</div>
-<div id="prizeBar">
-	<div class="prize-mess prize-shine">@Model.Event.Title</div>
-	<ul class="prize-list">
-		@foreach (var prize in Model.Prizes)
-		{
-			<li class="prize-item" id="prize-item-@prize.Id">
-				<span></span><span></span><span></span><span></span>
-				<div class="prize-img">
-					<img src="http://localhost:9000/img/secrit.jpg" alt="@prize.Name" />
-				</div>
-				<div class="prize-text">
-					<h5 class="prize-title">@prize.Name</h5>
-					<div class="prize-count">
-						<div class="progress">
-							<div id="prize-bar-@prize.Id" class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 100%;"></div>
-						</div>
-						<div id="prize-count-@prize.Id" class="prize-count-left">@prize.Last / @prize.Total</div>
-					</div>
-				</div>
-			</li>
-		}
-	</ul>
-</div>
-<div id="container"></div>
-<div id="menu">
-	<button id="enter" type="button">開始抽獎</button>
-	<button class="none" id="lottery" type="button">抽獎</button>
-	<button class="none" id="confirm" type="button">確認</button>
-</div>
+<section class="hero is-dark is-fullheight">
+    <div class="hero-head">
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a asp-area="" asp-controller="Activity" asp-action="Display" asp-route-eventId="@eventId" class="navbar-item">
+                        <h1 class="title is-3">@Model.Title</h1>
+                    </a>
+                    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                <div id="navMenu" class="navbar-menu">
+                    <div class="navbar-end">
+                        @foreach (var pool in Model.Pools)
+                        {
+                            if (pool.Id == (string)poolId)
+                            {
+                                <a asp-area="" asp-controller="Activity" asp-action="Start" asp-route-eventId="@eventId" asp-route-poolId="@pool.Id" class="navbar-item is-active is-hidden-desktop">
+                                    @pool.Name
+                                </a>
+                            }
+                            else
+                            {
+                                <a asp-area="" asp-controller="Activity" asp-action="Start" asp-route-eventId="@eventId" asp-route-poolId="@pool.Id" class="navbar-item is-hidden-desktop">
+                                    @pool.Name
+                                </a>
+                            }
+                        }
+                        <div class="navbar-item is-hidden-touch">
+                            <div class="dropdown is-right">
+                                <div class="dropdown-trigger">
+                                    <button class="button is-white is-outlined" aria-haspopup="true" aria-controls="dropdown-menu">
+                                        <span>
+                                            @Model.Pools.Single(x => x.Id == (string)poolId).Name
+                                        </span>
+                                        <span class="icon is-small">
+                                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                        @foreach (var pool in Model.Pools)
+                                        {
+                                            if (pool.Id == (string)poolId)
+                                            {
+                                                <a asp-area="" asp-controller="Activity" asp-action="Start" asp-route-eventId="@eventId" asp-route-poolId="@pool.Id" class="dropdown-item is-active">
+                                                    @pool.Name
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a asp-area="" asp-controller="Activity" asp-action="Start" asp-route-eventId="@eventId" asp-route-poolId="@pool.Id" class="dropdown-item">
+                                                    @pool.Name
+                                                </a>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="hero-body p-0">
+        <div class="container is-fluid is-flex is-flex-direction-column is-justify-content-center">
+            <div class="columns">
+                <div class="column is-3">
+                    <div class="box has-background-white-ter">
+                        @foreach (var prize in Model.Pools.Single(x => x.Id == (string)poolId).Prizes)
+                        {
+                            <article class="media" id="prize-@prize.Id">
+                                <figure class="media-left">
+                                    <figure class="image is-48x48" id="prize-image-@prize.Id">
+                                        <img src="https://bulma.io/images/placeholders/128x128.png" alt=""/>
+                                    </figure>
+                                </figure>
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p class="subtitle is-6 has-text-grey" id="prize-name-@prize.Id">@prize.Name</p>
+                                    </div>
+                                    <progress class="progress is-info is-small" id="prize-count-@prize.Id" value="@prize.Last" max="@prize.Total"></progress>
+                                </div>
+                            </article>
+                            
+                            <!-- 要抽的獎品
+                            <article class="media">
+                                <figure class="media-left">
+                                    <figure class="image is-64x64">
+                                        <img src="https://bulma.io/images/placeholders/128x128.png" alt="" />
+                                    </figure>
+                                </figure>
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p class="title is-5 has-text-black">iPhone 13 Pro Max</p>
+                                    </div>
+                                    <progress class="progress is-primary is-medium" value="3" max="3"></progress>
+                                </div>
+                            </article>
+                            -->
+                            
+                            <!-- 無圖片
+                            <article class="media">
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p class="subtitle is-6 has-text-grey">獎品一</p>
+                                    </div>
+                                    <progress class="progress is-info is-small" value="100" max="100"></progress>
+                                </div>
+                            </article>
+                            -->
+                        }
+                    </div>
+                </div>
+                <div class="column is-9">
+                    <div id="container" class="box has-background-grey-dark"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-foot mb-4">
+        <div class="container">
+            <div class="is-flex is-justify-content-right">
+                <div class="field is-grouped">
+                    <p class="control">
+                        <button id="start-button" class="button is-success is-outlined">開始</button>
+                    </p>
+                    <p class="control">
+                        <button id="lottery-button" class="button is-warning is-hidden">抽獎</button>
+                    </p>
+                    <p class="control">
+                        <button id="confirm-button" class="button is-success is-hidden">確認</button>
+                    </p>
+                    <p class="control">
+                        <button id="end-button" class="button is-danger is-hidden">結束</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 @section Scripts {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-            asp-fallback-src="~/lib/jquery/jquery.min.js"
-            asp-fallback-test="window.jQuery"
-            integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.min.js"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.min.js"
             integrity="sha512-fJ91rDja9nv9NCUNbvoW69MB1sQlp1d0eJt1NZDJQ1CuwcxReaXUrMCKI23yI9IMnB2hd2fq4PHZZ9UKN/i0mA=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="module" src="~/js/start.js" asp-append-version="true"></script>

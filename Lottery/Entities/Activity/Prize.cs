@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace Lottery.Entities.Activity
 {
@@ -14,7 +14,7 @@ namespace Lottery.Entities.Activity
         /// </summary>
         [Key]
         [MaxLength(36)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Id { get; set; } = new SequentialGuidValueGenerator().Next(null!).ToString();
 
         /// <summary>
         /// 獎品名稱

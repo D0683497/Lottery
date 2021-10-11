@@ -72,13 +72,12 @@ namespace Lottery.Controllers
         [HttpGet("{eventId}/start/{poolId}")]
         public async Task<IActionResult> Start([FromRoute] string eventId, [FromRoute] string poolId)
         {
-            var entity = await _dbContext.Pools
+            var entity = await _dbContext.Events
                 .AsNoTracking()
-                .Include(x => x.Event)
-                .Include(x => x.Prizes)
-                .Where(x => x.EventId == eventId)
-                .SingleOrDefaultAsync(x => x.Id == poolId);
-            if (entity == null)
+                .Include(x => x.Pools)
+                .ThenInclude(x => x.Prizes)
+                .SingleOrDefaultAsync(x => x.Id == eventId);
+            if (entity == null || entity.Pools.All(x => x.Id != poolId))
             {
                 return NotFound();
             }

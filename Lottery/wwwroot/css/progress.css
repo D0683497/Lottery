@@ -1,0 +1,30 @@
+﻿progress {
+    position: relative;
+}
+
+progress:after {
+    content: attr(value)' / 'attr(max);
+    position: absolute;
+    top: 0;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    font-size: calc(1rem / 1.5);
+    line-height: 1rem;
+}
+
+progress.is-small:after {
+    font-size: calc(0.75rem / 1.5);
+    line-height: 0.75rem;
+}
+
+progress.is-medium:after {
+    font-size: calc(1.25rem / 1.5);
+    line-height: 1.25rem;
+}
+
+progress.is-large:after {
+    font-size: calc(1.5rem / 1.5);
+    line-height: 1.5rem;
+}

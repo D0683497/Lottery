@@ -5,12 +5,8 @@ using Lottery.Models.Prize;
 
 namespace Lottery.Models
 {
-    public class EventStartViewModel
+    public class EventStartViewModel : EventViewModel
     {
-        public EventViewModel Event { get; set; }
-
-        public PoolViewModel Pool { get; set; }
-
-        public IEnumerable<PrizeViewModel> Prizes { get; set; }
+        public List<PoolStartViewModel> Pools { get; set; }
     }
 }
