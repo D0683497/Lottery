@@ -205,20 +205,21 @@ namespace Lottery.Controllers
             using (var wbook = new XLWorkbook(file.OpenReadStream()))
             {
                 var worksheet = wbook.Worksheet(1);
-                foreach (IXLRow row in worksheet.Rows())
+                for (int i = 1; i <= worksheet.RowsUsed().Count(); i++)
                 {
                     var entity = new Participant { PoolId = poolId, Claims = new List<ParticipantClaim>() };
-                    for (int i = 1; i <= fields.Count; i++)
+                    var row = worksheet.Row(i);
+                    for (int j = 1; j <= fields.Count; j++)
                     {
-                        var value = row.Cell(i).Value.ToString();
-                        if (fields[i-1].Key && string.IsNullOrEmpty(value))
+                        var value = row.Cell(j).Value.ToString();
+                        if (fields[j-1].Key && string.IsNullOrEmpty(value))
                         {
                             return BadRequest();
                         }
                         entity.Claims.Add(new ParticipantClaim
                         {
-                            Value = row.Cell(i).Value.ToString(),
-                            EventClaimId = fields[i-1].Id
+                            Value = row.Cell(j).Value.ToString(),
+                            EventClaimId = fields[j-1].Id
                         });
                     }
                     _dbContext.Participants.Add(entity);
