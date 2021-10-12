@@ -11,7 +11,13 @@
 
 <div class="is-flex is-justify-content-space-between">
     <h1 class="title is-3">@ViewData["Title"]</h1>
-    <a asp-area="" asp-controller="Activity" asp-action="Display" asp-route-eventId="@eventId" class="button is-info is-outlined">返回活動</a>
+    <a asp-area="" asp-controller="Activity" asp-action="Display" asp-route-eventId="@eventId" class="button is-info is-outlined">
+        <span class="icon">
+            <i class="fas fa-chevron-left"></i>
+        </span>
+        <span>返回活動</span>
+    </a>
+    
 </div>
 <hr />
 @foreach (var pool in Model.Pools)

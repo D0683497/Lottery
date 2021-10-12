@@ -173,28 +173,26 @@ namespace Lottery.Controllers
             {
                 if (field.Key)
                 {
-                    var claims = await _dbContext.ParticipantClaims
+                    var claim = await _dbContext.ParticipantClaims
                         .AsNoTracking()
                         .Where(x => x.EventClaimId == field.Id)
                         .Where(x => x.Value == search)
-                        .ToListAsync();
-                    if (claims == null)
+                        .SingleOrDefaultAsync();
+                    if (claim == null)
                     {
                         return NotFound();
                     }
-                    foreach (var claim in claims)
+                    var participant = await _dbContext.Participants
+                        .AsNoTracking()
+                        .Include(x => x.ParticipantPrizes)
+                        .SingleOrDefaultAsync(x => x.Id == claim.ParticipantId);
+                    var pool = model.Pools
+                        .SingleOrDefault(x => x.Id == participant.PoolId);
+                    if (pool == null)
                     {
-                        var participant = await _dbContext.Participants
-                            .AsNoTracking()
-                            .Include(x => x.ParticipantPrizes)
-                            .SingleOrDefaultAsync(x => x.Id == claim.ParticipantId);
-                        var pool = model.Pools
-                            .SingleOrDefault(x => x.Id == participant.PoolId);
-                        if (pool.Participant == null)
-                        {
-                            pool.Participant = _mapper.Map<ParticipantSearchViewModel>(participant);
-                        }
+                        return NotFound();
                     }
+                    pool.Participant = _mapper.Map<ParticipantSearchViewModel>(participant);
                 }
             }
             return View(model);
