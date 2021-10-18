@@ -60,9 +60,18 @@
             </div>
             <div class="field">
                 <div class="control">
-                    <button class="button is-info" type="submit">匯入</button>
+                    <button id="submit-button" class="button is-info" type="submit">匯入</button>
                 </div>
             </div>
         </form>
     }
 </div>
+
+@section Scripts {
+    <environment include="Development">
+        <script src="~/js/button-loading.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/button-loading.min.js" asp-append-version="true"></script>
+    </environment>
+}
