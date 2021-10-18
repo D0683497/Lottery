@@ -68,7 +68,7 @@ namespace Lottery.Controllers
                     .ToListAsync();
                 var entities = await _dbContext.Participants
                     .AsNoTracking()
-                    .Include(x => x.Claims.OrderBy(x => x.EventClaimId))
+                    .Include(x => x.Claims.OrderBy(y => y.EventClaimId))
                     .ThenInclude(x => x.Field)
                     .Where(x => ids.Contains(x.Id))
                     .ToListAsync();

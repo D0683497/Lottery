@@ -1,0 +1,110 @@
+﻿@model WinnerViewModel
+@{
+    ViewData["Title"] = "得獎者詳情";
+    var eventId = Context.Request.RouteValues["eventId"];
+    var poolId = Context.Request.RouteValues["poolId"];
+    var prizeId = Context.Request.RouteValues["prizeId"];
+    var winnerId = Context.Request.RouteValues["winnerId"];
+}
+
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
+        <li><a asp-area="" asp-controller="Event" asp-action="Index">管理活動</a></li>
+        <li><a asp-area="" asp-controller="Event" asp-action="Detail" asp-route-eventId="@eventId">活動詳情</a></li>
+        <li><a asp-area="" asp-controller="Pool" asp-action="Index" asp-route-eventId="@eventId">管理獎池</a></li>
+        <li><a asp-area="" asp-controller="Pool" asp-action="Detail" asp-route-eventId="@eventId" asp-route-poolId="@poolId">獎池詳情</a></li>
+        <li><a asp-area="" asp-controller="Prize" asp-action="Index" asp-route-eventId="@eventId" asp-route-poolId="@poolId">管理獎品</a></li>
+        <li><a asp-area="" asp-controller="Prize" asp-action="Detail" asp-route-eventId="@eventId" asp-route-poolId="@poolId" asp-route-prizeId="@prizeId">獎品詳情</a></li>
+        <li><a asp-area="" asp-controller="Winner" asp-action="Index" asp-route-eventId="@eventId" asp-route-poolId="@poolId" asp-route-prizeId="@prizeId">@ViewData["Title"]</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Winner" asp-action="Detail" asp-route-eventId="@eventId" asp-route-poolId="@poolId" asp-route-prizeId="@prizeId" asp-route-winnerId="@winnerId" aria-current="page">@ViewData["Title"]</a></li>
+    </ul>
+</nav>
+<div class="is-flex is-justify-content-space-between">
+    <h1 class="title is-3">@ViewData["Title"]</h1>
+    <a asp-area="" asp-controller="Participant" asp-action="Detail" asp-route-eventId="@eventId" asp-route-poolId="@poolId" asp-route-participantId="@Model.Participant.Id" class="button is-info is-outlined">參與者詳情</a>
+</div>
+<hr />
+<div class="box">
+    <form role="form">
+        <div class="field mb-5">
+            <label asp-for="@Model.Id" class="label">識別碼</label>
+            <div class="control has-icons-left">
+                <input asp-for="@Model.Id" class="input" type="text" placeholder="請輸入識別碼" disabled />
+                <span class="icon is-small is-left">
+                    <i class="fas fa-key"></i>
+                </span>
+            </div>
+            <span asp-validation-for="@Model.Id" class="help is-danger"></span>
+        </div>
+        <div class="field mb-5">
+            <label asp-for="@Model.Participant.Id" class="label">參與者識別碼</label>
+            <div class="control has-icons-left">
+                <input asp-for="@Model.Participant.Id" class="input" type="text" placeholder="參與者識別碼" disabled />
+                <span class="icon is-small is-left">
+                    <i class="fas fa-key"></i>
+                </span>
+            </div>
+            <span asp-validation-for="@Model.Participant.Id" class="help is-danger"></span>
+        </div>
+        @for (int index = 0; index < Model.Participant.Claims.Count; index++)
+        {
+            <input asp-for="@Model.Participant.Claims[index].Id" class="input" type="hidden" />
+            <div class="field mb-5">
+                <label asp-for="@Model.Participant.Claims[index].Value" class="label">
+                    @if (Model.Participant.Claims[index].Field.Key)
+                    {
+                        <span class="has-text-danger">*</span>
+                    }
+                    <span>@Model.Participant.Claims[index].Field.Value</span>
+                </label>
+                <div class="control">
+                    <input asp-for="@Model.Participant.Claims[index].Value" class="input" type="text" disabled />
+                </div>
+                <span asp-validation-for="@Model.Participant.Claims[index].Value" class="help is-danger"></span>
+            </div>
+            <input asp-for="@Model.Participant.Claims[index].Field.Id" class="input" type="hidden" />
+            <input asp-for="@Model.Participant.Claims[index].Field.Key" class="input" type="hidden" />
+            <input asp-for="@Model.Participant.Claims[index].Field.Show" class="input" type="hidden" />
+            <input asp-for="@Model.Participant.Claims[index].Field.Security" class="input" type="hidden" />
+            <input asp-for="@Model.Participant.Claims[index].Field.Value" class="input" type="hidden" />
+        }
+        <div class="field">
+            <div class="control">
+                <button id="delete-button" class="button is-danger" type="button">刪除</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="delete-modal" class="modal">
+    <div class="modal-background"></div>
+    <form asp-area="" asp-controller="Winner" asp-route-eventId="@eventId" asp-route-poolId="@poolId" asp-route-prizeId="@prizeId" asp-route-winnerId="@winnerId" asp-action="Delete" method="post" role="form" class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">您確定要刪除?</p>
+            <button class="delete" aria-label="close" data-bulma-modal="close" type="button"></button>
+        </header>
+        <section class="modal-card-body">
+            <article class="message is-danger">
+                <div class="message-body">
+                    <strong>請注意</strong><br />
+                    此操作只會刪除得獎紀錄並不會刪除參與者<br />
+                    剩餘獎品數量將會自動被加回去<br />
+                    此操作無法復原
+                </div>
+            </article>
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button is-danger" type="submit">確定</button>
+            <button id="cancel-button" class="button" aria-label="close" type="button">取消</button>
+        </footer>
+    </form>
+</div>
+
+@section Scripts {
+    <environment include="Development">
+        <script src="~/js/delete-modal.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/delete-modal.min.js" asp-append-version="true"></script>
+    </environment>
+}

@@ -17,7 +17,10 @@
         <li class="is-active"><a asp-area="" asp-controller="Prize" asp-action="Detail" asp-route-eventId="@eventId" asp-route-poolId="@poolId" asp-route-prizeId="@prizeId" aria-current="page">@ViewData["Title"]</a></li>
     </ul>
 </nav>
-<h1 class="title is-3">@ViewData["Title"]</h1>
+<div class="is-flex is-justify-content-space-between">
+    <h1 class="title is-3">@ViewData["Title"]</h1>
+    <a asp-area="" asp-controller="Winner" asp-action="Index" asp-route-eventId="@eventId" asp-route-poolId="@poolId" asp-route-prizeId="@prizeId" class="button is-info is-outlined">管理得獎者</a>
+</div>
 <hr />
 <div class="box">
     <form role="form">

@@ -1,0 +1,93 @@
+﻿@model List<WinnerViewModel>
+@{
+    ViewData["Title"] = "管理得獎者";
+    var eventId = Context.Request.RouteValues["eventId"];
+    var poolId = Context.Request.RouteValues["poolId"];
+    var prizeId = Context.Request.RouteValues["prizeId"];
+}
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-responsive-tables@1.2.3/css/main.min.css"
+          asp-fallback-href="~/lib/bulma-responsive-tables/css/main.min.css"
+          asp-fallback-test-class="b-table"
+          integrity="sha256-qqSeWOTrQzPLIhRfuz3KWtWjWqI9X60r0piSbhCdNKY=" crossorigin="anonymous">
+}
+
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a asp-area="" asp-controller="Manage" asp-action="Index">管理</a></li>
+        <li><a asp-area="" asp-controller="Event" asp-action="Index">管理活動</a></li>
+        <li><a asp-area="" asp-controller="Event" asp-action="Detail" asp-route-eventId="@eventId">活動詳情</a></li>
+        <li><a asp-area="" asp-controller="Pool" asp-action="Index" asp-route-eventId="@eventId">管理獎池</a></li>
+        <li><a asp-area="" asp-controller="Pool" asp-action="Detail" asp-route-eventId="@eventId" asp-route-poolId="@poolId">獎池詳情</a></li>
+        <li><a asp-area="" asp-controller="Prize" asp-action="Index" asp-route-eventId="@eventId" asp-route-poolId="@poolId">管理獎品</a></li>
+        <li><a asp-area="" asp-controller="Prize" asp-action="Detail" asp-route-eventId="@eventId" asp-route-poolId="@poolId" asp-route-prizeId="@prizeId">獎品詳情</a></li>
+        <li class="is-active"><a asp-area="" asp-controller="Winner" asp-action="Index" asp-route-eventId="@eventId" asp-route-poolId="@poolId" asp-route-prizeId="@prizeId" aria-current="page">@ViewData["Title"]</a></li>
+    </ul>
+</nav>
+<div class="is-flex is-justify-content-space-between">
+    <h1 class="title is-3">@ViewData["Title"]</h1>
+    <a asp-area="" asp-controller="Winner" asp-action="Export" asp-route-eventId="@eventId" asp-route-poolId="@poolId" asp-route-prizeId="@prizeId" class="button is-info is-outlined">匯出得獎者</a>
+</div>
+<hr />
+<div class="b-table">
+    <div class="table-wrapper has-mobile-cards">
+        <table class="table is-fullwidth is-striped is-fullwidth">
+            <thead>
+            <tr>
+                <th>識別碼</th>
+                @if (Model.Any())
+                {
+                    @foreach (var item in Model.First().Participant.Claims)
+                    {
+                        <th>@item.Field.Value</th>
+                    }
+                }
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr class="is-empty">
+                        <td colspan="2">
+                            <section class="section">
+                                <div class="content has-text-grey has-text-centered">
+                                    <figure class="image">
+                                        <i class="fas fa-inbox fa-5x"></i>
+                                    </figure>
+                                    <p>沒有資料</p>
+                                </div>
+                            </section>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td data-label="識別碼">@item.Participant.Id</td>
+                            @for (int index = 0; index < Model.First().Participant.Claims.Count; index++)
+                            {
+                                <td data-label="@item.Participant.Claims.Find(x => x.Field.Id == Model.First().Participant.Claims[index].Field.Id)?.Field.Value">
+                                    @item.Participant.Claims.Find(x => x.Field.Id == Model.First().Participant.Claims[index].Field.Id)?.Value
+                                </td>
+                            }
+                            <td class="is-actions-cell">
+                                <div class="buttons">
+                                    <a asp-area="" asp-controller="Winner" asp-action="Detail" asp-route-eventId="@eventId" asp-route-poolId="@poolId" asp-route-prizeId="@prizeId" asp-route-winnerId="@item.Id" class="button is-link is-inverted is-underlined">
+                                        <span class="icon is-small">
+                                            <i class="far fa-newspaper"></i>
+                                        </span>
+                                        <span>詳情</span>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

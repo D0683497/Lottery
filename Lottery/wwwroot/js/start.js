@@ -120,8 +120,6 @@ function init() {
     controls.minDistance = 500;
     controls.maxDistance = 6000;
     controls.addEventListener('change', render);
-
-    bindPrize();
     
     bindEvent();
 
@@ -131,11 +129,46 @@ function init() {
 function bindPrize() {
     document.querySelectorAll('.media').forEach(function (e) {
         let id = e.id.split('prize-')[1];
-        let last = e.value;
-        let total = e.max;
-        console.log({id, last, total});
+        let progress = e.querySelector(`#prize-count-${id}`);
+        let last = progress.max;
+        let total = progress.value;
         prizes.push({id, last, total});
     });
+    prizes.forEach(function (prize, index) {
+        if (prize.last === 0) {
+            prize.splice(index, 1);
+        }
+    });
+    prizes.every(function (prize) {
+        if (prize.total >= prize.last) {
+            activePrize(prize.id);
+            return false;
+        }
+    });
+}
+
+function activePrize(prizeId) {
+    let image = document.querySelector(`#prize-image-${prizeId}`);
+    image.classList.remove('is-48x48');
+    image.classList.add('is-64x64');
+    let name = document.querySelector(`#prize-name-${prizeId}`);
+    name.classList.remove('subtitle', 'is-6', 'has-text-grey');
+    name.classList.add('title', 'is-5', 'has-text-black');
+    let progress = document.querySelector(`#prize-count-${prizeId}`);
+    progress.classList.remove('is-info', 'is-small');
+    progress.classList.add('is-primary', 'is-medium');
+}
+
+function inActivePrize(prizeId) {
+    let image = document.querySelector(`#prize-image-${prizeId}`);
+    image.classList.remove('is-64x64');
+    image.classList.add('is-48x48');
+    let name = document.querySelector(`#prize-name-${prizeId}`);
+    name.classList.remove('title', 'is-5', 'has-text-black');
+    name.classList.add('subtitle', 'is-6', 'has-text-grey');
+    let progress = document.querySelector(`#prize-count-${prizeId}`);
+    progress.classList.remove('is-primary', 'is-medium');
+    progress.classList.add('is-info', 'is-small');
 }
 
 function bindEvent() {
@@ -143,6 +176,35 @@ function bindEvent() {
         e.stopPropagation();
         removeHighlight();
         switchScreen('start');
+        bindPrize();
+    });
+    buttons.lottery.addEventListener('click', function (e) {
+        e.stopPropagation();
+        buttons.lottery.classList.add('is-hidden');
+        buttons.confirm.classList.add('is-loading');
+        buttons.confirm.classList.remove('is-hidden');
+        rotateBall().then(() => {
+            $.ajax({
+                type: 'GET',
+                url: `${document.URL}/prize/${prizes[0].id}`,
+                dataType: 'json',
+                success: function (res) {
+                    modalCard(random, res);
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            });
+            buttons.confirm.classList.remove('is-loading');
+        });
+    });
+    buttons.confirm.addEventListener('click', function (e) {
+        e.stopPropagation();
+        buttons.lottery.classList.remove('is-hidden');
+        buttons.confirm.classList.add('is-hidden');
+    });
+    buttons.end.addEventListener('click', function (e) {
+        e.stopPropagation();
     });
     
     window.addEventListener('resize', onWindowResize);
@@ -160,8 +222,8 @@ function switchScreen(type) {
         default:
             buttons.start.classList.add('is-hidden');
             buttons.lottery.classList.remove('is-hidden');
-            buttons.confirm.classList.remove('is-hidden');
-            buttons.end.classList.remove('is-hidden');
+            buttons.confirm.classList.add('is-hidden');
+            buttons.end.classList.add('is-hidden');
             transform(targets.sphere, 2000);
             break;
     }
@@ -248,4 +310,62 @@ function onWindowResize() {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
     render();
+}
+
+/* 旋轉 */
+function rotateBall() {
+    return new Promise((resolve, reject) => {
+        scene.rotation.y = 0;
+        new TWEEN.Tween(scene.rotation)
+            .to({y: Math.PI * 8}, 3000)
+            .onUpdate(render)
+            .easing(TWEEN.Easing.Exponential.InOut)
+            .start()
+            .onComplete(() => { resolve(); });
+    });
+}
+
+function modalCard(random, res) {
+    let duration = 600;
+    let object = objects[random];
+    new TWEEN.Tween(object.position)
+        .to({ x: 0, y: 0, z: 2200 }, Math.random() * duration + duration)
+        .easing(TWEEN.Easing.Exponential.InOut)
+        .start();
+    new TWEEN.Tween(object.rotation)
+        .to({ x: 0, y: 0, z: 0 }, Math.random() * duration + duration)
+        .easing(TWEEN.Easing.Exponential.InOut)
+        .start();
+    object.element.classList.remove('has-background-fcu');
+    object.element.classList.add('awarded', 'has-background-pink', 'is-flex', 'is-flex-direction-column', 'is-justify-content-space-evenly');
+    res.Claims.forEach(claim => {
+        if (claim.Field.Show) {
+            if (claim.Field.Security) {
+                const strLen = claim.Value.length;
+                switch (strLen) {
+                    case 1:
+                        object.element.appendChild(createElement('has-text-dark', `<p>${claim.Field.Value}: *</p>`));
+                        break;
+                    case 2:
+                        object.element.appendChild(createElement('has-text-dark', `<p>${claim.Field.Value}: ${claim.Value}*</p>`));
+                        break;
+                    case 3:
+                        object.element.appendChild(createElement('has-text-dark', `<p>${claim.Field.Value}: ${claim.Value[0]}*${claim.Value[2]}</p>`));
+                        break;
+                    default:
+                        const len = Math.floor(strLen / 3); /* 前後字串長度 */
+                        const center = strLen - (len * 3);
+                        object.element.appendChild(createElement('has-text-dark', `<p>${claim.Field.Value}: ${claim.Value.substring(0, len)}${'*'.repeat(center)}${claim.Value.substring(center+len)}</p>`));
+                        break;
+                }
+            } else {
+                object.element.appendChild(createElement('has-text-dark', `<p>${claim.Field.Value}: ${claim.Value}</p>`));
+            }
+        }
+    });
+    new TWEEN.Tween(this)
+        .to({}, duration * 2)
+        .onUpdate(render)
+        .start()
+        .onComplete();
 }
