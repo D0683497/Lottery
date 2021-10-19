@@ -21,7 +21,7 @@ namespace Lottery.Controllers
     {
         private readonly ILogger<ActivityController> _logger;
         private readonly LotteryDbContext _dbContext;
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
 
         public ActivityController(ILogger<ActivityController> logger, LotteryDbContext dbContext, IMapper mapper)
         {

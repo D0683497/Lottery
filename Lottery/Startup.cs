@@ -87,7 +87,7 @@ namespace Lottery
             services.AddSession();
             
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            
+
             services.AddControllersWithViews();
         }
 

@@ -3,7 +3,8 @@
 import { TrackballControls } from './TrackballControls.js';
 import { CSS3DRenderer, CSS3DObject } from './CSS3DRenderer.js';
 
-import { NUMBER_MATRIX } from "./config.js";
+import { NUMBER_MATRIX } from './config.js';
+import { PrizeList } from './prize.js'
 
 let camera, scene, renderer, controls;
 const ROW_COUNT = 7, COLUMN_COUNT = 17;
@@ -17,7 +18,7 @@ const buttons = {
     confirm: document.querySelector("#confirm-button"),
     end: document.querySelector("#end-button")
 }
-let prizes = [];
+let prizes = new PrizeList();
 const width = document.querySelector('#container').clientWidth;
 const height = document.querySelector('#container').clientHeight;
 const size = function() {
@@ -126,57 +127,12 @@ function init() {
     switchScreen('welcome');
 }
 
-function bindPrize() {
-    document.querySelectorAll('.media').forEach(function (e) {
-        let id = e.id.split('prize-')[1];
-        let progress = e.querySelector(`#prize-count-${id}`);
-        let last = progress.max;
-        let total = progress.value;
-        prizes.push({id, last, total});
-    });
-    prizes.forEach(function (prize, index) {
-        if (prize.last === 0) {
-            prize.splice(index, 1);
-        }
-    });
-    prizes.every(function (prize) {
-        if (prize.total >= prize.last) {
-            activePrize(prize.id);
-            return false;
-        }
-    });
-}
-
-function activePrize(prizeId) {
-    let image = document.querySelector(`#prize-image-${prizeId}`);
-    image.classList.remove('is-48x48');
-    image.classList.add('is-64x64');
-    let name = document.querySelector(`#prize-name-${prizeId}`);
-    name.classList.remove('subtitle', 'is-6', 'has-text-grey');
-    name.classList.add('title', 'is-5', 'has-text-black');
-    let progress = document.querySelector(`#prize-count-${prizeId}`);
-    progress.classList.remove('is-info', 'is-small');
-    progress.classList.add('is-primary', 'is-medium');
-}
-
-function inActivePrize(prizeId) {
-    let image = document.querySelector(`#prize-image-${prizeId}`);
-    image.classList.remove('is-64x64');
-    image.classList.add('is-48x48');
-    let name = document.querySelector(`#prize-name-${prizeId}`);
-    name.classList.remove('title', 'is-5', 'has-text-black');
-    name.classList.add('subtitle', 'is-6', 'has-text-grey');
-    let progress = document.querySelector(`#prize-count-${prizeId}`);
-    progress.classList.remove('is-primary', 'is-medium');
-    progress.classList.add('is-info', 'is-small');
-}
-
 function bindEvent() {
     buttons.start.addEventListener('click', function (e) {
         e.stopPropagation();
         removeHighlight();
         switchScreen('start');
-        bindPrize();
+        prizes.active(prizes.topId);
     });
     buttons.lottery.addEventListener('click', function (e) {
         e.stopPropagation();
@@ -186,12 +142,15 @@ function bindEvent() {
         rotateBall().then(() => {
             $.ajax({
                 type: 'GET',
-                url: `${document.URL}/prize/${prizes[0].id}`,
+                url: `${document.URL}/prize/${prizes.topId}`,
                 dataType: 'json',
                 success: function (res) {
                     modalCard(random, res);
+                    prizes.reduce();
+                    // TODO: 獎品都抽完
                 },
                 error: function (err) {
+                    // TODO: 錯誤訊息
                     console.log(err)
                 }
             });
@@ -200,6 +159,9 @@ function bindEvent() {
     });
     buttons.confirm.addEventListener('click', function (e) {
         e.stopPropagation();
+        closeCard(random).then(() => {
+            random = getRandom(0, ROW_COUNT * COLUMN_COUNT - 1);
+        });
         buttons.lottery.classList.remove('is-hidden');
         buttons.confirm.classList.add('is-hidden');
     });
@@ -368,4 +330,31 @@ function modalCard(random, res) {
         .onUpdate(render)
         .start()
         .onComplete();
+}
+
+/* 關閉卡片 */
+function closeCard(random) {
+    let duration = 500;
+    let object = objects[random];
+    object.element.classList.add('has-background-fcu');
+    object.element.classList.remove('awarded', 'has-background-pink', 'is-flex', 'is-flex-direction-column', 'is-justify-content-space-evenly');
+    document.querySelectorAll('.has-text-dark').forEach(e => {
+        e.remove();
+    });
+    let target = targets.sphere[random];
+    new TWEEN.Tween(object.position)
+        .to({ x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration)
+        .easing(TWEEN.Easing.Exponential.InOut)
+        .start();
+    new TWEEN.Tween(object.rotation)
+        .to({ x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration)
+        .easing(TWEEN.Easing.Exponential.InOut)
+        .start();
+    return new Promise((resolve, reject) => {
+        new TWEEN.Tween(this)
+            .to({}, duration * 2)
+            .onUpdate(render)
+            .start()
+            .onComplete(() => {resolve();});
+    });
 }

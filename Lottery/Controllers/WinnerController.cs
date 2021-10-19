@@ -6,7 +6,6 @@ using AutoMapper;
 using ClosedXML.Excel;
 using Lottery.Data;
 using Lottery.Helpers;
-using Lottery.Models.Prize;
 using Lottery.Models.Winner;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
